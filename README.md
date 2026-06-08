@@ -96,21 +96,10 @@ All colors live as CSS variables at the top of `css/styles.css` (`:root`). Chang
 
 ## Deploy
 
-### Option A — GitHub Pages (included, automatic)
-
-1. Push this repo to GitHub.
-2. In the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-3. Every push to `main` runs `.github/workflows/deploy.yml` and publishes the site.
-
-### Option B — Netlify
-
-Connect the repo in Netlify and deploy — `netlify.toml` is preconfigured (publishes
-the repo root, no build command). Or drag the folder onto <https://app.netlify.com/drop>.
-
-### Option C — anywhere
-
-It's plain static files. Upload the folder to any host (Vercel, Cloudflare Pages,
-S3, your own server).
+Production deploys to **Netlify** from `main` (auto-detects `netlify.toml`, no
+build command). See **[DEPLOY.md](DEPLOY.md)** for the full setup: GitHub remote,
+Netlify import, custom domain + DNS, pre-deploy checklist, rollback, and how
+Render slots in when a backend is eventually added.
 
 ---
 
