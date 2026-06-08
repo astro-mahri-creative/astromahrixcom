@@ -29,7 +29,7 @@ npx serve .
 ## Project structure
 
 ```
-astro-mahri-microsite/
+astromahrixcom/
 ├── index.html              # markup + all [SWAP] edit points
 ├── css/
 │   └── styles.css          # full stylesheet (CSS variables at top)
