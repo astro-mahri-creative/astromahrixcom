@@ -1,6 +1,6 @@
 /* ================================================================
    ASTRO MAHRI — RELEASE MICROSITE
-   Aesthetic: dark sci-fi / afrofuturism · "transmission from the Mahriverse"
+   Aesthetic: dark sci-fi / afrofuturism with graffiti grit
    ================================================================ */
 
 :root{
@@ -46,8 +46,15 @@ body{
 #stars{position:fixed;inset:0;z-index:-2;display:block}
 /* film grain */
 #grain{
-  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.06;
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.11;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+/* global CRT scanlines — fine horizontal bands at very low opacity */
+#scanlines{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:repeating-linear-gradient(0deg, rgba(255,255,255,.022) 0 1px, transparent 1px 3px);
+  mix-blend-mode:overlay;
 }
 
 /* ---------- SCROLL PROGRESS ORBIT ---------- */
@@ -103,12 +110,13 @@ section{position:relative;padding:clamp(80px,12vh,160px) clamp(20px,6vw,90px)}
 }
 .photo img{width:100%;height:100%;object-fit:cover;display:block}
 .photo .ph-grad{position:absolute;inset:0;z-index:-1}
-.photo::after{ /* grain + scanline sheen over every photo for cohesion */
+.photo::after{ /* grain + scanlines + halftone over every photo for grit cohesion */
   content:'';position:absolute;inset:0;pointer-events:none;
   background:
-    repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px),
+    radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px) 0 0/4px 4px,
     radial-gradient(120% 120% at 70% 10%,transparent 40%,rgba(5,3,13,.6) 100%);
-  mix-blend-mode:overlay;opacity:.5;
+  mix-blend-mode:overlay;opacity:.6;
 }
 .ph-tag{
   position:absolute;left:14px;bottom:12px;z-index:2;
@@ -120,7 +128,7 @@ section{position:relative;padding:clamp(80px,12vh,160px) clamp(20px,6vw,90px)}
 .ph-corner.br{bottom:10px;right:10px;border-bottom:2px solid;border-right:2px solid}
 
 /* ============ HERO ============ */
-.hero{min-height:100vh;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:40px;padding-top:120px}
+.hero{min-height:100vh;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:40px;padding:120px clamp(20px,6vw,90px) clamp(40px,6vh,80px)}
 .hero-copy{position:relative;z-index:2}
 .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--cyan);text-transform:uppercase;margin-bottom:22px}
 .hero h1{
@@ -128,9 +136,21 @@ section{position:relative;padding:clamp(80px,12vh,160px) clamp(20px,6vw,90px)}
   font-size:clamp(48px,9vw,132px);letter-spacing:-.01em;
   background:linear-gradient(180deg,#fff 0%, #efeaff 40%, var(--gold) 130%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
-  text-shadow:0 0 60px rgba(255,200,87,.18);
+  /* chromatic split: cyan ghost left, magenta ghost right + the original gold glow */
+  text-shadow:
+    -1.5px 0 0 rgba(91,233,255,.4),
+    1.5px 0 0 rgba(255,61,154,.4),
+    0 0 60px rgba(255,200,87,.18);
 }
-.hero h1 .glow{color:var(--magenta);-webkit-text-fill-color:var(--magenta);filter:drop-shadow(0 0 22px rgba(255,61,154,.55))}
+.hero h1 .glow{
+  color:var(--magenta);-webkit-text-fill-color:var(--magenta);
+  /* layered drop-shadows fake sprayed paint + push the chromatic split harder on the accent word */
+  filter:
+    drop-shadow(0 0 1px rgba(255,61,154,.95))
+    drop-shadow(0 0 14px rgba(255,61,154,.55))
+    drop-shadow(-1.5px 0 0 rgba(91,233,255,.5))
+    drop-shadow(1.5px 0 0 rgba(255,61,154,.55));
+}
 .track-meta{display:flex;flex-wrap:wrap;gap:14px 26px;margin:30px 0 36px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--muted)}
 .track-meta b{color:var(--text);font-weight:700}
 .cta-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
@@ -218,6 +238,32 @@ section{position:relative;padding:clamp(80px,12vh,160px) clamp(20px,6vw,90px)}
 .portal:hover .go svg{transform:translateX(8px)}
 .portal.lc .kicker{color:var(--magenta)}
 .portal.lc .go{color:var(--magenta)}
+
+/* ============ CONTACT ============ */
+.contact-head{text-align:center;margin-bottom:clamp(36px,5vw,60px)}
+.contact-head h2{font-family:var(--display);font-weight:800;font-size:clamp(30px,5vw,60px);text-transform:uppercase;line-height:1}
+.contact-head p{color:var(--muted);max-width:560px;margin:18px auto 0}
+.contact-cta{display:flex;flex-direction:column;align-items:center;gap:18px}
+.contact-btn{font-size:13px;padding:18px 34px}
+.contact-note{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;text-align:center;max-width:520px}
+
+/* ============ GRIME PASS — logo marks ============ */
+/* inline logo mark used as a bullet; colored via background, shape via SVG mask */
+.mark{
+  display:inline-block;vertical-align:-2px;width:14px;height:14px;margin-right:10px;
+  background:currentColor;
+  -webkit-mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
+          mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
+}
+/* tossed-in logo watermark on hero — low-opacity, slightly rotated, behind everything */
+.logo-stamp{
+  position:absolute;right:2%;bottom:3%;
+  width:clamp(140px,15vw,220px);height:clamp(140px,15vw,220px);
+  background:var(--gold);
+  -webkit-mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
+          mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
+  opacity:.07;transform:rotate(-9deg);pointer-events:none;z-index:0;
+}
 
 /* ============ FOOTER ============ */
 footer{padding:clamp(60px,9vw,120px) clamp(20px,6vw,90px) 60px;border-top:1px solid var(--line);text-align:center}

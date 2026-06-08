@@ -1,8 +1,8 @@
 # ASTRO MAHRI // Release Microsite
 
-A one-page microsite for Astro Mahri's debut single — a dark sci-fi / afrofuturist
-"transmission from the Mahriverse." Built as a **zero-dependency static site**: just
-HTML, CSS, and vanilla JS. No npm, no bundler, no build step.
+A one-page microsite for Astro Mahri's debut single — dark sci-fi / afrofuturist
+transmission aesthetic. Built as a **zero-dependency static site**: just HTML, CSS,
+and vanilla JS. No npm, no bundler, no build step.
 
 > **Why no build tooling?** This is a single static page. A build pipeline would add
 > fragility (Node versions, dependency drift) for zero benefit. You "build from the repo"
@@ -61,6 +61,7 @@ Search the codebase for `[SWAP]` to jump to each thing you need to change.
 | `[SWAP-PHOTO-5]` | portals | Lore Con visual |
 | `[SWAP-LINK-FH]` | portals | Future Hooman destination URL |
 | `[SWAP-LINK-LC]` | portals | Lore Con destination URL |
+| `[SWAP-NOTION-FORM-URL]` | contact | Published Notion form URL — submissions land in your Notion DB so no email is ever in the repo |
 | `[SWAP-TEXT]` | various | Track title, release date, streaming + social links, OG meta |
 
 ### Adding photos
@@ -116,4 +117,4 @@ S3, your own server).
 ## Credits
 
 Fonts via Google Fonts: **Unbounded** (display), **Space Mono** (labels), **Sora** (body).
-Built for Astro Mahri. Broadcasting from a brighter timeline.
+Built for Astro Mahri. Signal from Durham, NC.
