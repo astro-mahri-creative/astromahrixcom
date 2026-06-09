@@ -108,15 +108,30 @@ section{position:relative;padding:clamp(80px,12vh,160px) clamp(20px,6vw,90px)}
   box-shadow:0 30px 90px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.03);
   isolation:isolate;
 }
-.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.photo img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  /* push contrast + drop saturation a hair so photos read printed-zine, not magazine-glossy */
+  filter:contrast(1.08) saturate(.92);
+}
 .photo .ph-grad{position:absolute;inset:0;z-index:-1}
-.photo::after{ /* grain + scanlines + halftone over every photo for grit cohesion */
-  content:'';position:absolute;inset:0;pointer-events:none;
+.photo::after{ /* layered grit: tight scanlines, magenta halftone, dual vignettes */
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:2;
   background:
-    repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px),
-    radial-gradient(rgba(255,255,255,.05) 1px, transparent 1.4px) 0 0/4px 4px,
-    radial-gradient(120% 120% at 70% 10%,transparent 40%,rgba(5,3,13,.6) 100%);
-  mix-blend-mode:overlay;opacity:.6;
+    /* tighter scanlines */
+    repeating-linear-gradient(0deg, rgba(255,255,255,.07) 0 1px, transparent 1px 2px),
+    /* magenta halftone dots, denser */
+    radial-gradient(rgba(255,61,154,.10) 1px, transparent 1.4px) 0 0/3px 3px,
+    /* top vignette */
+    radial-gradient(120% 120% at 50% 0%, transparent 28%, rgba(5,3,13,.55) 100%),
+    /* bottom vignette */
+    radial-gradient(120% 120% at 50% 100%, transparent 28%, rgba(5,3,13,.45) 100%);
+  mix-blend-mode:overlay;opacity:.85;
+}
+/* a second pass: subtle film-grain noise tinted slightly cyan, multiply blend */
+.photo::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.36  0 0 0 0 0.91  0 0 0 0 1  0 0 0 0.65 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:soft-light;opacity:.32;
 }
 .ph-tag{
   position:absolute;left:14px;bottom:12px;z-index:2;
@@ -286,14 +301,15 @@ section{position:relative;padding:clamp(80px,12vh,160px) clamp(20px,6vw,90px)}
   -webkit-mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
           mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
 }
-/* tossed-in logo watermark on hero — low-opacity, slightly rotated, behind everything */
+/* viewport-locked logo watermark — anchors bottom-right of the window, scrolls with the user,
+   sizes off vmin so it never dominates either viewport dimension */
 .logo-stamp{
-  position:absolute;right:2%;bottom:3%;
-  width:clamp(140px,15vw,220px);height:clamp(140px,15vw,220px);
+  position:fixed;right:max(14px, 2vw);bottom:max(14px, 2vh);
+  width:clamp(72px, 11vmin, 180px);height:clamp(72px, 11vmin, 180px);
   background:var(--gold);
   -webkit-mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
           mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
-  opacity:.07;transform:rotate(-9deg);pointer-events:none;z-index:0;
+  opacity:.09;transform:rotate(-8deg);pointer-events:none;z-index:5;
 }
 
 /* ============ FOOTER ============ */
