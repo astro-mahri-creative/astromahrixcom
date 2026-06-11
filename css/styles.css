@@ -72,14 +72,14 @@ nav{
   mix-blend-mode:difference;
 }
 .brand{
-  display:flex;align-items:center;gap:12px;
+  display:flex;align-items:center;gap:14px;
   font-family:var(--display);font-weight:800;letter-spacing:.18em;
-  font-size:clamp(15px, 1.4vw, 19px);
+  font-size:clamp(15px, 2vw, 29px);
   text-transform:uppercase;color:#fff;
 }
 .brand-icon{
   display:inline-block;flex-shrink:0;
-  width:clamp(26px, 2.4vw, 34px);height:clamp(26px, 2.4vw, 34px);
+  width:clamp(26px, 3.6vw, 50px);height:clamp(26px, 3.6vw, 50px);
   background:currentColor;
   -webkit-mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
           mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
@@ -95,7 +95,7 @@ nav{
 .nav-play:hover{background:#fff;color:#000}
 
 /* ---------- LAYOUT HELPERS ---------- */
-section{position:relative;padding:clamp(80px,12vh,160px) clamp(20px,6vw,90px)}
+section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
 .label{
   font-family:var(--mono);font-size:12px;letter-spacing:.32em;text-transform:uppercase;
   color:var(--gold);display:inline-flex;align-items:center;gap:12px;margin-bottom:26px;
@@ -189,30 +189,42 @@ section{position:relative;padding:clamp(80px,12vh,160px) clamp(20px,6vw,90px)}
 .btn-ghost:hover{border-color:var(--magenta);color:var(--magenta);box-shadow:0 0 30px rgba(255,61,154,.25)}
 
 /* hero portrait */
-.hero-portrait{position:relative;height:78vh;max-height:760px}
+.hero-portrait{
+  position:relative;height:78vh;max-height:760px;
+  /* lock a minimum width so the aspect ratio never goes thinner than ~9:16
+     (height * 9/16 at the responsive lower-bound), which makes the figure
+     read awkward / stretched */
+  min-width:320px;
+}
 .hero-portrait .photo{position:absolute;inset:0;border-radius:6px;transform:rotate(2.2deg);z-index:2}
-/* ===== Logo moon — sits BEHIND the figure like a celestial body in the sky =====
-   The logo icon is masked as the "face" of the moon. Drifts slowly on scroll
+/* double frame — slightly larger box behind the photo, off-rotated for layering effect */
+.hero-portrait .ring{
+  position:absolute;inset:-14px;border:1px solid var(--line);border-radius:8px;
+  transform:rotate(-3deg);z-index:0;
+  box-shadow:0 0 60px rgba(138,107,255,.16) inset;
+}
+/* ===== Logo moon — sits IN FRONT of the figure as a small celestial mark =====
+   Smaller disc with the logo prominent inside. Drifts slowly on scroll
    (data-parallax="0.06" set in HTML) so the figure stays grounded while the
-   moon stays put in the sky. */
+   moon hovers in the sky. */
 .hero-portrait .moon{
-  position:absolute;z-index:1;
-  /* sits up + to the right of the photo so it peeks out clearly beyond the frame */
-  top:-18%;right:-28%;
-  width:clamp(320px, 42vh, 480px);height:clamp(320px, 42vh, 480px);
+  position:absolute;z-index:3;
+  /* upper-right of the photo, tucked in toward the corner (no viewport overflow) */
+  top:-4%;right:-2%;
+  width:clamp(120px, 16vh, 180px);height:clamp(120px, 16vh, 180px);
   border-radius:50%;
-  /* moon surface: warm gold sphere with shaded underside */
+  /* moon surface: bright spot at ~70° (upper-right), shadow at ~250° (lower-left) */
   background:
-    radial-gradient(circle at 35% 28%, #ffe2a3 0%, var(--gold) 30%, var(--gold-deep) 65%, #1a1304 100%);
+    radial-gradient(circle at 75% 36%, #ffe2a3 0%, var(--gold) 30%, var(--gold-deep) 65%, #1a1304 100%);
   box-shadow:
-    0 0 80px rgba(255,200,87,.28),
-    inset -30px -40px 80px rgba(5,3,13,.45);
+    0 0 60px rgba(255,200,87,.32),
+    inset 22px -18px 50px rgba(5,3,13,.55);
   pointer-events:none;
 }
-/* logo icon as the moon's "face" — masked over the sphere, faint integration */
+/* logo icon as the moon's "face" — sized prominently inside the disc */
 .hero-portrait .moon::before{
-  content:'';position:absolute;inset:14%;
-  background:rgba(5,3,13,.22);
+  content:'';position:absolute;inset:8%;
+  background:rgba(5,3,13,.32);
   -webkit-mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
           mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
   transform:rotate(-12deg);
@@ -230,27 +242,27 @@ section{position:relative;padding:clamp(80px,12vh,160px) clamp(20px,6vw,90px)}
 /* ============ SECTION BREAK — transmission rhythm between sections ============ */
 .section-break{
   position:relative;
-  min-height:clamp(80px, 10vh, 140px);
+  min-height:clamp(56px, 7vh, 98px);
   display:flex;align-items:center;justify-content:center;
   pointer-events:none;
 }
 .section-break::before{
   content:'';
   width:1px;height:64px;
-  background:linear-gradient(180deg, transparent, rgba(138,107,255,.38) 30%, rgba(138,107,255,.38) 70%, transparent);
+  background:linear-gradient(180deg, transparent, rgba(138,107,255,.45) 30%, rgba(138,107,255,.45) 70%, transparent);
 }
 .section-break::after{
   content:'';position:absolute;
   top:50%;left:50%;
-  width:8px;height:8px;border-radius:50%;
+  width:10px;height:10px;border-radius:50%;
   background:var(--gold);transform:translate(-50%, -50%);
-  box-shadow:0 0 12px var(--gold), 0 0 24px rgba(255,200,87,.4);
-  animation:break-pulse 2.6s ease-in-out infinite;
-  opacity:.5;
+  box-shadow:0 0 16px var(--gold), 0 0 36px rgba(255,200,87,.55), 0 0 64px rgba(255,200,87,.3);
+  animation:break-pulse 1.8s ease-in-out infinite;
+  opacity:.6;
 }
 @keyframes break-pulse{
-  0%,100%{transform:translate(-50%, -50%) scale(.65);opacity:.35}
-  50%{transform:translate(-50%, -50%) scale(1);opacity:.7}
+  0%,100%{transform:translate(-50%, -50%) scale(.5);opacity:.25;box-shadow:0 0 8px var(--gold), 0 0 18px rgba(255,200,87,.3), 0 0 32px rgba(255,200,87,.15)}
+  50%{transform:translate(-50%, -50%) scale(1.2);opacity:.95;box-shadow:0 0 20px var(--gold), 0 0 44px rgba(255,200,87,.7), 0 0 80px rgba(255,200,87,.4)}
 }
 
 /* ============ MARQUEE TRANSMISSION ============ */
@@ -311,7 +323,8 @@ section{position:relative;padding:clamp(80px,12vh,160px) clamp(20px,6vw,90px)}
 .chip:hover{border-color:var(--gold);color:var(--gold)}
 
 /* ============ EDITORIAL PHOTO BREAK ============ */
-.editorial{padding:0}
+/* match default section padding so section-break dots are centered between this and adjacent sections */
+.editorial{padding:clamp(56px,8.4vh,112px) 0}
 .ed-inner{position:relative;height:clamp(420px,70vh,720px);overflow:hidden}
 .ed-inner .photo{position:absolute;inset:0}
 .ed-quote{
@@ -502,7 +515,7 @@ section{position:relative;padding:clamp(80px,12vh,160px) clamp(20px,6vw,90px)}
 }
 
 /* ============ FOOTER ============ */
-footer{padding:clamp(60px,9vw,120px) clamp(20px,6vw,90px) 60px;border-top:1px solid var(--line);text-align:center}
+footer{padding:clamp(60px,9vw,120px) clamp(20px,6vw,90px) 60px;text-align:center}
 footer .big{font-family:var(--display);font-weight:900;font-size:clamp(34px,8vw,110px);text-transform:uppercase;line-height:.9;color:transparent;-webkit-text-stroke:1px var(--gold);opacity:.85}
 .social{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;margin:36px 0 26px}
 .social a{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:.3s}
