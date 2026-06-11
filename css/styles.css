@@ -270,16 +270,146 @@ section{position:relative;padding:clamp(80px,12vh,160px) clamp(20px,6vw,90px)}
 .portals{display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,3vw,40px)}
 .portal{
   position:relative;display:block;text-decoration:none;color:var(--text);border-radius:14px;overflow:hidden;
-  border:1px solid var(--line);min-height:clamp(320px,42vh,460px);transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s;
+  border:1px solid var(--line);
+  /* taller tiles let the photo read as a scene, not a header band */
+  min-height:clamp(640px, 75vh, 760px);
+  /* dark plate is the LOWER THIRD of the tile; photo dominates the upper 2/3 */
+  --plate-h: 33%;
+  /* approximate tab height, used to pad title content below the tab inside the plate */
+  --tab-h: 50px;
+  transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s;
 }
 .portal:hover{transform:translateY(-8px);box-shadow:0 40px 90px rgba(0,0,0,.6)}
 .portal .photo{position:absolute;inset:0;border:none}
-.portal .pveil{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(5,3,13,.1) 0%,rgba(5,3,13,.55) 55%,rgba(5,3,13,.96) 100%)}
-.portal-body{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:clamp(22px,3vw,34px)}
-.portal .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--cyan)}
-.portal h3{font-family:var(--display);font-weight:800;font-size:clamp(26px,3.6vw,42px);text-transform:uppercase;line-height:.98;margin:10px 0 12px}
-.portal p{color:var(--muted);font-size:14px;max-width:42ch}
-.portal .go{display:inline-flex;align-items:center;gap:10px;margin-top:18px;font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+/* veil: photo clear in upper 2/3, sharp transition to dark plate in lower 1/3 (at 67% from top) */
+.portal .pveil{
+  position:absolute;inset:0;z-index:2;
+  background:linear-gradient(180deg,
+    rgba(5,3,13,.04) 0%,
+    rgba(5,3,13,.06) 64%,
+    rgba(5,3,13,.92) 68%,
+    rgba(5,3,13,.98) 100%);
+}
+/* thin gold/magenta accent line at the photo/plate seam (67% from top = 33% from bottom) */
+.portal::before{
+  content:'';position:absolute;left:0;right:0;
+  bottom:var(--plate-h);
+  height:1px;
+  background:linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold) 70%, transparent 100%);
+  opacity:.55;
+  z-index:3;
+  pointer-events:none;
+}
+.portal.lc::before{
+  background:linear-gradient(90deg, transparent 0%, var(--magenta) 30%, var(--magenta) 70%, transparent 100%);
+}
+
+/* ===== Vertical "instrumentation rail" replacing the kicker ===== */
+.portal-rail{
+  position:absolute;z-index:4;
+  left:0;top:0;bottom:30%;
+  width:clamp(34px, 3.6vw, 42px);
+  background:linear-gradient(90deg, rgba(5,3,13,.75), rgba(5,3,13,.30));
+  border-right:1px solid rgba(91,233,255,.35);
+  /* text starts near the TOP of the rail (top of the image) */
+  display:flex;align-items:flex-start;justify-content:center;
+  padding-top:24px;
+  pointer-events:none;
+}
+.portal-rail-text{
+  font-family:var(--mono);font-size:10px;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--cyan);
+  /* reads top-down naturally when block sits at top of rail */
+  writing-mode:vertical-rl;
+  white-space:nowrap;
+  /* soft cyan halo for visibility against varied photo areas */
+  text-shadow:
+    0 0 6px rgba(91,233,255,.7),
+    0 0 14px rgba(91,233,255,.4),
+    0 1px 4px rgba(5,3,13,.85);
+}
+.portal.lc .portal-rail{border-right-color:rgba(255,61,154,.4)}
+.portal.lc .portal-rail-text{
+  color:var(--magenta);
+  text-shadow:
+    0 0 6px rgba(255,61,154,.7),
+    0 0 14px rgba(255,61,154,.4),
+    0 1px 4px rgba(5,3,13,.85);
+}
+
+/* ===== Title plate (h3 + p only) — sits in the lower 1/3 of the tile ===== */
+.portal-body{
+  position:absolute;left:0;right:0;bottom:0;z-index:3;
+  height:var(--plate-h);
+  /* content stacks at top of plate; bottom padding reserves room for the CTA tab */
+  padding:clamp(20px, 2.2vw, 28px) clamp(24px, 3vw, 40px) calc(var(--tab-h) + clamp(24px, 2.5vw, 32px)) clamp(48px, 5.6vw, 72px);
+  display:flex;flex-direction:column;justify-content:flex-start;
+}
+.portal h3{
+  font-family:var(--display);font-weight:800;font-size:clamp(20px,2.4vw,30px);text-transform:uppercase;
+  line-height:1;margin:0;
+  text-shadow:0 2px 14px rgba(5,3,13,.85), 0 0 2px rgba(5,3,13,.7);
+}
+/* small gradient divider between title and description */
+.portal h3::after{
+  content:'';display:block;
+  width:52px;height:2px;
+  background:linear-gradient(90deg, var(--cyan), transparent);
+  margin:10px 0 12px 0;
+  box-shadow:0 0 10px rgba(91,233,255,.65), 0 0 2px rgba(91,233,255,.8);
+}
+.portal.lc h3::after{
+  background:linear-gradient(90deg, var(--magenta), transparent);
+  box-shadow:0 0 10px rgba(255,61,154,.65), 0 0 2px rgba(255,61,154,.8);
+}
+.portal p{
+  color:var(--text);font-size:14px;font-weight:400;line-height:1.5;max-width:46ch;
+  text-shadow:0 1px 8px rgba(5,3,13,.92);
+  /* clamp to 2 lines so it can't overflow the plate */
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+/* ===== Sci-fi tab CTA — sits at the photo/plate boundary, tethered by an accent line ===== */
+.portal-cta-tab{
+  position:absolute;z-index:4;
+  /* tab anchored to the BOTTOM of the body / tile — top of tab sits at where body content ends */
+  bottom:clamp(18px, 2.2vw, 28px);
+  top:auto;
+  right:clamp(20px, 3vw, 40px);
+  display:inline-flex;align-items:center;gap:14px;
+  padding:14px 24px;
+  background:rgba(5,3,13,.94);
+  border:2px solid var(--gold); /* gold for FH — full opacity, thicker */
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);
+  box-shadow:0 6px 22px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,200,87,.12);
+  /* notched top-right corner — sci-fi panel cut */
+  clip-path:polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
+  cursor:pointer;
+  transition:background .3s ease, color .3s ease, transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s;
+}
+/* (removed) tether line — no longer needed since tab is at the bottom of the body */
+.portal-cta-tab svg{transition:transform .3s ease}
+/* hover: fill, lift, halo — unmistakably clickable */
+.portal:hover .portal-cta-tab{
+  background:var(--gold);
+  color:var(--void);
+  transform:translateY(-3px);
+  box-shadow:0 16px 42px rgba(255,200,87,.45), 0 0 0 6px rgba(255,200,87,.16);
+}
+.portal:hover .portal-cta-tab svg{transform:translateX(8px)}
+/* LC tab: magenta theme */
+.portal.lc .portal-cta-tab{
+  border-color:var(--magenta);
+  color:var(--magenta);
+  box-shadow:0 6px 22px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,61,154,.15);
+}
+.portal.lc:hover .portal-cta-tab{
+  background:var(--magenta);
+  color:#fff;
+  box-shadow:0 16px 42px rgba(255,61,154,.5), 0 0 0 6px rgba(255,61,154,.18);
+}
 .portal .go svg{transition:transform .4s}
 .portal:hover .go svg{transform:translateX(8px)}
 .portal.lc .kicker{color:var(--magenta)}
