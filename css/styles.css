@@ -72,9 +72,19 @@ nav{
   mix-blend-mode:difference;
 }
 .brand{
+  display:flex;align-items:center;gap:12px;
   font-family:var(--display);font-weight:800;letter-spacing:.18em;
-  font-size:14px;text-transform:uppercase;color:#fff;
+  font-size:clamp(15px, 1.4vw, 19px);
+  text-transform:uppercase;color:#fff;
 }
+.brand-icon{
+  display:inline-block;flex-shrink:0;
+  width:clamp(26px, 2.4vw, 34px);height:clamp(26px, 2.4vw, 34px);
+  background:currentColor;
+  -webkit-mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
+          mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
+}
+.brand-text{display:inline-block}
 .brand b{color:var(--gold)}
 .nav-tag{font-family:var(--mono);font-size:11px;color:#fff;letter-spacing:.1em}
 .nav-play{
@@ -180,19 +190,68 @@ section{position:relative;padding:clamp(80px,12vh,160px) clamp(20px,6vw,90px)}
 
 /* hero portrait */
 .hero-portrait{position:relative;height:78vh;max-height:760px}
-.hero-portrait .photo{position:absolute;inset:0;border-radius:6px;transform:rotate(2.2deg)}
-.hero-portrait .ring{
-  position:absolute;inset:-26px;border:1px solid var(--line);border-radius:10px;transform:rotate(-3deg);
-  box-shadow:0 0 80px rgba(138,107,255,.18) inset;
+.hero-portrait .photo{position:absolute;inset:0;border-radius:6px;transform:rotate(2.2deg);z-index:2}
+/* ===== Logo moon — sits BEHIND the figure like a celestial body in the sky =====
+   The logo icon is masked as the "face" of the moon. Drifts slowly on scroll
+   (data-parallax="0.06" set in HTML) so the figure stays grounded while the
+   moon stays put in the sky. */
+.hero-portrait .moon{
+  position:absolute;z-index:1;
+  /* sits up + to the right of the photo so it peeks out clearly beyond the frame */
+  top:-18%;right:-28%;
+  width:clamp(320px, 42vh, 480px);height:clamp(320px, 42vh, 480px);
+  border-radius:50%;
+  /* moon surface: warm gold sphere with shaded underside */
+  background:
+    radial-gradient(circle at 35% 28%, #ffe2a3 0%, var(--gold) 30%, var(--gold-deep) 65%, #1a1304 100%);
+  box-shadow:
+    0 0 80px rgba(255,200,87,.28),
+    inset -30px -40px 80px rgba(5,3,13,.45);
+  pointer-events:none;
 }
-.hero-portrait .planet{
-  position:absolute;left:-70px;bottom:-50px;width:150px;height:150px;border-radius:50%;
-  background:radial-gradient(circle at 32% 30%,var(--gold),var(--gold-deep) 55%,#3a2406 100%);
-  box-shadow:0 0 60px rgba(255,200,87,.4);z-index:3;
+/* logo icon as the moon's "face" — masked over the sphere, faint integration */
+.hero-portrait .moon::before{
+  content:'';position:absolute;inset:14%;
+  background:rgba(5,3,13,.22);
+  -webkit-mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
+          mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
+  transform:rotate(-12deg);
+}
+/* subtle craters / surface noise to make it feel lunar, not just a graphic disc */
+.hero-portrait .moon::after{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;opacity:.35;
 }
 .scroll-cue{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);font-family:var(--mono);font-size:10px;letter-spacing:.34em;color:var(--muted);text-align:center}
 .scroll-cue .line{display:block;width:1px;height:42px;margin:10px auto 0;background:linear-gradient(var(--gold),transparent);animation:drop 1.8s infinite}
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ============ SECTION BREAK — transmission rhythm between sections ============ */
+.section-break{
+  position:relative;
+  min-height:clamp(80px, 10vh, 140px);
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.section-break::before{
+  content:'';
+  width:1px;height:64px;
+  background:linear-gradient(180deg, transparent, rgba(138,107,255,.38) 30%, rgba(138,107,255,.38) 70%, transparent);
+}
+.section-break::after{
+  content:'';position:absolute;
+  top:50%;left:50%;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--gold);transform:translate(-50%, -50%);
+  box-shadow:0 0 12px var(--gold), 0 0 24px rgba(255,200,87,.4);
+  animation:break-pulse 2.6s ease-in-out infinite;
+  opacity:.5;
+}
+@keyframes break-pulse{
+  0%,100%{transform:translate(-50%, -50%) scale(.65);opacity:.35}
+  50%{transform:translate(-50%, -50%) scale(1);opacity:.7}
+}
 
 /* ============ MARQUEE TRANSMISSION ============ */
 .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;overflow:hidden;white-space:nowrap;background:rgba(10,8,32,.4)}
