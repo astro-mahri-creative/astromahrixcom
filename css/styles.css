@@ -1,5 +1,5 @@
-/* ================================================================
-   ASTRO MAHRI — RELEASE MICROSITE
+﻿/* ================================================================
+   ASTRO MAHRI â€” RELEASE MICROSITE
    Aesthetic: dark sci-fi / afrofuturism with graffiti grit
    ================================================================ */
 
@@ -50,7 +50,7 @@ body{
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   mix-blend-mode:overlay;
 }
-/* global CRT scanlines — fine horizontal bands at very low opacity */
+/* global CRT scanlines â€” fine horizontal bands at very low opacity */
 #scanlines{
   position:fixed;inset:0;z-index:-1;pointer-events:none;
   background:repeating-linear-gradient(0deg, rgba(255,255,255,.022) 0 1px, transparent 1px 3px);
@@ -197,13 +197,13 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
   min-width:320px;
 }
 .hero-portrait .photo{position:absolute;inset:0;border-radius:6px;transform:rotate(2.2deg);z-index:2}
-/* double frame — slightly larger box behind the photo, off-rotated for layering effect */
+/* double frame â€” slightly larger box behind the photo, off-rotated for layering effect */
 .hero-portrait .ring{
   position:absolute;inset:-14px;border:1px solid var(--line);border-radius:8px;
   transform:rotate(-3deg);z-index:0;
   box-shadow:0 0 60px rgba(138,107,255,.16) inset;
 }
-/* ===== Logo moon — sits IN FRONT of the figure as a small celestial mark =====
+/* ===== Logo moon â€” sits IN FRONT of the figure as a small celestial mark =====
    Smaller disc with the logo prominent inside. Drifts slowly on scroll
    (data-parallax="0.06" set in HTML) so the figure stays grounded while the
    moon hovers in the sky. */
@@ -213,7 +213,7 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
   top:-4%;right:-2%;
   width:clamp(120px, 16vh, 180px);height:clamp(120px, 16vh, 180px);
   border-radius:50%;
-  /* moon surface: bright spot at ~70° (upper-right), shadow at ~250° (lower-left) */
+  /* moon surface: bright spot at ~70Â° (upper-right), shadow at ~250Â° (lower-left) */
   background:
     radial-gradient(circle at 75% 36%, #ffe2a3 0%, var(--gold) 30%, var(--gold-deep) 65%, #1a1304 100%);
   box-shadow:
@@ -221,7 +221,7 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
     inset 22px -18px 50px rgba(5,3,13,.55);
   pointer-events:none;
 }
-/* logo icon as the moon's "face" — sized prominently inside the disc */
+/* logo icon as the moon's "face" â€” sized prominently inside the disc */
 .hero-portrait .moon::before{
   content:'';position:absolute;inset:8%;
   background:rgba(5,3,13,.32);
@@ -239,30 +239,135 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
 .scroll-cue .line{display:block;width:1px;height:42px;margin:10px auto 0;background:linear-gradient(var(--gold),transparent);animation:drop 1.8s infinite}
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
-/* ============ SECTION BREAK — transmission rhythm between sections ============ */
+/* ============ SECTION BREAK â€” transmission rhythm between sections =============
+   Four distinct cosmic micro-animations, one per break, cycling through:
+   1) Shooting star (gold streak across the band)
+   2) Rotating planet (conic-gradient sphere spinning)
+   3) Radar ping (cyan expanding rings + center dot)
+   4) Orbiting satellite (violet anchor + gold dot in orbit)
+   ============================================================================ */
 .section-break{
   position:relative;
   min-height:clamp(56px, 7vh, 98px);
   display:flex;align-items:center;justify-content:center;
   pointer-events:none;
+  overflow:hidden;
 }
-.section-break::before{
-  content:'';
-  width:1px;height:64px;
-  background:linear-gradient(180deg, transparent, rgba(138,107,255,.45) 30%, rgba(138,107,255,.45) 70%, transparent);
+
+/* === Variant 1: Shooting star â€” gold streak across the band === */
+/* one shooting star at a time; JS toggles .shooting class to fire it with a random 5-10s delay */
+.section-break.style-1::after{
+  content:'';position:absolute;top:50%;
+  width:5px;height:5px;border-radius:50%;
+  background:#fff5dc;
+  box-shadow:
+    0 0 8px #fff5dc,
+    0 0 16px var(--gold),
+    -10px 2px 8px rgba(255,200,87,.85),
+    -22px 6px 12px rgba(255,200,87,.65),
+    -38px 11px 16px rgba(255,200,87,.45),
+    -58px 17px 20px rgba(255,200,87,.30),
+    -82px 24px 24px rgba(255,200,87,.18),
+    -110px 32px 28px rgba(255,200,87,.10);
+  opacity:0;
 }
-.section-break::after{
-  content:'';position:absolute;
-  top:50%;left:50%;
+.section-break.style-1.shooting::after{
+  animation:shoot 1s ease-in 1;
+}
+@keyframes shoot{
+  0%   {left:5%;transform:translate(-50%, -50%);opacity:0}
+  8%   {opacity:1}
+  92%  {opacity:1}
+  100% {left:95%;transform:translate(-50%, -50%);opacity:0}
+}
+
+/* === Variant 2: Rotating planet â€” conic-gradient sphere with a faint orbit === */
+.section-break.style-2::before{
+  content:'';position:absolute;top:50%;left:50%;
+  width:42px;height:42px;border-radius:50%;
+  border:1px dashed rgba(255,61,154,.32);
+  transform:translate(-50%, -50%);
+  animation:orbit-ring-spin 8s linear infinite;
+}
+.section-break.style-2::after{
+  content:'';position:absolute;top:50%;left:50%;
+  width:16px;height:16px;border-radius:50%;
+  /* two-tone brand planet: gold dayside fading to magenta night */
+  background:conic-gradient(from 0deg, var(--gold), var(--magenta), var(--gold));
+  box-shadow:0 0 14px rgba(255,200,87,.55), 0 0 28px rgba(255,61,154,.3);
+  transform:translate(-50%, -50%);
+  animation:planet-spin 5s linear infinite, planet-breathe 2.4s ease-in-out infinite;
+}
+@keyframes orbit-ring-spin{
+  from{transform:translate(-50%, -50%) rotate(0deg)}
+  to  {transform:translate(-50%, -50%) rotate(360deg)}
+}
+@keyframes planet-spin{
+  from{transform:translate(-50%, -50%) rotate(0deg)}
+  to  {transform:translate(-50%, -50%) rotate(360deg)}
+}
+@keyframes planet-breathe{
+  0%,100%{box-shadow:0 0 10px rgba(255,200,87,.45), 0 0 22px rgba(255,61,154,.22)}
+  50%   {box-shadow:0 0 20px rgba(255,200,87,.85), 0 0 42px rgba(255,61,154,.5)}
+}
+
+/* === Variant 3: Radar ping â€” expanding cyan rings out of a central dot === */
+.section-break.style-3::before,
+.section-break.style-3::after{
+  content:'';position:absolute;top:50%;left:50%;
   width:10px;height:10px;border-radius:50%;
-  background:var(--gold);transform:translate(-50%, -50%);
-  box-shadow:0 0 16px var(--gold), 0 0 36px rgba(255,200,87,.55), 0 0 64px rgba(255,200,87,.3);
-  animation:break-pulse 1.8s ease-in-out infinite;
-  opacity:.6;
+  border:1.5px solid var(--cyan);
+  transform:translate(-50%, -50%);
+  animation:ping 2.4s ease-out infinite;
 }
-@keyframes break-pulse{
-  0%,100%{transform:translate(-50%, -50%) scale(.5);opacity:.25;box-shadow:0 0 8px var(--gold), 0 0 18px rgba(255,200,87,.3), 0 0 32px rgba(255,200,87,.15)}
-  50%{transform:translate(-50%, -50%) scale(1.2);opacity:.95;box-shadow:0 0 20px var(--gold), 0 0 44px rgba(255,200,87,.7), 0 0 80px rgba(255,200,87,.4)}
+.section-break.style-3::after{animation-delay:1.2s}
+.section-break.style-3{
+  background:radial-gradient(circle at 50% 50%, rgba(91,233,255,.18) 0, transparent 4px);
+}
+@keyframes ping{
+  0%   {transform:translate(-50%, -50%) scale(.4);opacity:1;border-width:1.8px}
+  100% {transform:translate(-50%, -50%) scale(5);opacity:0;border-width:.5px}
+}
+
+/* === Variant 4: Orbiting satellite â€” violet anchor + gold dot in orbit === */
+.section-break.style-4::before{
+  /* center planet, bigger now with a moon-like radial gradient */
+  content:'';position:absolute;top:50%;left:50%;
+  width:18px;height:18px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #b8a0ff 0%, var(--violet) 55%, #2a1b5f 100%);
+  box-shadow:0 0 14px var(--violet), 0 0 28px rgba(138,107,255,.4);
+  transform:translate(-50%, -50%);
+  animation:anchor-breathe 2.4s ease-in-out infinite;
+}
+.section-break.style-4::after{
+  /* outer satellite — clockwise orbit, gold */
+  content:'';position:absolute;top:50%;left:50%;
+  width:5px;height:5px;border-radius:50%;
+  margin:-2.5px 0 0 -2.5px;
+  background:var(--gold);
+  box-shadow:0 0 8px var(--gold), 0 0 18px rgba(255,200,87,.45);
+  animation:orbit 3.2s linear infinite;
+}
+.section-break.style-4 .orbit-rev{
+  /* inner satellite — counter-clockwise orbit, cyan, smaller orbit radius */
+  position:absolute;top:50%;left:50%;
+  width:4px;height:4px;border-radius:50%;
+  margin:-2px 0 0 -2px;
+  background:var(--cyan);
+  box-shadow:0 0 7px var(--cyan), 0 0 16px rgba(91,233,255,.4);
+  animation:orbit-rev 2.4s linear infinite;
+}
+@keyframes orbit{
+  from{transform:rotate(0deg) translateX(30px) rotate(0deg)}
+  to  {transform:rotate(360deg) translateX(30px) rotate(-360deg)}
+}
+@keyframes orbit-rev{
+  from{transform:rotate(0deg) translateX(20px) rotate(0deg)}
+  to  {transform:rotate(-360deg) translateX(20px) rotate(360deg)}
+}
+@keyframes anchor-breathe{
+  0%,100%{box-shadow:0 0 10px var(--violet), 0 0 22px rgba(138,107,255,.3)}
+  50%   {box-shadow:0 0 18px var(--violet), 0 0 36px rgba(138,107,255,.55)}
 }
 
 /* ============ MARQUEE TRANSMISSION ============ */
@@ -409,7 +514,7 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
     0 1px 4px rgba(5,3,13,.85);
 }
 
-/* ===== Title plate (h3 + p only) — sits in the lower 1/3 of the tile ===== */
+/* ===== Title plate (h3 + p only) â€” sits in the lower 1/3 of the tile ===== */
 .portal-body{
   position:absolute;left:0;right:0;bottom:0;z-index:3;
   height:var(--plate-h);
@@ -441,29 +546,29 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }
 
-/* ===== Sci-fi tab CTA — sits at the photo/plate boundary, tethered by an accent line ===== */
+/* ===== Sci-fi tab CTA â€” sits at the photo/plate boundary, tethered by an accent line ===== */
 .portal-cta-tab{
   position:absolute;z-index:4;
-  /* tab anchored to the BOTTOM of the body / tile — top of tab sits at where body content ends */
+  /* tab anchored to the BOTTOM of the body / tile â€” top of tab sits at where body content ends */
   bottom:clamp(18px, 2.2vw, 28px);
   top:auto;
   right:clamp(20px, 3vw, 40px);
   display:inline-flex;align-items:center;gap:14px;
   padding:14px 24px;
   background:rgba(5,3,13,.94);
-  border:2px solid var(--gold); /* gold for FH — full opacity, thicker */
+  border:2px solid var(--gold); /* gold for FH â€” full opacity, thicker */
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;
   color:var(--gold);
   box-shadow:0 6px 22px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,200,87,.12);
-  /* notched top-right corner — sci-fi panel cut */
+  /* notched top-right corner â€” sci-fi panel cut */
   clip-path:polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
   cursor:pointer;
   transition:background .3s ease, color .3s ease, transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s;
 }
-/* (removed) tether line — no longer needed since tab is at the bottom of the body */
+/* (removed) tether line â€” no longer needed since tab is at the bottom of the body */
 .portal-cta-tab svg{transition:transform .3s ease}
-/* hover: fill, lift, halo — unmistakably clickable */
+/* hover: fill, lift, halo â€” unmistakably clickable */
 .portal:hover .portal-cta-tab{
   background:var(--gold);
   color:var(--void);
@@ -495,7 +600,7 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
 .contact-btn{font-size:13px;padding:18px 34px}
 .contact-note{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;text-align:center;max-width:520px}
 
-/* ============ GRIME PASS — logo marks ============ */
+/* ============ GRIME PASS â€” logo marks ============ */
 /* inline logo mark used as a bullet; colored via background, shape via SVG mask */
 .mark{
   display:inline-block;vertical-align:-2px;width:14px;height:14px;margin-right:10px;
@@ -503,7 +608,7 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
   -webkit-mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
           mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
 }
-/* viewport-locked logo watermark — anchors bottom-right of the window, scrolls with the user,
+/* viewport-locked logo watermark â€” anchors bottom-right of the window, scrolls with the user,
    sizes off vmin so it never dominates either viewport dimension */
 .logo-stamp{
   position:fixed;right:max(14px, 2vw);bottom:max(14px, 2vh);

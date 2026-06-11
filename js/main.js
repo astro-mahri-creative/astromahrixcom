@@ -81,3 +81,19 @@
   }, {threshold:0.18, rootMargin:'0px 0px -8% 0px'});
   els.forEach(e=>io.observe(e));
 })();
+
+/* ---------- SHOOTING STAR (section-break.style-1) — random 5-10s between shots ---------- */
+(function(){
+  const el = document.querySelector('.section-break.style-1');
+  if(!el) return;
+  function fire(){
+    el.classList.remove('shooting');
+    /* force reflow so re-adding the class restarts the animation */
+    void el.offsetWidth;
+    el.classList.add('shooting');
+    const next = 5000 + Math.random() * 5000;  /* 5-10 seconds */
+    setTimeout(fire, next);
+  }
+  /* small initial delay so the first shot doesn't fire instantly on page load */
+  setTimeout(fire, 1500 + Math.random() * 2000);
+})();
