@@ -209,16 +209,48 @@
     <p>Booking, collabs, press, lore &mdash; drop a signal and I&rsquo;ll get back.</p>
   </div>
 
-  <div class="contact-cta reveal d1">
-    <!-- [SWAP-NOTION-FORM-URL]
-         Replace href below with your published Notion form URL.
-         In Notion: create a database (e.g. "Inbound Signals") with Name /
-         Email / Message / Submitted properties, add a "Form" view, publish
-         it, copy the public URL. Your inbox stays out of the repo. -->
-    <a class="btn btn-solid contact-btn" href="https://www.notion.so/YOUR-NOTION-FORM-URL" target="_blank" rel="noopener">
-      &#9654; Open contact channel
-    </a>
-    <p class="contact-note">Opens a secure form &mdash; messages route straight to my ops deck.</p>
+  <div class="contact-form-wrap reveal d1">
+    <div class="status" id="status" role="alert" aria-live="assertive"></div>
+
+    <form id="leadForm" novalidate>
+      <div class="field" id="f-name">
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" autocomplete="name"
+               maxlength="100" required placeholder="Who&rsquo;s transmitting?" />
+        <span class="err" id="e-name"></span>
+      </div>
+
+      <div class="field" id="f-email">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email"
+               inputmode="email" maxlength="254" required placeholder="you@example.com" />
+        <span class="err" id="e-email"></span>
+      </div>
+
+      <div class="field" id="f-note">
+        <label for="note">Message <span class="opt">(optional)</span></label>
+        <textarea id="note" name="note" maxlength="2000"
+                  placeholder="Booking, a collab, press, or just saying what&rsquo;s up&hellip;"></textarea>
+        <span class="err" id="e-note"></span>
+      </div>
+
+      <!-- Honeypot: hidden from humans, tempting to bots. -->
+      <div class="hp" aria-hidden="true">
+        <label for="company">Company</label>
+        <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <button class="btn btn-solid contact-btn" type="submit" id="submitBtn">
+        &#9654; Send transmission
+      </button>
+      <p class="contact-note">Routes straight to my ops deck. No list, no spam.</p>
+    </form>
+
+    <div class="done" id="done">
+      <div class="tick" aria-hidden="true">&#10003;</div>
+      <h3>Transmission received.</h3>
+      <p>It landed on my ops deck. I read everything that comes through here &mdash; expect a reply.</p>
+    </div>
   </div>
 </section>
 
@@ -237,6 +269,91 @@
   <div class="fineprint">// SIGNAL FROM DURHAM, NC &middot; &copy; 2026 ASTRO MAHRI &middot; STILL BROADCASTING</div>
 </footer>
 
+<script>
+(function () {
+  var form = document.getElementById('leadForm');
+  if (!form) return;
+  var btn = document.getElementById('submitBtn');
+  var status = document.getElementById('status');
+  var done = document.getElementById('done');
+  var loadedAt = Date.now();
+
+  function setError(field, msg) {
+    document.getElementById('f-' + field).classList.toggle('invalid', !!msg);
+    document.getElementById('e-' + field).textContent = msg || '';
+  }
+  function clearErrors() { ['name', 'email', 'note'].forEach(function (f) { setError(f, ''); }); }
+
+  function fail(msg) {
+    status.className = 'status bad show';
+    // Never lose the lead to a broken save. Hand over a route that cannot break.
+    status.innerHTML = msg + ' <a href="mailto:astromahri@gmail.com" style="color:#ffc857">Email me directly</a> and I will pick it up there.';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearErrors();
+    status.className = 'status';
+
+    var name = document.getElementById('name').value.trim();
+    var email = document.getElementById('email').value.trim();
+
+    var bad = false;
+    if (!name) { setError('name', 'I need a name.'); bad = true; }
+    if (!email) { setError('email', 'I need an email.'); bad = true; }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      setError('email', 'That does not look like an email address.'); bad = true;
+    }
+    if (bad) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    fetch('/api/lead/website', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        note: document.getElementById('note').value.trim(),
+        company: document.getElementById('company').value,
+        t: loadedAt
+        // No source field. The endpoint decides it, server-side.
+      })
+    })
+      .then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (body) {
+          return { ok: r.ok, status: r.status, body: body };
+        });
+      })
+      .then(function (res) {
+        if (res.ok && res.body.ok) {
+          form.style.display = 'none';
+          done.classList.add('show');
+          return;
+        }
+        btn.disabled = false;
+        btn.innerHTML = '&#9654; Send transmission';
+
+        if (res.status === 400 && res.body.fields) {
+          Object.keys(res.body.fields).forEach(function (f) { setError(f, res.body.fields[f]); });
+          return;
+        }
+        if (res.status === 429) {
+          status.className = 'status bad show';
+          status.textContent = res.body.error || 'Too many tries. Give it a minute.';
+          return;
+        }
+        fail(res.body.error || 'Something broke on my end.');
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.innerHTML = '&#9654; Send transmission';
+        fail('Could not reach the server.');
+      });
+  });
+})();
+</script>
 <script src="js/main.js"></script>
 </body>
 </html>

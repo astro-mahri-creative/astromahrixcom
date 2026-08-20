@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ASTRO MAHRI // CONNECT</title>
+<meta name="description" content="Save Astro Mahri's contact card, or leave your details." />
+<meta name="robots" content="noindex" />
+
+<link rel="icon" type="image/svg+xml" href="../assets/branding/logo-icon.svg" />
+
+<meta property="og:title" content="ASTRO MAHRI // Connect" />
+<meta property="og:description" content="Save the contact card, or leave your details." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://astromahri.com/connect/" />
+<meta property="og:image" content="https://astromahri.com/assets/images/cover-art.jpg" />
+
+<!--
+================================================================
+  ASTRO MAHRI - /connect
+  This URL is programmed onto physical NFC tags. IT MUST NEVER
+  MOVE. Do not rename the folder, do not add a redirect, do not
+  fold it into another route. A reprogrammed tag is a tag you
+  have to physically touch again.
+
+  The capture form POSTs to /api/lead/connect, which tags the
+  lead Source="connect" SERVER-SIDE. Nothing on this page sets
+  or sends the source value -- the endpoint you hit is the tag.
+
+  Deliberately self-contained: its own <style>, no shared CSS,
+  no framework, no build step.
+================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --void:#05030d; --deep:#0a0820; --ink:#13102e;
+  --panel:rgba(22,17,52,.55);
+  --gold:#ffc857; --magenta:#ff3d9a; --cyan:#5be9ff; --violet:#8a6bff;
+  --text:#efeaff; --muted:#9a93c8; --line:rgba(138,107,255,.22);
+  --display:'Unbounded', sans-serif;
+  --mono:'Space Mono', monospace;
+  --body:'Sora', sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--void); color:var(--text); font-family:var(--body);
+  font-weight:300; line-height:1.6; -webkit-font-smoothing:antialiased;
+  min-height:100vh; display:flex; flex-direction:column; align-items:center;
+  padding:clamp(28px,7vw,64px) clamp(18px,5vw,32px);
+}
+::selection{background:var(--magenta);color:#fff}
+
+#space{
+  position:fixed;inset:0;z-index:-3;
+  background:
+    radial-gradient(120% 80% at 80% -10%, rgba(138,107,255,.22), transparent 55%),
+    radial-gradient(90% 60% at 5% 15%, rgba(255,61,154,.14), transparent 50%),
+    radial-gradient(120% 90% at 50% 110%, rgba(91,233,255,.12), transparent 55%),
+    linear-gradient(180deg,#05030d 0%, #0a0820 45%, #07050f 100%);
+}
+#grain{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.11;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+#scanlines{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:repeating-linear-gradient(0deg, rgba(255,255,255,.022) 0 1px, transparent 1px 3px);
+  mix-blend-mode:overlay;
+}
+
+.wrap{width:100%;max-width:560px;display:flex;flex-direction:column;gap:34px}
+
+.brand{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--display);font-weight:800;letter-spacing:.18em;
+  font-size:clamp(16px,4.6vw,24px);text-transform:uppercase;color:#fff;
+  text-decoration:none;
+}
+.brand-icon{
+  width:15px;height:15px;border-radius:50%;flex:none;
+  background:radial-gradient(circle at 32% 30%, var(--gold), var(--magenta) 70%);
+  box-shadow:0 0 22px rgba(255,200,87,.6);
+}
+
+.label{
+  font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--gold);display:inline-flex;align-items:center;gap:12px;
+}
+.label::before{content:'';width:28px;height:1px;background:var(--gold)}
+
+h1{
+  font-family:var(--display);font-weight:900;letter-spacing:-.01em;
+  font-size:clamp(34px,10vw,58px);line-height:1.02;text-transform:uppercase;
+}
+h1 .glow{color:var(--gold);text-shadow:0 0 34px rgba(255,200,87,.45)}
+.lede{color:var(--muted);font-size:clamp(15px,4vw,17px);max-width:46ch}
+
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:clamp(20px,5vw,28px);backdrop-filter:blur(6px);
+  display:flex;flex-direction:column;gap:16px;
+}
+.card h2{
+  font-family:var(--display);font-weight:600;font-size:clamp(17px,4.6vw,20px);
+  letter-spacing:.02em;
+}
+.card p{color:var(--muted);font-size:14.5px}
+
+.btn{
+  font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  text-decoration:none;padding:17px 28px;border-radius:44px;transition:.35s;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  border:0;cursor:pointer;width:100%;
+}
+.btn-solid{background:var(--gold);color:#1a1304;font-weight:700;box-shadow:0 10px 40px rgba(255,200,87,.3)}
+.btn-solid:hover,.btn-solid:focus-visible{transform:translateY(-3px);box-shadow:0 16px 50px rgba(255,200,87,.5)}
+.btn-solid[disabled]{opacity:.55;cursor:progress;transform:none;box-shadow:none}
+.btn-ghost{border:1px solid var(--line);color:var(--text);background:transparent}
+.btn-ghost:hover,.btn-ghost:focus-visible{border-color:var(--magenta);color:var(--magenta);box-shadow:0 0 30px rgba(255,61,154,.25)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+
+/* ---------- form ---------- */
+form{display:flex;flex-direction:column;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);
+}
+.field .opt{text-transform:none;letter-spacing:0;opacity:.7}
+.field input,.field textarea{
+  font-family:var(--body);font-size:16px; /* 16px stops iOS zooming on focus */
+  color:var(--text);background:rgba(5,3,13,.5);
+  border:1px solid var(--line);border-radius:10px;padding:14px 15px;
+  transition:border-color .25s, box-shadow .25s;width:100%;
+}
+.field input::placeholder,.field textarea::placeholder{color:rgba(154,147,200,.5)}
+.field input:focus,.field textarea:focus{
+  outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(91,233,255,.13);
+}
+.field textarea{resize:vertical;min-height:82px}
+.field.invalid input,.field.invalid textarea{border-color:var(--magenta)}
+.err{font-size:12.5px;color:var(--magenta);min-height:0}
+
+/* Honeypot. Hidden from humans, reachable by naive bots. Not display:none --
+   some bots skip those; this is off-screen but still in the layout tree. */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+.formnote{font-size:12.5px;color:var(--muted);opacity:.85}
+
+.status{border-radius:10px;padding:14px 16px;font-size:14.5px;display:none}
+.status.show{display:block}
+.status.bad{background:rgba(255,61,154,.1);border:1px solid rgba(255,61,154,.4);color:#ffd6e9}
+
+.done{display:none;flex-direction:column;gap:12px;text-align:center;padding:8px 0}
+.done.show{display:flex}
+.done .tick{
+  width:52px;height:52px;border-radius:50%;margin:0 auto;
+  display:grid;place-items:center;font-size:26px;
+  background:radial-gradient(circle at 32% 30%, var(--gold), var(--magenta) 75%);
+  color:#1a1304;box-shadow:0 0 34px rgba(255,200,87,.45);
+}
+.done h3{font-family:var(--display);font-weight:600;font-size:19px}
+
+.divider{display:flex;align-items:center;gap:14px;color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:.3em}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--line)}
+
+.links{display:flex;flex-wrap:wrap;gap:10px}
+.chip{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;color:var(--text);border:1px solid var(--line);
+  padding:10px 16px;border-radius:40px;transition:.3s;
+}
+.chip:hover{border-color:var(--cyan);color:var(--cyan)}
+
+footer{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+  color:var(--muted);text-transform:uppercase;text-align:center;
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div id="space"></div>
+<div id="grain"></div>
+<div id="scanlines"></div>
+
+<div class="wrap">
+
+  <a class="brand" href="/">
+    <span class="brand-icon" aria-hidden="true"></span>
+    <span>ASTRO <b>MAHRI</b></span>
+  </a>
+
+  <header>
+    <div class="label">Signal exchange</div>
+    <h1>LET&rsquo;S <span class="glow">CONNECT</span></h1>
+    <p class="lede">Good to meet you. Take my card, leave yours, or both &mdash; whatever is useful.</p>
+  </header>
+
+  <!-- ============ 1. SAVE MY CONTACT ============ -->
+  <section class="card">
+    <h2>Save my contact</h2>
+    <p>Adds me straight to your phone. No app, no signup.</p>
+    <!-- Plain link, no `download` attribute: on iOS this opens the native
+         "Add Contact" sheet directly, which is the behaviour you want off an
+         NFC tap. Netlify serves it as text/vcard via netlify.toml. -->
+    <a class="btn btn-solid" href="astro-mahri.vcf" type="text/vcard">
+      &#11015; Save my contact
+    </a>
+  </section>
+
+  <div class="divider">AND / OR</div>
+
+  <!-- ============ 2. LEAVE YOUR DETAILS ============ -->
+  <section class="card">
+    <h2>Leave your details</h2>
+    <p>Name and email is plenty. Add context if there is something specific.</p>
+
+    <div class="status" id="status" role="alert" aria-live="assertive"></div>
+
+    <form id="leadForm" novalidate>
+      <div class="field" id="f-name">
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" autocomplete="name"
+               maxlength="100" required placeholder="Who are you?" />
+        <span class="err" id="e-name"></span>
+      </div>
+
+      <div class="field" id="f-email">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email"
+               inputmode="email" maxlength="254" required placeholder="you@example.com" />
+        <span class="err" id="e-email"></span>
+      </div>
+
+      <div class="field" id="f-note">
+        <label for="note">Anything I should know? <span class="opt">(optional)</span></label>
+        <textarea id="note" name="note" maxlength="2000"
+                  placeholder="Where we met, what you do, what you want to make&hellip;"></textarea>
+        <span class="err" id="e-note"></span>
+      </div>
+
+      <!-- Honeypot: hidden from humans, tempting to bots. -->
+      <div class="hp" aria-hidden="true">
+        <label for="company">Company</label>
+        <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <button class="btn btn-solid" type="submit" id="submitBtn">&#9654; Send it over</button>
+      <p class="formnote">Goes straight to my ops deck. No list, no spam &mdash; I just want to remember you.</p>
+    </form>
+
+    <div class="done" id="done">
+      <div class="tick" aria-hidden="true">&#10003;</div>
+      <h3>Got you.</h3>
+      <p>Good to meet you for real. I&rsquo;ll be in touch &mdash; and now you have my card too.</p>
+    </div>
+  </section>
+
+  <!-- ============ 3. ELSEWHERE ============ -->
+  <section class="card">
+    <h2>Elsewhere</h2>
+    <div class="links">
+      <a class="chip" href="https://soundcloud.com/astromahri" target="_blank" rel="noopener">SoundCloud</a>
+      <a class="chip" href="https://astromahri.bandcamp.com/" target="_blank" rel="noopener">Bandcamp</a>
+      <a class="chip" href="https://www.instagram.com/astromahri/" target="_blank" rel="noopener">Instagram</a>
+      <a class="chip" href="/">astromahri.com</a>
+    </div>
+  </section>
+
+  <footer>// Signal from Durham, NC &middot; &copy; 2026 Astro Mahri</footer>
+
+</div>
+
+<script>
+(function () {
+  var form = document.getElementById('leadForm');
+  var btn = document.getElementById('submitBtn');
+  var status = document.getElementById('status');
+  var done = document.getElementById('done');
+
+  // Stamped at load. The server rejects anything submitted within two
+  // seconds of this, which no human beats on a three-field form.
+  var loadedAt = Date.now();
+
+  function setError(field, msg) {
+    document.getElementById('f-' + field).classList.toggle('invalid', !!msg);
+    document.getElementById('e-' + field).textContent = msg || '';
+  }
+  function clearErrors() { ['name', 'email', 'note'].forEach(function (f) { setError(f, ''); }); }
+
+  function fail(msg) {
+    status.className = 'status bad show';
+    // The lead matters more than the form. If saving breaks, hand over a
+    // route that cannot break rather than losing the person.
+    status.innerHTML = msg + ' <a href="mailto:astromahri@gmail.com" style="color:#ffc857">Email me directly</a> and I will add you by hand.';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearErrors();
+    status.className = 'status';
+
+    var name = document.getElementById('name').value.trim();
+    var email = document.getElementById('email').value.trim();
+
+    var bad = false;
+    if (!name) { setError('name', 'I need a name.'); bad = true; }
+    if (!email) { setError('email', 'I need an email.'); bad = true; }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      setError('email', 'That does not look like an email address.'); bad = true;
+    }
+    if (bad) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    fetch('/api/lead/connect', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        note: document.getElementById('note').value.trim(),
+        company: document.getElementById('company').value,
+        t: loadedAt
+        // No source field. The endpoint decides it, server-side.
+      })
+    })
+      .then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (body) {
+          return { ok: r.ok, status: r.status, body: body };
+        });
+      })
+      .then(function (res) {
+        if (res.ok && res.body.ok) {
+          form.style.display = 'none';
+          done.classList.add('show');
+          return;
+        }
+        btn.disabled = false;
+        btn.innerHTML = '&#9654; Send it over';
+
+        if (res.status === 400 && res.body.fields) {
+          Object.keys(res.body.fields).forEach(function (f) { setError(f, res.body.fields[f]); });
+          return;
+        }
+        if (res.status === 429) {
+          status.className = 'status bad show';
+          status.textContent = res.body.error || 'Too many tries. Give it a minute.';
+          return;
+        }
+        fail(res.body.error || 'Something broke on my end.');
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.innerHTML = '&#9654; Send it over';
+        fail('Could not reach the server.');
+      });
+  });
+})();
+</script>
+
+</body>
+</html>

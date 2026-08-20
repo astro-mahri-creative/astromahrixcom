@@ -8,3 +8,47 @@
   [headers.values]
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
+# ============================================================
+#  APPEND THIS BLOCK TO astromahrixcom/netlify.toml
+# ============================================================
+
+# ---- serverless functions ----
+# The site stays static. These two endpoints are the only server-side code,
+# and they exist because the Notion Source tag has to be set somewhere the
+# browser cannot reach. Zero dependencies, so there is nothing to bundle.
+[functions]
+  directory = "netlify/functions"
+
+# ---- clean API paths ----
+# status 200 rewrites rather than 301 redirects: the browser keeps seeing
+# /api/lead/... so the request stays same-origin and no CORS is involved.
+[[redirects]]
+  from = "/api/lead/website"
+  to = "/.netlify/functions/lead-website"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/lead/connect"
+  to = "/.netlify/functions/lead-connect"
+  status = 200
+  force = true
+
+# ---- /connect (NFC destination) ----
+# The global nosniff header above means the browser will not guess the type,
+# so the vCard must be served with an exact Content-Type or the Save button
+# silently downloads an unopenable file. `inline` lets iOS hand it straight to
+# the Contacts sheet instead of dropping it in Files.
+[[headers]]
+  for = "/connect/*.vcf"
+  [headers.values]
+    Content-Type = "text/vcard; charset=utf-8"
+    Content-Disposition = "inline; filename=\"astro-mahri.vcf\""
+    Cache-Control = "public, max-age=3600"
+
+# Never let a CDN or browser cache a lead submission response.
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "no-store"
