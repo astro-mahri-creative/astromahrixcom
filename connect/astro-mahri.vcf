@@ -1,0 +1,17 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Mahri;Astro;;;
+FN:Astro Mahri
+NICKNAME:Astro
+TITLE:Independent Artist
+ROLE:Alternative Hip Hop / DJ
+ORG:Astro Mahri Creative
+EMAIL;type=INTERNET;type=WORK;type=pref:astromahri@gmail.com
+URL;type=WORK;type=pref:https://astromahri.com
+URL;type=Bandcamp:https://astromahri.bandcamp.com/
+URL;type=SoundCloud:https://soundcloud.com/astromahri
+X-SOCIALPROFILE;type=instagram:https://www.instagram.com/astromahri/
+ADR;type=WORK:;;;Durham;NC;;USA
+NOTE:Independent alternative hip hop out of Durham, NC. Booking, collabs, press: astromahri.com
+CATEGORIES:Music,Artist
+END:VCARD

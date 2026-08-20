@@ -4,13 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>ASTRO MAHRI // TRANSMISSION 001</title>
-<meta name="description" content="Astro Mahri â€” debut single 'Madness'. Independent alternative hip hop out of Durham, NC." />
+<meta name="description" content="Astro Mahri — debut double single ‘Javelin + Madness’ out 10.16.2026. Independent alternative hip hop out of Durham, NC." />
 
 <link rel="icon" type="image/svg+xml" href="assets/branding/logo-icon.svg" />
 
 <!-- Open Graph / social preview -->
-<meta property="og:title" content="ASTRO MAHRI // Madness" />
-<meta property="og:description" content="The debut single 'Madness'. Independent alt hip hop from Durham, NC." />
+<meta property="og:title" content="ASTRO MAHRI // Javelin + Madness" />
+<meta property="og:description" content="The debut double single ‘Javelin + Madness’ — out 10.16.2026. Independent alt hip hop from Durham, NC." />
 <meta property="og:type" content="music.song" />
 <meta property="og:url" content="https://astromahri.com/" />
 <meta property="og:image" content="https://astromahri.com/assets/images/cover-art.jpg" />
@@ -53,14 +53,14 @@
 <!-- ============ HERO ============ -->
 <header class="hero" id="top">
   <div class="hero-copy reveal in">
-    <div class="eyebrow"><span class="mark" aria-hidden="true"></span>Incoming transmission &middot; debut single</div>
+    <div class="eyebrow"><span class="mark" aria-hidden="true"></span>Incoming transmission &middot; debut double single</div>
     <!-- [SWAP-TEXT] track title goes here -->
-    <h1>MAD<span class="glow">NESS</span></h1>
+    <h1>JAVELIN <span class="glow">+ MADNESS</span></h1>
     <div class="track-meta">
       <span>ARTIST&nbsp; <b>Astro Mahri</b></span>
-      <span>FORMAT&nbsp; <b>Single</b></span>
+      <span>FORMAT&nbsp; <b>Double Single</b></span>
       <span>BASE&nbsp; <b>Durham, NC</b></span>
-      <span>DROP&nbsp; <b>06 &middot; 2026</b></span> <!-- [SWAP-TEXT] release date -->
+      <span>DROP&nbsp; <b>10 &middot; 16 &middot; 2026</b></span> <!-- [SWAP-TEXT] release date -->
     </div>
     <div class="cta-row">
       <a class="btn btn-solid" href="#release">&#9654; Stream the signal</a>
@@ -83,8 +83,8 @@
 <!-- ============ MARQUEE ============ -->
 <div class="marquee">
   <div class="marquee-track">
-    <span>New Signal Inbound</span><span>Madness</span><span>Astro Mahri</span><span>Transmission 001</span>
-    <span>New Signal Inbound</span><span>Madness</span><span>Astro Mahri</span><span>Transmission 001</span>
+    <span>New Signal Inbound</span><span>Javelin + Madness</span><span>Astro Mahri</span><span>Transmission 001</span>
+    <span>New Signal Inbound</span><span>Javelin + Madness</span><span>Astro Mahri</span><span>Transmission 001</span>
   </div>
 </div>
 
@@ -98,8 +98,8 @@
   <div class="console reveal d1">
     <div class="now-playing"><span class="pulse"></span> Now broadcasting</div>
     <div class="label" style="margin-bottom:8px">// LATEST RELEASE</div>
-    <h2>Madness</h2> <!-- [SWAP-TEXT] -->
-    <div class="sub">Astro Mahri &middot; Single &middot; 2026</div>
+    <h2>Javelin + Madness</h2> <!-- [SWAP-TEXT] -->
+    <div class="sub">Astro Mahri &middot; Double Single &middot; 2026</div>
 
     <div class="sc-wrap">
       <!-- ============================================================
@@ -111,7 +111,7 @@
            ============================================================ -->
       <div class="sc-placard" role="status" aria-label="SoundCloud player will appear when the track drops">
         <div class="sc-placard-label"><span class="dot"></span>Tuning the signal</div>
-        <div class="sc-placard-text">Incoming transmission &middot; 06.2026</div>
+        <div class="sc-placard-text">Incoming transmission &middot; 10.16.2026</div>
         <div class="sc-placard-sub">Player goes live with the drop.</div>
       </div>
       <!--
@@ -209,16 +209,48 @@
     <p>Booking, collabs, press, lore &mdash; drop a signal and I&rsquo;ll get back.</p>
   </div>
 
-  <div class="contact-cta reveal d1">
-    <!-- [SWAP-NOTION-FORM-URL]
-         Replace href below with your published Notion form URL.
-         In Notion: create a database (e.g. "Inbound Signals") with Name /
-         Email / Message / Submitted properties, add a "Form" view, publish
-         it, copy the public URL. Your inbox stays out of the repo. -->
-    <a class="btn btn-solid contact-btn" href="https://www.notion.so/YOUR-NOTION-FORM-URL" target="_blank" rel="noopener">
-      &#9654; Open contact channel
-    </a>
-    <p class="contact-note">Opens a secure form &mdash; messages route straight to my ops deck.</p>
+  <div class="contact-form-wrap reveal d1">
+    <div class="status" id="status" role="alert" aria-live="assertive"></div>
+
+    <form id="leadForm" novalidate>
+      <div class="field" id="f-name">
+        <label for="name">Your name</label>
+        <input id="name" name="name" type="text" autocomplete="name"
+               maxlength="100" required placeholder="Who&rsquo;s transmitting?" />
+        <span class="err" id="e-name"></span>
+      </div>
+
+      <div class="field" id="f-email">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email"
+               inputmode="email" maxlength="254" required placeholder="you@example.com" />
+        <span class="err" id="e-email"></span>
+      </div>
+
+      <div class="field" id="f-note">
+        <label for="note">Message <span class="opt">(optional)</span></label>
+        <textarea id="note" name="note" maxlength="2000"
+                  placeholder="Booking, a collab, press, or just saying what&rsquo;s up&hellip;"></textarea>
+        <span class="err" id="e-note"></span>
+      </div>
+
+      <!-- Honeypot: hidden from humans, tempting to bots. -->
+      <div class="hp" aria-hidden="true">
+        <label for="company">Company</label>
+        <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <button class="btn btn-solid contact-btn" type="submit" id="submitBtn">
+        &#9654; Send transmission
+      </button>
+      <p class="contact-note">Routes straight to my ops deck. No list, no spam.</p>
+    </form>
+
+    <div class="done" id="done">
+      <div class="tick" aria-hidden="true">&#10003;</div>
+      <h3>Transmission received.</h3>
+      <p>It landed on my ops deck. I read everything that comes through here &mdash; expect a reply.</p>
+    </div>
   </div>
 </section>
 
@@ -237,6 +269,91 @@
   <div class="fineprint">// SIGNAL FROM DURHAM, NC &middot; &copy; 2026 ASTRO MAHRI &middot; STILL BROADCASTING</div>
 </footer>
 
+<script>
+(function () {
+  var form = document.getElementById('leadForm');
+  if (!form) return;
+  var btn = document.getElementById('submitBtn');
+  var status = document.getElementById('status');
+  var done = document.getElementById('done');
+  var loadedAt = Date.now();
+
+  function setError(field, msg) {
+    document.getElementById('f-' + field).classList.toggle('invalid', !!msg);
+    document.getElementById('e-' + field).textContent = msg || '';
+  }
+  function clearErrors() { ['name', 'email', 'note'].forEach(function (f) { setError(f, ''); }); }
+
+  function fail(msg) {
+    status.className = 'status bad show';
+    // Never lose the lead to a broken save. Hand over a route that cannot break.
+    status.innerHTML = msg + ' <a href="mailto:astromahri@gmail.com" style="color:#ffc857">Email me directly</a> and I will pick it up there.';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearErrors();
+    status.className = 'status';
+
+    var name = document.getElementById('name').value.trim();
+    var email = document.getElementById('email').value.trim();
+
+    var bad = false;
+    if (!name) { setError('name', 'I need a name.'); bad = true; }
+    if (!email) { setError('email', 'I need an email.'); bad = true; }
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      setError('email', 'That does not look like an email address.'); bad = true;
+    }
+    if (bad) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    fetch('/api/lead/website', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        note: document.getElementById('note').value.trim(),
+        company: document.getElementById('company').value,
+        t: loadedAt
+        // No source field. The endpoint decides it, server-side.
+      })
+    })
+      .then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (body) {
+          return { ok: r.ok, status: r.status, body: body };
+        });
+      })
+      .then(function (res) {
+        if (res.ok && res.body.ok) {
+          form.style.display = 'none';
+          done.classList.add('show');
+          return;
+        }
+        btn.disabled = false;
+        btn.innerHTML = '&#9654; Send transmission';
+
+        if (res.status === 400 && res.body.fields) {
+          Object.keys(res.body.fields).forEach(function (f) { setError(f, res.body.fields[f]); });
+          return;
+        }
+        if (res.status === 429) {
+          status.className = 'status bad show';
+          status.textContent = res.body.error || 'Too many tries. Give it a minute.';
+          return;
+        }
+        fail(res.body.error || 'Something broke on my end.');
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.innerHTML = '&#9654; Send transmission';
+        fail('Could not reach the server.');
+      });
+  });
+})();
+</script>
 <script src="js/main.js"></script>
 </body>
 </html>
