@@ -21,19 +21,12 @@
   directory = "netlify/functions"
 
 # ---- clean API paths ----
-# status 200 rewrites rather than 301 redirects: the browser keeps seeing
-# /api/lead/... so the request stays same-origin and no CORS is involved.
-[[redirects]]
-  from = "/api/lead/website"
-  to = "/.netlify/functions/lead-website"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/api/lead/connect"
-  to = "/.netlify/functions/lead-connect"
-  status = 200
-  force = true
+# Declared by each function itself (`export const config = { path: ... }`),
+# not rewritten here. A forced rewrite would win over that routing and send
+# the request on to /.netlify/functions/<name> -- which Netlify stops
+# registering once a v2 function declares its own path, so the pair 404s.
+# Routing stays next to the handler; the /api/* no-store rule below still
+# matches the path on its own.
 
 # ---- /connect (NFC destination) ----
 # The global nosniff header above means the browser will not guess the type,
