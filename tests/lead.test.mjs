@@ -1,7 +1,7 @@
 /**
  * Exercises the lead handler without touching Notion.
  *
- *   node site/netlify/functions/_lead.test.mjs
+ *   node tests/lead.test.mjs
  *
  * The Notion write is intercepted by stubbing global fetch, so every branch
  * runs and the exact request body that WOULD be sent is captured and
@@ -9,7 +9,7 @@
  * than merely stated.
  */
 
-import { makeLeadHandler } from './_lead.mjs';
+import { makeLeadHandler } from '../netlify/functions/_lead.mjs';
 
 process.env.NOTION_TOKEN = 'ntn_test';
 process.env.FAN_LEADS_DB_ID = 'fac628415e344c30b5a95e8ea034caf9';
