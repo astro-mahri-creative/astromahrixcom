@@ -1,12 +1,13 @@
 # ASTRO MAHRI // Release Microsite
 
 A one-page microsite for Astro Mahri's debut single — dark sci-fi / afrofuturist
-transmission aesthetic. Built as a **zero-dependency static site**: just HTML, CSS,
-and vanilla JS. No npm, no bundler, no build step.
+transmission aesthetic. **Zero dependencies and no build step**: HTML, CSS and vanilla
+JS, plus two serverless functions that import nothing but the standard library.
 
-> **Why no build tooling?** This is a single static page. A build pipeline would add
-> fragility (Node versions, dependency drift) for zero benefit. You "build from the repo"
-> by cloning it, dropping in your assets, and pushing — deployment is automated below.
+> **Why no build tooling?** A build pipeline would add fragility (Node versions,
+> dependency drift) for zero benefit here. You "build from the repo" by cloning it,
+> dropping in your assets, and pushing — deployment is automated below. There is no
+> `package.json`, and the tests run straight off `node`.
 
 ---
 
@@ -31,15 +32,26 @@ npx serve .
 ```
 astromahrixcom/
 ├── index.html              # markup + all [SWAP] edit points
+├── 404.html                # branded not-found page
+├── sitemap.xml             # one entry: the apex (/connect is noindex)
+├── robots.txt
 ├── css/
 │   └── styles.css          # full stylesheet (CSS variables at top)
 ├── js/
 │   └── main.js             # starfield, parallax, scroll reveals
 ├── assets/
-│   └── images/             # drop your 5 photos here (see below)
-├── .github/workflows/
-│   └── deploy.yml           # auto-deploy to GitHub Pages on push to main
-├── netlify.toml            # one-click Netlify deploy config
+│   ├── branding/           # logo mark + wordmark (SVG)
+│   └── images/             # the 5 photos + cover art (see below)
+├── connect/
+│   ├── index.html          # NFC tag destination — self-contained, do not move
+│   └── astro-mahri.vcf     # contact card
+├── netlify/functions/
+│   ├── _lead.mjs           # shared lead handler; sets Source server-side
+│   ├── lead-website.mjs    # POST /api/lead/website
+│   └── lead-connect.mjs    # POST /api/lead/connect
+├── tests/
+│   └── lead.test.mjs       # node tests/lead.test.mjs — no runner needed
+├── netlify.toml            # deploy config, headers, functions directory
 ├── .gitignore
 ├── LICENSE
 └── README.md
@@ -61,8 +73,10 @@ Search the codebase for `[SWAP]` to jump to each thing you need to change.
 | `[SWAP-PHOTO-5]` | portals | Lore Con visual |
 | `[SWAP-LINK-FH]` | portals | Future Hooman destination URL |
 | `[SWAP-LINK-LC]` | portals | Lore Con destination URL |
-| `[SWAP-NOTION-FORM-URL]` | contact | Published Notion form URL — submissions land in your Notion DB so no email is ever in the repo |
 | `[SWAP-TEXT]` | various | Track title, release date, streaming + social links, OG meta |
+
+The contact form has no `[SWAP]` marker: it posts to `/api/lead/website`, a serverless
+function in this repo. Nothing to paste — see **[Lead capture](#lead-capture)** below.
 
 ### Adding photos
 
@@ -91,6 +105,41 @@ it always looks intentional.
 
 All colors live as CSS variables at the top of `css/styles.css` (`:root`). Change
 `--gold`, `--magenta`, `--cyan`, etc. once and the whole site follows.
+
+---
+
+## Lead capture
+
+The form on `/` and the form on `/connect` both POST to serverless functions in
+`netlify/functions/`. Each endpoint hard-codes its own `Source` tag as a literal, and
+the shared handler never reads `source` from the request — so a crafted POST cannot
+change it. **The endpoint you hit *is* the tag.**
+
+| Endpoint | Writes `Source` |
+|----------|-----------------|
+| `POST /api/lead/website` | `website` |
+| `POST /api/lead/connect` | `connect` |
+
+Rows land in the Notion **Fan Leads** database with `Status = New`.
+
+Two environment variables are required — set them in **Netlify → Site settings →
+Environment variables**, never in the repo:
+
+- `NOTION_TOKEN`
+- `FAN_LEADS_DB_ID`
+
+The Notion integration must also be **shared with the Fan Leads database**. If it
+isn't, Notion answers 404, and the visitor just sees a generic save error — so verify
+with one real submission after any credential change.
+
+Run the tests with no runner and no network:
+
+```bash
+node tests/lead.test.mjs
+```
+
+They stub `fetch`, so every branch executes and the exact body that *would* be sent to
+Notion is asserted — including that a spoofed `source` in the request body is ignored.
 
 ---
 
