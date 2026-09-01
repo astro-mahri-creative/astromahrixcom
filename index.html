@@ -234,10 +234,13 @@
         <span class="err" id="e-note"></span>
       </div>
 
-      <!-- Honeypot: hidden from humans, tempting to bots. -->
+      <!-- Honeypot: hidden from people, tempting to bots. Named outside the
+           autocomplete vocabulary and hidden with display:none — an off-screen
+           field called "company" gets autofilled by browsers and password
+           managers, which silently discarded real submissions. -->
       <div class="hp" aria-hidden="true">
-        <label for="company">Company</label>
-        <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+        <label for="subject_ref">Leave this field blank</label>
+        <input id="subject_ref" name="subject_ref" type="text" tabindex="-1" autocomplete="off" />
       </div>
 
       <button class="btn btn-solid contact-btn" type="submit" id="submitBtn">
@@ -314,7 +317,7 @@
         name: name,
         email: email,
         note: document.getElementById('note').value.trim(),
-        company: document.getElementById('company').value,
+        subject_ref: document.getElementById('subject_ref').value,
         t: loadedAt
         // No source field. The endpoint decides it, server-side.
       })
