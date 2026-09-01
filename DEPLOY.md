@@ -41,19 +41,22 @@ The repo already exists locally. To put it on GitHub:
 5. **Domain management:**
    - **Domains → Add custom domain →** `astromahri.com`. Add `www.astromahri.com` as an alias.
    - Set primary to the apex (or `www.` — pick one, redirect the other).
-   - **DNS:** point your registrar's nameservers at Netlify DNS (simplest) OR keep DNS at your registrar and add records:
-     - Apex `astromahri.com`: `A` → `75.2.60.5` (Netlify's load balancer)
-     - `www.astromahri.com`: `CNAME` → `<your-site>.netlify.app`
+   - **DNS — as actually configured:** the domain does **not** use Netlify DNS. Nameservers point at **Cloudflare**, and Cloudflare fronts Netlify (the apex resolves to Cloudflare addresses such as `104.21.28.198` / `172.67.147.133`, not to a Netlify IP). Manage records in the Cloudflare dashboard, not in Netlify.
+     - Changing the apex or `www` means editing Cloudflare, then confirming the custom domain still verifies in Netlify.
+     - Records that are **not** web traffic — `TXT` for domain verification, DKIM, SPF, DMARC — must be **DNS only** (grey cloud). Proxying a `CNAME` replaces it with Cloudflare's own addresses, which silently breaks anything that resolves it, DKIM included.
+     - If you ever migrate to Netlify DNS instead, the records would be apex `A` → `75.2.60.5` and `www` `CNAME` → `<your-site>.netlify.app`. Nothing uses that today.
    - **HTTPS:** Netlify auto-provisions Let's Encrypt once DNS resolves. Force-renew from **Domain → HTTPS** if it stalls.
 6. **Deploy previews:** on by default. Every PR gets a unique preview URL — great for proofing changes before merge.
 7. **Notifications (optional):** **Site settings → Build & deploy → Deploy notifications** — email or Slack on failed deploys.
 
-### 3. GitHub Pages workflow — decide
+### 3. Environment variables (lead capture)
 
-The repo currently has [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) which deploys to GitHub Pages on every push to `main`. Now that Netlify is the production host, choose:
+The two functions in `netlify/functions/` need credentials, set in **Netlify → Site settings → Environment variables**:
 
-- **Recommended: delete it** — one source of truth, no duplicate builds. Run: `rm .github/workflows/deploy.yml && git commit -am "Drop GitHub Pages workflow (Netlify is prod)"`
-- **Keep as cold backup** — adds a parallel GH Pages URL you can fall back to if Netlify has an outage. Costs nothing but adds noise to PR checks.
+- `NOTION_TOKEN`
+- `FAN_LEADS_DB_ID`
+
+The Notion integration must also be **shared with the Fan Leads database** — that share is separate from the token and is the most common cause of a working deploy that silently fails to save. See **[Lead capture](README.md#lead-capture)** in the README.
 
 ### 4. Render (backend — when needed)
 
@@ -116,8 +119,9 @@ Before pushing changes that touch user-facing content:
   - [ ] `[SWAP-SOUNDCLOUD]` — real player iframe in place
   - [ ] `[SWAP-PHOTO-1..5]` — real images, not placeholders
   - [ ] `[SWAP-LINK-FH]` / `[SWAP-LINK-LC]` — real destination URLs
-  - [ ] `[SWAP-NOTION-FORM-URL]` — published Notion form URL
   - [ ] `[SWAP-TEXT]` — track title, release date, streaming + social URLs, OG image URL
+- [ ] Lead capture still writes: submit once on the live form, confirm a **Fan Leads** row with `Source = website` / `Status = New`, then delete the test row
+- [ ] `node tests/lead.test.mjs` passes
 - [ ] No lore reveals snuck back in (no "brighter timeline", "origin sector", etc.)
 - [ ] OG image URL points at a publicly fetchable absolute URL (after the site is live)
 - [ ] Tested in a browser at `http://localhost:8000`, golden path + at least one section scrolled
@@ -147,10 +151,12 @@ A revert via `git revert <bad-sha>` + push also works — the next Netlify build
 | Deploy failed | Netlify build log. Static sites usually only fail on git pull issues or invalid `netlify.toml`. |
 | Site is up but old content | Hard refresh (Ctrl+Shift+R). Netlify aggressively cache-busts on deploy, so this is usually a browser cache. |
 | HTTPS warning | Netlify → Domain settings → HTTPS → **Renew certificate**. |
-| Custom domain not resolving | `nslookup astromahri.com` from PowerShell — confirm A record matches Netlify's IP, CNAME matches site URL. DNS can take up to 48h on first setup. |
+| Custom domain not resolving | `nslookup astromahri.com` from PowerShell. The apex resolves to **Cloudflare** addresses, not Netlify's — that is expected. Check the record in the Cloudflare dashboard. DNS can take up to 48h on first setup. |
 | Asset 404 in prod but works locally | Likely a relative-path issue or case mismatch (Linux is case-sensitive, Windows isn't). Check the actual path on disk vs the markup. |
 | SoundCloud embed shows nothing | Check `[SWAP-SOUNDCLOUD]` — the placeholder URL `soundcloud.com/astromahri/madness` 404s until the track is uploaded under that slug. |
-| Notion form doesn't open | The `[SWAP-NOTION-FORM-URL]` `href` is still the placeholder. Replace with the published form URL. |
+| Form says "Could not save that" | The function reached Notion and Notion refused. Netlify → Functions → `lead-website` logs show the status. A **404 means the integration was never shared with the Fan Leads database** — share it, then resubmit. |
+| Form says "Server not configured" | `NOTION_TOKEN` or `FAN_LEADS_DB_ID` is missing from the Netlify environment. |
+| Lead saved but `Source` is empty | Should be impossible — the tag is a literal in the endpoint, never read from the request. If you see it, the row was created by something other than these functions. |
 
 ---
 

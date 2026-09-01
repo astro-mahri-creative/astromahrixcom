@@ -9,10 +9,6 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
 
-# ============================================================
-#  APPEND THIS BLOCK TO astromahrixcom/netlify.toml
-# ============================================================
-
 # ---- serverless functions ----
 # The site stays static. These two endpoints are the only server-side code,
 # and they exist because the Notion Source tag has to be set somewhere the
