@@ -150,7 +150,7 @@ form{display:flex;flex-direction:column;gap:14px}
 
 /* Honeypot. Hidden from humans, reachable by naive bots. Not display:none --
    some bots skip those; this is off-screen but still in the layout tree. */
-.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.hp{display:none}
 
 .formnote{font-size:12.5px;color:var(--muted);opacity:.85}
 
@@ -250,8 +250,8 @@ footer{
 
       <!-- Honeypot: hidden from humans, tempting to bots. -->
       <div class="hp" aria-hidden="true">
-        <label for="company">Company</label>
-        <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+        <label for="subject_ref">Leave this field blank</label>
+        <input id="subject_ref" name="subject_ref" type="text" tabindex="-1" autocomplete="off" />
       </div>
 
       <button class="btn btn-solid" type="submit" id="submitBtn">&#9654; Send it over</button>
@@ -330,7 +330,7 @@ footer{
         name: name,
         email: email,
         note: document.getElementById('note').value.trim(),
-        company: document.getElementById('company').value,
+        subject_ref: document.getElementById('subject_ref').value,
         t: loadedAt
         // No source field. The endpoint decides it, server-side.
       })

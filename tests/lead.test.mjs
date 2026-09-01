@@ -135,13 +135,26 @@ check('GET rejected 405', r.status === 405);
 realLog('\nSPAM GATES');
 
 captured = null;
-r = await post(website, { name: 'Bot', email: 'b@example.com', company: 'ACME', t: older() });
+r = await post(website, { name: 'Bot', email: 'b@example.com', subject_ref: 'ACME', t: older() });
 check('honeypot blocks the write', captured === null);
 check('honeypot still returns 200 (bots learn nothing)', r.status === 200);
+
+// The old honeypot was named `company`, which browsers autofill. Anything
+// still posting that field is a stale cached page, not a bot -- and its
+// sender is a real person whose lead must not be thrown away.
+captured = null;
+await post(website, { name: 'Ada', email: 'ada@example.com', company: 'ACME Corp', t: older() });
+check('legacy `company` field no longer trips the honeypot', captured !== null);
 
 captured = null;
 r = await post(website, { name: 'Bot', email: 'b@example.com', t: Date.now() });
 check('sub-2s submission blocked', captured === null);
+
+// A visitor whose device clock runs fast produces a NEGATIVE elapsed. That is
+// not evidence of speed, and dropping it silently loses a real lead.
+captured = null;
+await post(website, { name: 'Skewed', email: 'skew@example.com', t: Date.now() + 600000 });
+check('clock skew (future timestamp) still saves the lead', captured !== null);
 
 captured = null;
 await post(website, { name: 'Ada', email: 'ada@example.com' });

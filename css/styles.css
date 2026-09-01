@@ -641,70 +641,6 @@ footer .big{font-family:var(--display);font-weight:900;font-size:clamp(34px,8vw,
 }
 
 /* ==== Contact form (lead capture -> /api/lead/website) ==== */
-  block into css/styles.css.
-
-  Posts to /api/lead/website, which tags Source="website"
-  SERVER-SIDE. Nothing here sets or sends a source value.
-================================================================
--->
-
-<section id="contact">
-  <div class="contact-head reveal">
-    <div class="label" style="justify-content:center">// OPEN A CHANNEL</div>
-    <h2>Send a transmission</h2>
-    <p>Booking, collabs, press, lore &mdash; drop a signal and I&rsquo;ll get back.</p>
-  </div>
-
-  <div class="contact-form-wrap reveal d1">
-    <div class="status" id="status" role="alert" aria-live="assertive"></div>
-
-    <form id="leadForm" novalidate>
-      <div class="field" id="f-name">
-        <label for="name">Your name</label>
-        <input id="name" name="name" type="text" autocomplete="name"
-               maxlength="100" required placeholder="Who&rsquo;s transmitting?" />
-        <span class="err" id="e-name"></span>
-      </div>
-
-      <div class="field" id="f-email">
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" autocomplete="email"
-               inputmode="email" maxlength="254" required placeholder="you@example.com" />
-        <span class="err" id="e-email"></span>
-      </div>
-
-      <div class="field" id="f-note">
-        <label for="note">Message <span class="opt">(optional)</span></label>
-        <textarea id="note" name="note" maxlength="2000"
-                  placeholder="Booking, a collab, press, or just saying what&rsquo;s up&hellip;"></textarea>
-        <span class="err" id="e-note"></span>
-      </div>
-
-      <!-- Honeypot: hidden from humans, tempting to bots. -->
-      <div class="hp" aria-hidden="true">
-        <label for="company">Company</label>
-        <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
-      </div>
-
-      <button class="btn btn-solid contact-btn" type="submit" id="submitBtn">
-        &#9654; Send transmission
-      </button>
-      <p class="contact-note">Routes straight to my ops deck. No list, no spam.</p>
-    </form>
-
-    <div class="done" id="done">
-      <div class="tick" aria-hidden="true">&#10003;</div>
-      <h3>Transmission received.</h3>
-      <p>It landed on my ops deck. I read everything that comes through here &mdash; expect a reply.</p>
-    </div>
-  </div>
-</section>
-
-
-<!-- ============================================================
-     ADD TO css/styles.css
-     ============================================================ -->
-<style>
 .contact-form-wrap{max-width:520px;margin:0 auto;width:100%}
 #contact form{display:flex;flex-direction:column;gap:14px}
 #contact .field{display:flex;flex-direction:column;gap:6px;text-align:left}
@@ -728,8 +664,10 @@ footer .big{font-family:var(--display);font-weight:900;font-size:clamp(34px,8vw,
 #contact .err{font-size:12.5px;color:var(--magenta)}
 #contact .btn[disabled]{opacity:.55;cursor:progress;transform:none;box-shadow:none}
 
-/* Honeypot: off-screen rather than display:none, which some bots skip. */
-#contact .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+/* Honeypot. display:none, NOT off-screen: browsers and password managers
+   autofill an off-screen field, and an autofilled honeypot silently discards
+   a real submission. Simple spam bots do not evaluate CSS, so they still bite. */
+#contact .hp{display:none}
 
 #contact .status{border-radius:10px;padding:14px 16px;font-size:14.5px;display:none;margin-bottom:16px;text-align:left}
 #contact .status.show{display:block}

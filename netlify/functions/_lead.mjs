@@ -94,14 +94,26 @@ export function makeLeadHandler(source) {
     // Honeypot: a field hidden from humans. Anything filling it is automated.
     // Returns 200 so a bot cannot distinguish rejection from success and
     // start probing for the check.
-    if (clean(payload.company, 200)) {
+    // The field is `subject_ref`, deliberately outside the autocomplete
+    // vocabulary. It used to be `company`, which browsers and password
+    // managers autofilled -- tripping this gate on real people and discarding
+    // their submissions behind a success message. Do not name it after
+    // anything a browser knows how to fill.
+    if (clean(payload.subject_ref, 200)) {
       console.warn(`[lead] honeypot tripped source=${source} ip=${ip}`);
       return json(200, { ok: true });
     }
 
     // Humans do not complete a three-field form in under two seconds.
+    //
+    // `t` is stamped by the VISITOR's clock and compared against ours, so a
+    // device running fast yields a negative elapsed -- which is also < 2000.
+    // Treating that as "too fast" silently discarded the leads of anyone whose
+    // clock was off. A negative value tells us nothing about how long they
+    // spent, so it is not evidence of a bot: only a real, positive, implausibly
+    // short duration is.
     const elapsed = Number(payload.t) ? Date.now() - Number(payload.t) : null;
-    if (elapsed !== null && elapsed < 2000) {
+    if (elapsed !== null && elapsed >= 0 && elapsed < 2000) {
       console.warn(`[lead] too fast (${elapsed}ms) source=${source} ip=${ip}`);
       return json(200, { ok: true });
     }
