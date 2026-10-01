@@ -200,20 +200,20 @@ footer{
   </a>
 
   <header>
-    <div class="label">Signal exchange</div>
+    <div class="label">Signal Exchange</div>
     <h1>LET&rsquo;S <span class="glow">CONNECT</span></h1>
     <p class="lede">Good to meet you. Take my card, leave yours, or both &mdash; whatever is useful.</p>
   </header>
 
   <!-- ============ 1. SAVE MY CONTACT ============ -->
   <section class="card">
-    <h2>Save my contact</h2>
+    <h2>Save My Contact</h2>
     <p>Adds me straight to your phone. No app, no signup.</p>
     <!-- Plain link, no `download` attribute: on iOS this opens the native
          "Add Contact" sheet directly, which is the behaviour you want off an
          NFC tap. Netlify serves it as text/vcard via netlify.toml. -->
     <a class="btn btn-solid" href="astro-mahri.vcf" type="text/vcard">
-      &#11015; Save my contact
+      &#11015; Save My Contact
     </a>
   </section>
 
@@ -254,14 +254,14 @@ footer{
         <input id="subject_ref" name="subject_ref" type="text" tabindex="-1" autocomplete="off" />
       </div>
 
-      <button class="btn btn-solid" type="submit" id="submitBtn">&#9654; Send it over</button>
+      <button class="btn btn-solid" type="submit" id="submitBtn">&#9654; Send It</button>
       <p class="formnote">Goes straight to my ops deck. No list, no spam &mdash; I just want to remember you.</p>
     </form>
 
     <div class="done" id="done">
       <div class="tick" aria-hidden="true">&#10003;</div>
       <h3>Got you.</h3>
-      <p>Good to meet you for real. I&rsquo;ll be in touch &mdash; and now you have my card too.</p>
+      <p>Appreciate you for real. I&rsquo;ll be in touch &mdash; and now you have my card too (hopefully).</p>
     </div>
   </section>
 
@@ -276,7 +276,7 @@ footer{
     </div>
   </section>
 
-  <footer>// Signal from Durham, NC &middot; &copy; 2026 Astro Mahri</footer>
+  <footer>// Transmission Origin &middot; Durham, NC &middot; &copy; 2026 Astro Mahri</footer>
 
 </div>
 
@@ -313,10 +313,10 @@ footer{
     var email = document.getElementById('email').value.trim();
 
     var bad = false;
-    if (!name) { setError('name', 'I need a name.'); bad = true; }
-    if (!email) { setError('email', 'I need an email.'); bad = true; }
+    if (!name) { setError('name', 'Your name goes here.'); bad = true; }
+    if (!email) { setError('email', 'Email pleeeeease.'); bad = true; }
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-      setError('email', 'That does not look like an email address.'); bad = true;
+      setError('email', 'Hmmm that don\'t look like an email address.'); bad = true;
     }
     if (bad) return;
 
@@ -347,7 +347,7 @@ footer{
           return;
         }
         btn.disabled = false;
-        btn.innerHTML = '&#9654; Send it over';
+        btn.innerHTML = '&#9654; Send It';
 
         if (res.status === 400 && res.body.fields) {
           Object.keys(res.body.fields).forEach(function (f) { setError(f, res.body.fields[f]); });
@@ -358,11 +358,11 @@ footer{
           status.textContent = res.body.error || 'Too many tries. Give it a minute.';
           return;
         }
-        fail(res.body.error || 'Something broke on my end.');
+        fail(res.body.error || 'Mah bad. Something broke on my end.');
       })
       .catch(function () {
         btn.disabled = false;
-        btn.innerHTML = '&#9654; Send it over';
+        btn.innerHTML = '&#9654; Send It';
         fail('Could not reach the server.');
       });
   });
