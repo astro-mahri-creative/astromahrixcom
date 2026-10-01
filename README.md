@@ -43,7 +43,7 @@ astromahrixcom/
 │   ├── branding/           # logo mark + wordmark (SVG)
 │   ├── press/              # logo PNGs for press, light + dark variants
 │   └── images/             # the 5 photos + cover art (see below)
-├── press-kit/
+├── press/
 │   └── index.html          # digital press kit — unlinked, noindex, share by hand
 ├── connect/
 │   ├── index.html          # NFC tag destination — self-contained, do not move
@@ -113,7 +113,7 @@ All colors live as CSS variables at the top of `css/styles.css` (`:root`). Chang
 
 ## Press kit
 
-`/press-kit/` is a digital press kit: bio (short and long, with copy buttons),
+`/press/` is a digital press kit: bio (short and long, with copy buttons),
 press photos and logos to download, music, and booking contact.
 
 It is **unlinked on purpose**. Nothing on the site points to it, it carries
@@ -123,9 +123,9 @@ advertises the path and doesn't stop indexing.)
 
 **Spin up a version for one show or appearance:**
 
-1. Copy the folder: `press-kit/` → `press-kit/<event-slug>/`
+1. Copy the folder: `press/` → `press/<event-slug>/`
 2. In the copy, uncomment the `APPEARANCE` block near the top and fill it in.
-3. Push. It's live at `astromahri.com/press-kit/<event-slug>/`.
+3. Push. It's live at `astromahri.com/press/<event-slug>/`.
 
 Every asset path is root-absolute (`/assets/...`), so a copy works at any
 folder depth without touching a link. Optional sections — press quotes,
