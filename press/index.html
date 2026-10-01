@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ASTRO MAHRI // PRESS KIT</title>
+<meta name="description" content="Press kit for Astro Mahri — bio, press photos, logos, music and contact." />
+<meta name="robots" content="noindex, nofollow" />
+
+<link rel="icon" type="image/svg+xml" href="/assets/branding/logo-icon.svg" />
+
+<meta property="og:title" content="ASTRO MAHRI // Press Kit" />
+<meta property="og:description" content="Bio, press photos, logos, music and booking contact." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://astromahri.com/press/" />
+<meta property="og:image" content="https://astromahri.com/assets/images/hero-portrait.jpg" />
+
+<!--
+================================================================
+  ASTRO MAHRI - /press   (digital press kit)
+
+  UNLINKED ON PURPOSE. Nothing on the site points here, it is
+  noindex, and it is not in sitemap.xml. It reaches people only
+  when you send the link -- to press, or alongside a show.
+  Do not add it to robots.txt either: a Disallow line would
+  advertise the path and would not stop indexing anyway.
+
+  SPIN UP A VERSION FOR ONE APPEARANCE
+    1. Copy this folder:  press/  ->  press/<event-slug>/
+    2. Uncomment the APPEARANCE block below and fill it in.
+    3. Push. Live at astromahri.com/press/<event-slug>/
+  Every asset path is root-absolute (/assets/...), so a copy
+  works at any folder depth without editing a single link.
+
+  OPTIONAL SECTIONS (press quotes, selected appearances, stage &
+  tech) are commented out until there is something true to put
+  in them. An empty section reads worse to press than none.
+
+  Self-contained like /connect and the 404: its own <style>,
+  no shared CSS, nothing to break if the main stylesheet changes.
+================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800;900&family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --void:#05030d; --deep:#0a0820; --panel:#0f0b26; --ink:#16113a;
+  --gold:#ffc857; --magenta:#ff3d9a; --cyan:#5be9ff; --violet:#8a6bff;
+  --text:#efeaff; --muted:#9a93c8; --faint:#6b6396;
+  --line:rgba(138,107,255,.22);
+  --display:'Unbounded', ui-sans-serif, system-ui, sans-serif;
+  --mono:'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --body:'Sora', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--void);color:var(--text);font-family:var(--body);
+  font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased;
+  padding:clamp(24px,5vw,56px) clamp(16px,4.5vw,40px) clamp(56px,9vw,96px);
+}
+::selection{background:var(--magenta);color:#fff}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+
+#space,#grain,#scanlines{position:fixed;inset:0;pointer-events:none}
+#space{z-index:-3;background:
+  radial-gradient(110% 70% at 85% -10%, rgba(138,107,255,.18), transparent 55%),
+  radial-gradient(80% 55% at 0% 20%, rgba(255,61,154,.10), transparent 52%),
+  linear-gradient(180deg,#05030d 0%, #0a0820 50%, #07050f 100%);}
+#grain{z-index:-1;opacity:.11;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+#scanlines{z-index:-1;mix-blend-mode:overlay;
+  background:repeating-linear-gradient(0deg, rgba(255,255,255,.02) 0 1px, transparent 1px 3px);}
+
+.wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:clamp(44px,7vw,72px)}
+
+/* ---------- shared ---------- */
+.label{
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--gold);
+  display:flex;align-items:center;gap:12px;margin-bottom:20px;
+}
+.label::after{content:"";flex:1;height:1px;background:var(--line)}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(22px,3.4vw,32px);
+   line-height:1.08;letter-spacing:-.01em;text-transform:uppercase;text-wrap:balance}
+.lede{color:var(--muted);max-width:62ch}
+.chip{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;text-decoration:none;
+  padding:8px 12px;border:1px solid var(--line);border-radius:2px;
+  color:var(--text);background:rgba(15,11,38,.6);
+  transition:border-color .18s,color .18s,background .18s;
+}
+.chip:hover{border-color:var(--gold);color:var(--gold)}
+.chip.solid{background:var(--gold);color:#120b02;border-color:var(--gold)}
+.chip.solid:hover{background:#ffd47a;color:#120b02}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+
+/* ---------- masthead ---------- */
+.mast{display:flex;flex-direction:column;gap:22px;border-bottom:1px solid var(--line);padding-bottom:clamp(28px,4vw,40px)}
+.mast-top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.wordmark{height:clamp(46px,7vw,68px);width:auto;display:block}
+.wm-print{display:none}
+.doc-tag{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);
+  border:1px solid var(--line);padding:6px 10px;border-radius:2px}
+.mast h1{
+  font-family:var(--display);font-weight:900;font-size:clamp(34px,7vw,64px);
+  line-height:.95;letter-spacing:-.02em;text-transform:uppercase;
+  text-shadow:-1px 0 0 rgba(91,233,255,.35),1px 0 0 rgba(255,61,154,.35);
+}
+.mast h1 span{color:var(--gold)}
+.mast .descriptor{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+.appearance{
+  border:1px solid rgba(255,200,87,.4);border-left:3px solid var(--gold);
+  background:rgba(255,200,87,.06);padding:14px 16px;border-radius:2px;
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;color:var(--text);
+}
+.appearance b{color:var(--gold);font-weight:700}
+
+/* ---------- facts ---------- */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1px;background:var(--line);border:1px solid var(--line);border-radius:2px;overflow:hidden}
+.fact{background:var(--panel);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.fact dt{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+.fact dd{font-size:14.5px;color:var(--text);font-variant-numeric:tabular-nums}
+.fact dd a{text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.fact dd a:hover{text-decoration-color:var(--gold)}
+
+/* ---------- bio ---------- */
+.bio{display:flex;flex-direction:column;gap:22px}
+.bio-block{background:linear-gradient(180deg,var(--panel),rgba(10,8,32,.7));
+  border:1px solid var(--line);border-radius:2px;padding:clamp(16px,3vw,24px)}
+.bio-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.bio-head span{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.bio-text p{max-width:66ch}
+.bio-text p + p{margin-top:12px}
+.copy-btn{
+  display:none;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.14em;
+  text-transform:uppercase;background:transparent;color:var(--cyan);
+  border:1px solid rgba(91,233,255,.35);padding:6px 10px;border-radius:2px;cursor:pointer;
+}
+.js .copy-btn{display:inline-block}
+.copy-btn:hover{background:rgba(91,233,255,.08)}
+
+/* ---------- releases ---------- */
+.releases{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.release{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:start;
+  border:1px solid var(--line);border-radius:2px;padding:14px;background:rgba(15,11,38,.55)}
+.release img{width:96px;height:96px;object-fit:cover;display:block;border-radius:1px}
+.release .ph{width:96px;height:96px;display:grid;place-items:center;
+  border:1px dashed var(--line);font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase}
+.release h3{font-family:var(--display);font-weight:600;font-size:17px;line-height:1.15}
+.release .meta{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:5px 0 10px}
+
+/* ---------- photos ---------- */
+.photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.photo{display:flex;flex-direction:column;gap:10px}
+.photo .frame{position:relative;border:1px solid var(--line);border-radius:2px;overflow:hidden;background:var(--ink)}
+.photo .frame::after{content:"";position:absolute;inset:0;
+  box-shadow:inset 0 0 0 1px rgba(255,200,87,.08);pointer-events:none}
+.photo img{width:100%;height:260px;object-fit:cover;display:block}
+.photo .cap{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.photo .cap b{font-weight:600;font-size:14px}
+.photo .cap span{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--faint)}
+.credit{font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.06em}
+
+/* ---------- projects ---------- */
+.projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.project{border:1px solid var(--line);border-radius:2px;overflow:hidden;background:rgba(15,11,38,.55);display:flex;flex-direction:column}
+.project img{width:100%;height:170px;object-fit:cover;display:block}
+.project-body{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.project h3{font-family:var(--display);font-weight:600;font-size:17px}
+.project .role{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.project p{color:var(--muted);font-size:14px}
+.project .chips{margin-top:auto;padding-top:6px}
+
+/* ---------- quotes / appearances (optional) ---------- */
+.quotes{display:grid;gap:14px}
+.quote{border-left:2px solid var(--magenta);padding:4px 0 4px 16px}
+.quote p{font-size:16px}
+.quote cite{display:block;margin-top:6px;font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.list{list-style:none;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:2px;overflow:hidden}
+.list li{background:var(--panel);padding:12px 16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.list li span{font-family:var(--mono);font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* ---------- logos ---------- */
+.logos{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.logo{border:1px solid var(--line);border-radius:2px;overflow:hidden;display:flex;flex-direction:column}
+.swatch{height:120px;display:grid;place-items:center;padding:18px}
+.swatch.on-dark{background:#0b0818}
+.swatch.on-light{background:#f2eee4}
+.swatch img{max-height:72px;max-width:100%;width:auto;display:block}
+.logo-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;background:var(--panel)}
+.logo-foot span{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--muted)}
+.logo-foot a{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+.logo-foot a:hover{text-decoration:underline;text-underline-offset:3px}
+.vector-note{margin-top:12px;font-size:13px;color:var(--muted)}
+.vector-note a{color:var(--cyan)}
+
+/* ---------- contact ---------- */
+.contact{border:1px solid rgba(255,200,87,.35);border-radius:2px;padding:clamp(20px,4vw,30px);
+  background:linear-gradient(180deg,rgba(255,200,87,.05),rgba(15,11,38,.6));display:flex;flex-direction:column;gap:16px}
+.contact .email{font-family:var(--display);font-weight:600;font-size:clamp(17px,3vw,24px);word-break:break-all;color:var(--text);text-decoration:none}
+.contact .email:hover{color:var(--gold)}
+
+footer{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
+
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(20px);opacity:0;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--cyan);color:#05030d;padding:9px 14px;border-radius:2px;transition:opacity .2s,transform .2s;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:560px){
+  .release{grid-template-columns:72px 1fr}
+  .release img,.release .ph{width:72px;height:72px}
+  .photo img{height:220px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* ---------- print: press often saves this as a PDF ---------- */
+@media print{
+  :root{--text:#111;--muted:#444;--faint:#666;--line:#ccc;--panel:#fff;--gold:#7a5a00}
+  body{background:#fff;color:#111;padding:0}
+  #space,#grain,#scanlines,.copy-btn,.toast,.chip.solid{display:none!important}
+  /* Swap to the real dark wordmark: inverting a coloured PNG shifts its hues. */
+  .wm-screen{display:none!important}
+  .wm-print{display:block!important}
+  .mast h1{text-shadow:none}
+  .fact,.bio-block,.release,.project,.list li,.logo-foot,.contact{background:#fff!important}
+  .photo img{height:180px}
+  section{break-inside:avoid}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:9px;color:#666;word-break:break-all}
+}
+</style>
+</head>
+<body>
+
+<div id="space" aria-hidden="true"></div>
+<div id="grain" aria-hidden="true"></div>
+<div id="scanlines" aria-hidden="true"></div>
+
+<main class="wrap">
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="mast">
+    <div class="mast-top">
+      <img class="wordmark wm-screen" src="/assets/press/astro-mahri-wordmark-light.png" alt="Astro Mahri" width="3489" height="1616" />
+      <img class="wordmark wm-print" src="/assets/press/astro-mahri-wordmark-dark.png" alt="" width="3489" height="1616" />
+      <span class="doc-tag">Press kit &middot; Updated Oct 2026</span>
+    </div>
+
+    <!-- APPEARANCE — uncomment and fill when sharing this kit for a specific show or appearance:
+    <div class="appearance">Prepared for <b>EVENT NAME</b> &middot; <b>DATE</b> &middot; <b>VENUE, CITY</b></div>
+    -->
+
+    <h1>Astro <span>Mahri</span></h1>
+    <p class="descriptor">Alternative hip hop &middot; DJ &middot; Durham, NC</p>
+  </header>
+
+  <!-- ============ AT A GLANCE ============ -->
+  <section aria-labelledby="glance-h">
+    <div class="label" id="glance-h">At a glance</div>
+    <dl class="facts">
+      <div class="fact"><dt>Based</dt><dd>Durham, North Carolina</dd></div>
+      <div class="fact"><dt>Genre</dt><dd>Alternative hip hop</dd></div>
+      <div class="fact"><dt>New single</dt><dd>&ldquo;Madness&rdquo; &middot; 10.23.2026</dd></div>
+      <div class="fact"><dt>Album</dt><dd><i>Unboxxxed</i> &middot; November 2026</dd></div>
+      <div class="fact"><dt>Also</dt><dd>DJ &middot; Lore Con &middot; Future Hooman</dd></div>
+      <div class="fact"><dt>Booking &amp; press</dt><dd><a href="mailto:astromahri@gmail.com">astromahri@gmail.com</a></dd></div>
+      <!-- PRONOUNS — press uses these in copy; uncomment and fill:
+      <div class="fact"><dt>Pronouns</dt><dd>PRONOUNS</dd></div>
+      -->
+    </dl>
+  </section>
+
+  <!-- ============ BIO ============ -->
+  <section class="bio" aria-labelledby="bio-h">
+    <div class="label" id="bio-h">Bio</div>
+
+    <div class="bio-block">
+      <div class="bio-head">
+        <span>Short &middot; ~60 words</span>
+        <button class="copy-btn" type="button" data-copy="bio-short">Copy</button>
+      </div>
+      <div class="bio-text" id="bio-short">
+        <p>Astro Mahri is an independent alternative hip hop artist and DJ based in Durham, North Carolina. The debut single &ldquo;Madness&rdquo; arrives October 23, 2026, ahead of the full-length album <i>Unboxxxed</i> in November. Off the mic, Astro Mahri leads operations and art curation for Lore Con, and wrote, designed and directed the interactive mystery at the heart of Future Hooman.</p>
+      </div>
+    </div>
+
+    <div class="bio-block">
+      <div class="bio-head">
+        <span>Long &middot; ~150 words</span>
+        <button class="copy-btn" type="button" data-copy="bio-long">Copy</button>
+      </div>
+      <div class="bio-text" id="bio-long">
+        <p>Astro Mahri is an independent alternative hip hop artist and DJ out of Durham, North Carolina, making music that pulls from 90s hip hop, cartoon energy and science fiction &mdash; and treating every release as part of a larger world.</p>
+        <p>The debut single &ldquo;Madness&rdquo; arrives October 23, 2026, released direct through Bandcamp, SoundCloud and Qobuz rather than the major streaming platforms. It leads into the full-length album <i>Unboxxxed</i>, due in November 2026.</p>
+        <p>Behind the decks, Astro Mahri plays dance parties, raves and festivals, and puts out dance edits for other DJs to spin. The work reaches past music: Astro Mahri leads operations and art curation for Lore Con, and wrote, designed and directed the deep interactive mystery at the center of Future Hooman, an immersive art gallery.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MUSIC ============ -->
+  <section aria-labelledby="music-h">
+    <div class="label" id="music-h">Music</div>
+    <div class="releases">
+      <article class="release">
+        <img src="/assets/images/cover-art.jpg" alt="Madness single cover art: magenta cloud burst on a starfield" width="1500" height="1500" loading="lazy" />
+        <div>
+          <h3>Madness</h3>
+          <div class="meta">Debut single &middot; 10.23.2026</div>
+          <div class="chips">
+            <a class="chip" href="https://astromahri.bandcamp.com/" target="_blank" rel="noopener">Bandcamp</a>
+            <a class="chip" href="https://soundcloud.com/astromahri" target="_blank" rel="noopener">SoundCloud</a>
+            <!-- On release day, add the Qobuz release page:
+            <a class="chip" href="QOBUZ_URL" target="_blank" rel="noopener">Qobuz</a>
+            -->
+          </div>
+        </div>
+      </article>
+      <article class="release">
+        <div class="ph" aria-hidden="true">Nov &rsquo;26</div>
+        <div>
+          <h3>Unboxxxed</h3>
+          <div class="meta">Album &middot; November 2026</div>
+          <p class="lede" style="font-size:13.5px">Full-length. Details to follow.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ PRESS PHOTOS ============ -->
+  <section aria-labelledby="photos-h">
+    <div class="label" id="photos-h">Press photos</div>
+    <div class="photos">
+      <figure class="photo">
+        <div class="frame"><img src="/assets/images/hero-portrait.jpg" alt="Astro Mahri in a shark print shirt and gold chains, looking down" width="1365" height="2048" loading="lazy" style="object-position:center 12%" /></div>
+        <figcaption class="cap"><b>Portrait</b><span>1365 &times; 2048 &middot; JPG</span></figcaption>
+        <a class="chip" href="/assets/images/hero-portrait.jpg" download="astro-mahri-portrait.jpg">&#11015; Download</a>
+        <!-- <span class="credit">Photo: PHOTOGRAPHER NAME</span> -->
+      </figure>
+      <figure class="photo">
+        <div class="frame"><img src="/assets/images/performance.jpg" alt="Astro Mahri seated in a field in a varsity jacket, graded magenta and purple" width="2048" height="1365" loading="lazy" /></div>
+        <figcaption class="cap"><b>In the field</b><span>2048 &times; 1365 &middot; JPG</span></figcaption>
+        <a class="chip" href="/assets/images/performance.jpg" download="astro-mahri-field.jpg">&#11015; Download</a>
+        <!-- <span class="credit">Photo: PHOTOGRAPHER NAME</span> -->
+      </figure>
+      <figure class="photo">
+        <div class="frame"><img src="/assets/images/cover-art.jpg" alt="Madness cover art" width="1500" height="1500" loading="lazy" /></div>
+        <figcaption class="cap"><b>&ldquo;Madness&rdquo; artwork</b><span>1500 &times; 1500 &middot; JPG</span></figcaption>
+        <a class="chip" href="/assets/images/cover-art.jpg" download="astro-mahri-madness-cover.jpg">&#11015; Download</a>
+        <!-- <span class="credit">Artwork: ARTIST NAME</span> -->
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section aria-labelledby="proj-h">
+    <div class="label" id="proj-h">Beyond the music</div>
+    <div class="projects">
+      <article class="project">
+        <img src="/assets/images/future-hooman.jpg" alt="Astro Mahri at a microphone in front of a wall of CRT monitors" width="1920" height="1080" loading="lazy" />
+        <div class="project-body">
+          <h3>Future Hooman</h3>
+          <div class="role">Writer, designer &amp; director</div>
+          <p>An outrageous art gallery featuring a deep interactive mystery &mdash; written, designed and directed by Astro Mahri.</p>
+          <div class="chips"><a class="chip" href="https://www.futurehooman.com/" target="_blank" rel="noopener">futurehooman.com</a></div>
+        </div>
+      </article>
+      <article class="project">
+        <img src="/assets/images/lore-con.jpg" alt="Lore Con character art and wordmark on a dark violet backdrop" width="1500" height="1500" loading="lazy" />
+        <div class="project-body">
+          <h3>Lore Con</h3>
+          <div class="role">Operations director &middot; art curation</div>
+          <p>An ultra-cultural convention where the passions of our people reunite and reconnect.</p>
+          <div class="chips"><a class="chip" href="https://loreconvention.com/" target="_blank" rel="noopener">loreconvention.com</a></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ PRESS QUOTES (optional) ============
+  <section aria-labelledby="quotes-h">
+    <div class="label" id="quotes-h">Press</div>
+    <div class="quotes">
+      <blockquote class="quote">
+        <p>&ldquo;QUOTE.&rdquo;</p>
+        <cite>Publication &middot; Writer</cite>
+      </blockquote>
+    </div>
+  </section>
+  -->
+
+  <!-- ============ SELECTED APPEARANCES (optional) ============
+  <section aria-labelledby="shows-h">
+    <div class="label" id="shows-h">Selected appearances</div>
+    <ul class="list">
+      <li><b>EVENT</b><span>VENUE, CITY &middot; YEAR</span></li>
+    </ul>
+  </section>
+  -->
+
+  <!-- ============ STAGE & TECH (optional — useful for a show) ============
+  <section aria-labelledby="tech-h">
+    <div class="label" id="tech-h">Stage &amp; tech</div>
+    <ul class="list">
+      <li><b>Set length</b><span>MINUTES</span></li>
+      <li><b>DJ setup</b><span>e.g. 2x CDJ + mixer</span></li>
+      <li><b>Mics</b><span>e.g. 1x wireless vocal</span></li>
+    </ul>
+  </section>
+  -->
+
+  <!-- ============ LOGOS ============ -->
+  <section aria-labelledby="logos-h">
+    <div class="label" id="logos-h">Logos</div>
+    <div class="logos">
+      <figure class="logo">
+        <div class="swatch on-dark"><img src="/assets/press/astro-mahri-wordmark-light.png" alt="Wordmark, light version" width="3489" height="1616" loading="lazy" /></div>
+        <figcaption class="logo-foot"><span>Wordmark &middot; for dark</span><a href="/assets/press/astro-mahri-wordmark-light.png" download>PNG</a></figcaption>
+      </figure>
+      <figure class="logo">
+        <div class="swatch on-light"><img src="/assets/press/astro-mahri-wordmark-dark.png" alt="Wordmark, dark version" width="3489" height="1616" loading="lazy" /></div>
+        <figcaption class="logo-foot"><span>Wordmark &middot; for light</span><a href="/assets/press/astro-mahri-wordmark-dark.png" download>PNG</a></figcaption>
+      </figure>
+      <figure class="logo">
+        <div class="swatch on-dark"><img src="/assets/press/astro-mahri-icon-light.png" alt="Icon, light version" width="1335" height="1335" loading="lazy" /></div>
+        <figcaption class="logo-foot"><span>Icon &middot; for dark</span><a href="/assets/press/astro-mahri-icon-light.png" download>PNG</a></figcaption>
+      </figure>
+      <figure class="logo">
+        <div class="swatch on-light"><img src="/assets/press/astro-mahri-icon-dark.png" alt="Icon, dark version" width="1335" height="1335" loading="lazy" /></div>
+        <figcaption class="logo-foot"><span>Icon &middot; for light</span><a href="/assets/press/astro-mahri-icon-dark.png" download>PNG</a></figcaption>
+      </figure>
+    </div>
+    <p class="vector-note">Vector versions: <a href="/assets/branding/logo-text.svg" download="astro-mahri-wordmark.svg">wordmark SVG</a> &middot; <a href="/assets/branding/logo-icon.svg" download="astro-mahri-icon.svg">icon SVG</a></p>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="contact" aria-labelledby="contact-h">
+    <div class="label" id="contact-h" style="margin-bottom:0">Booking &amp; press</div>
+    <a class="email" href="mailto:astromahri@gmail.com">astromahri@gmail.com</a>
+    <div class="chips">
+      <a class="chip solid" href="mailto:astromahri@gmail.com?subject=Press%20inquiry%20%E2%80%94%20Astro%20Mahri">Press inquiry</a>
+      <a class="chip solid" href="mailto:astromahri@gmail.com?subject=Booking%20inquiry%20%E2%80%94%20Astro%20Mahri">Booking inquiry</a>
+    </div>
+    <div class="chips">
+      <a class="chip" href="https://astromahri.com/" target="_blank" rel="noopener">astromahri.com</a>
+      <a class="chip" href="https://bsky.app/profile/astromahri.space" target="_blank" rel="noopener">Bluesky</a>
+      <a class="chip" href="https://www.instagram.com/astromahri/" target="_blank" rel="noopener">Instagram</a>
+      <a class="chip" href="https://soundcloud.com/astromahri" target="_blank" rel="noopener">SoundCloud</a>
+      <a class="chip" href="https://astromahri.bandcamp.com/" target="_blank" rel="noopener">Bandcamp</a>
+    </div>
+  </section>
+
+  <footer>
+    <span>// Transmission Origin &middot; Durham, NC</span>
+    <span>&copy; 2026 Astro Mahri</span>
+  </footer>
+
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  // Copy buttons are progressive: hidden without JS, shown with it.
+  document.documentElement.classList.add('js');
+  var toast = document.getElementById('toast'), t;
+  function say(msg) {
+    toast.textContent = msg; toast.classList.add('show');
+    clearTimeout(t); t = setTimeout(function () { toast.classList.remove('show'); }, 1800);
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function (btn) {
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.getAttribute('data-copy'));
+      // Paragraphs separated by a blank line, so it pastes cleanly into a doc or email.
+      var text = Array.prototype.map.call(el.querySelectorAll('p'), function (p) {
+        return p.textContent.replace(/\s+/g, ' ').trim();
+      }).join('\n\n');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { say('Bio copied'); }, function () { select(el); });
+      } else { select(el); }
+    });
+  });
+  function select(el) {
+    var r = document.createRange(); r.selectNodeContents(el);
+    var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    say('Selected — press Ctrl/Cmd+C');
+  }
+})();
+</script>
+</body>
+</html>

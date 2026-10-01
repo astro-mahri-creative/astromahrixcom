@@ -41,7 +41,10 @@ astromahrixcom/
 │   └── main.js             # starfield, parallax, scroll reveals
 ├── assets/
 │   ├── branding/           # logo mark + wordmark (SVG)
+│   ├── press/              # logo PNGs for press, light + dark variants
 │   └── images/             # the 5 photos + cover art (see below)
+├── press/
+│   └── index.html          # digital press kit — unlinked, noindex, share by hand
 ├── connect/
 │   ├── index.html          # NFC tag destination — self-contained, do not move
 │   └── astro-mahri.vcf     # contact card
@@ -105,6 +108,29 @@ it always looks intentional.
 
 All colors live as CSS variables at the top of `css/styles.css` (`:root`). Change
 `--gold`, `--magenta`, `--cyan`, etc. once and the whole site follows.
+
+---
+
+## Press kit
+
+`/press/` is a digital press kit: bio (short and long, with copy buttons),
+press photos and logos to download, music, and booking contact.
+
+It is **unlinked on purpose**. Nothing on the site points to it, it carries
+`noindex`, and it is not in `sitemap.xml`. People reach it only when you
+send the link. (Don't add it to `robots.txt` either — a `Disallow` line
+advertises the path and doesn't stop indexing.)
+
+**Spin up a version for one show or appearance:**
+
+1. Copy the folder: `press/` → `press/<event-slug>/`
+2. In the copy, uncomment the `APPEARANCE` block near the top and fill it in.
+3. Push. It's live at `astromahri.com/press/<event-slug>/`.
+
+Every asset path is root-absolute (`/assets/...`), so a copy works at any
+folder depth without touching a link. Optional sections — press quotes,
+selected appearances, stage & tech — are commented out until there is
+something true to put in them.
 
 ---
 
