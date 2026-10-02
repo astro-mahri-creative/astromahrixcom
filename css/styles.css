@@ -457,37 +457,24 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
   border:1px solid var(--line);
   /* taller tiles let the photo read as a scene, not a header band */
   min-height:clamp(640px, 75vh, 760px);
-  /* dark plate is the LOWER THIRD of the tile; photo dominates the upper 2/3 */
-  --plate-h: 33%;
-  /* approximate tab height, used to pad title content below the tab inside the plate */
-  --tab-h: 50px;
+  /* Minimum depth of the dark plate across the bottom; the photo dominates
+     above it. The plate grows past this when a description needs more lines,
+     and the seam, accent line and veil all follow it, so no viewport needs
+     its own percentage. */
+  --plate-h: 37%;
   transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s;
 }
 .portal:hover{transform:translateY(-8px);box-shadow:0 40px 90px rgba(0,0,0,.6)}
 .portal .photo{position:absolute;inset:0;border:none}
-/* veil: photo clear in upper 2/3, sharp transition to dark plate in lower 1/3 (at 67% from top) */
+/* veil: a light wash over the photo, nothing more. The plate paints itself
+   and fades itself in, so the transition always lands on the plate's real
+   top edge however tall it has grown. */
 .portal .pveil{
   position:absolute;inset:0;z-index:2;
   background:linear-gradient(180deg,
     rgba(5,3,13,.04) 0%,
-    rgba(5,3,13,.06) 64%,
-    rgba(5,3,13,.92) 68%,
-    rgba(5,3,13,.98) 100%);
+    rgba(5,3,13,.10) 100%);
 }
-/* thin gold/magenta accent line at the photo/plate seam (67% from top = 33% from bottom) */
-.portal::before{
-  content:'';position:absolute;left:0;right:0;
-  bottom:var(--plate-h);
-  height:1px;
-  background:linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold) 70%, transparent 100%);
-  opacity:.55;
-  z-index:3;
-  pointer-events:none;
-}
-.portal.lc::before{
-  background:linear-gradient(90deg, transparent 0%, var(--magenta) 30%, var(--magenta) 70%, transparent 100%);
-}
-
 /* ===== Vertical "instrumentation rail" replacing the kicker ===== */
 .portal-rail{
   position:absolute;z-index:4;
@@ -521,13 +508,37 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
     0 1px 4px rgba(5,3,13,.85);
 }
 
-/* ===== Title plate (h3 + p only) â€” sits in the lower 1/3 of the tile ===== */
+/* ===== Title plate (h3 + p + CTA) - sits at the bottom of the tile ===== */
 .portal-body{
   position:absolute;left:0;right:0;bottom:0;z-index:3;
-  height:var(--plate-h);
-  /* content stacks at top of plate; bottom padding reserves room for the CTA tab */
-  padding:clamp(20px, 2.2vw, 28px) clamp(24px, 3vw, 40px) calc(var(--tab-h) + clamp(24px, 2.5vw, 32px)) clamp(48px, 5.6vw, 72px);
+  /* Grows with the copy rather than being pinned to a percentage of the
+     tile. A fixed height is what forced the description to be clamped, and
+     the clamp cut the Lore Con line on phones and on desktop alike. */
+  min-height:var(--plate-h);
+  background:linear-gradient(180deg, rgba(5,3,13,.92) 0%, rgba(5,3,13,.98) 100%);
+  /* The CTA tab is the last item in here, so its height is reserved by the
+     layout. The old bottom padding guessed 50px for it; the Future Hooman
+     label wraps to 70px on a narrow phone and overlapped the description. */
+  padding:clamp(20px, 2.2vw, 28px) clamp(24px, 3vw, 40px) clamp(20px, 2.2vw, 28px) clamp(48px, 5.6vw, 72px);
   display:flex;flex-direction:column;justify-content:flex-start;
+}
+/* thin gold/magenta accent line on the plate's actual top edge */
+.portal-body::before{
+  content:'';position:absolute;left:0;right:0;top:0;
+  height:1px;
+  background:linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold) 70%, transparent 100%);
+  opacity:.55;
+  pointer-events:none;
+}
+.portal.lc .portal-body::before{
+  background:linear-gradient(90deg, transparent 0%, var(--magenta) 30%, var(--magenta) 70%, transparent 100%);
+}
+/* short fade immediately above the plate so the photo meets it softly */
+.portal-body::after{
+  content:'';position:absolute;left:0;right:0;bottom:100%;
+  height:30px;
+  background:linear-gradient(180deg, rgba(5,3,13,0) 0%, rgba(5,3,13,.92) 100%);
+  pointer-events:none;
 }
 .portal h3{
   font-family:var(--display);font-weight:800;font-size:clamp(20px,2.4vw,30px);text-transform:uppercase;
@@ -549,17 +560,20 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
 .portal p{
   color:var(--text);font-size:14px;font-weight:400;line-height:1.5;max-width:46ch;
   text-shadow:0 1px 8px rgba(5,3,13,.92);
-  /* clamp to 2 lines so it can't overflow the plate */
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  /* No line clamp. It was 2, and max-width:46ch means 2 lines hold about 92
+     characters at any viewport — the Lore Con line is 132, so it was cut on
+     phones and on desktop. The plate grows to fit instead. The bottom margin
+     is the minimum clear space above the CTA tab. */
+  margin:0 0 22px;
 }
 
-/* ===== Sci-fi tab CTA â€” sits at the photo/plate boundary, tethered by an accent line ===== */
+/* ===== Sci-fi tab CTA - last item in the plate, bottom right ===== */
 .portal-cta-tab{
-  position:absolute;z-index:4;
-  /* tab anchored to the BOTTOM of the body / tile â€” top of tab sits at where body content ends */
-  bottom:clamp(18px, 2.2vw, 28px);
-  top:auto;
-  right:clamp(20px, 3vw, 40px);
+  /* In the plate's flow, pushed to its bottom right. margin-top:auto keeps
+     the tab on the plate floor when there is slack; the 22px row gap keeps
+     it clear of the description when there is not. */
+  align-self:flex-end;
+  margin-top:auto;
   display:inline-flex;align-items:center;gap:14px;
   padding:14px 24px;
   background:rgba(5,3,13,.94);
