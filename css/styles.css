@@ -43,7 +43,7 @@ body{
     radial-gradient(120% 90% at 50% 110%, rgba(91,233,255,.12), transparent 55%),
     linear-gradient(180deg,#05030d 0%, #0a0820 45%, #07050f 100%);
 }
-#stars{position:fixed;inset:0;z-index:-2;display:block}
+#stars{position:fixed;inset:0;width:100%;height:100%;z-index:-2;display:block}
 /* film grain */
 #grain{
   position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.11;
@@ -158,7 +158,7 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
 .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--cyan);text-transform:uppercase;margin-bottom:22px}
 .hero h1{
   font-family:var(--display);font-weight:900;line-height:.92;text-transform:uppercase;
-  font-size:clamp(48px,9vw,132px);letter-spacing:-.01em;
+  font-size:clamp(min(48px, 11.8vw),9vw,132px);letter-spacing:-.01em;
   background:linear-gradient(180deg,#fff 0%, #efeaff 40%, var(--gold) 130%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
   /* chromatic split: cyan ghost left, magenta ghost right + the original gold glow */
@@ -649,13 +649,47 @@ footer .big{font-family:var(--display);font-weight:900;font-size:clamp(34px,8vw,
 .fineprint{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.12em}
 
 /* ============ RESPONSIVE ============ */
-@media(max-width:900px){
+
+/* The hero stacks well before the rest of the page does. Two columns need
+   roughly 1205px to fit: the h1 cannot wrap below the word MADNESS, which is
+   about 6.7x its font size (itself 9vw), the portrait will not go under
+   320px, and there is a 40px gap between them. Narrower than that the grid
+   overflowed and the figure was cut off at the right edge. */
+@media(max-width:1220px){
   .hero{grid-template-columns:1fr;gap:24px;text-align:left}
-  .hero-portrait{height:60vh;order:-1;margin-top:30px}
-  .release{grid-template-columns:1fr}
+  .hero-portrait{
+    order:-1;margin-top:30px;
+    /* Sized from its height so the figure keeps a portrait proportion. The
+       old rule was height:60vh at the full column width, which at 880px made
+       a 790x480 letterbox and cropped his head out of the frame. */
+    height:min(60vh, 560px);
+    aspect-ratio:5 / 8;
+    width:auto;
+    /* the 320px floor is a two-column concern; here it overflowed the page
+       on phones narrower than about 420px */
+    min-width:0;
+    max-width:100%;
+    /* centered: at 768-1220px the figure is far narrower than the column, and
+       hugging the left edge reads as a mistake rather than a composition. On
+       a phone it fills the column, so this does nothing there. */
+    margin-inline:auto;
+  }
+}
+
+@media(max-width:900px){
+  /* minmax(0,1fr), not 1fr: a plain fr track keeps an auto minimum of its
+     content, which held this column at 304px and pushed the artwork and the
+     console past the gutter on a 320px phone. */
+  .release{grid-template-columns:minmax(0,1fr)}
   .portals{grid-template-columns:1fr}
   nav .nav-tag{display:none}
 }
+/* The hero gutter is only 20px down here, and the rotated ring reaches about
+   27px past the photo, so its left edge fell off the page. */
+@media(max-width:480px){
+  .hero-portrait .ring{inset:-6px}
+}
+
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;scroll-behavior:auto}
   .reveal{opacity:1;transform:none}
