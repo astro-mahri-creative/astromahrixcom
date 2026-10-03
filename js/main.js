@@ -17,8 +17,10 @@
     {count: 28, speed: 0.20, size: [1,2.4],   color: 'rgba(91,233,255,'}
   ];
   function resize(){
-    w = c.width = window.innerWidth;
-    h = c.height = window.innerHeight;
+    // clientWidth, not innerWidth: innerWidth counts the scrollbar, which
+    // made the canvas wider than the area it covers.
+    w = c.width = document.documentElement.clientWidth || window.innerWidth;
+    h = c.height = document.documentElement.clientHeight || window.innerHeight;
     stars = [];
     LAYERS.forEach((L,li)=>{
       for(let i=0;i<L.count;i++){
