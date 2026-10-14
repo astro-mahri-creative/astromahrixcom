@@ -155,7 +155,6 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
 /* ============ HERO ============ */
 .hero{min-height:100vh;display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:40px;padding:120px clamp(20px,6vw,90px) clamp(40px,6vh,80px)}
 .hero-copy{position:relative;z-index:2}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--cyan);text-transform:uppercase;margin-bottom:22px}
 .hero h1{
   font-family:var(--display);font-weight:900;line-height:.92;text-transform:uppercase;
   font-size:clamp(min(48px, 11.8vw),9vw,132px);letter-spacing:-.01em;
@@ -385,8 +384,7 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
   backdrop-filter:blur(14px);box-shadow:0 30px 80px rgba(0,0,0,.5);position:relative;
 }
 .console::before{content:'';position:absolute;top:0;left:24px;right:24px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.6}
-.console h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,4vw,44px);text-transform:uppercase;line-height:1;margin:6px 0 4px}
-.console .sub{font-family:var(--mono);font-size:12px;color:var(--cyan);letter-spacing:.18em;margin-bottom:22px}
+.console h2{font-family:var(--display);font-weight:800;font-size:clamp(28px,4vw,44px);text-transform:uppercase;line-height:1;margin:6px 0 22px}
 .now-playing{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--muted);margin-bottom:18px;text-transform:uppercase}
 .pulse{width:9px;height:9px;border-radius:50%;background:var(--magenta);box-shadow:0 0 0 0 rgba(255,61,154,.7);animation:pulse 1.6s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,61,154,.6)}70%{box-shadow:0 0 0 12px rgba(255,61,154,0)}100%{box-shadow:0 0 0 0 rgba(255,61,154,0)}}
@@ -443,6 +441,8 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
    separator on its own row. Wider column, smaller type, looser leading. */
 .ed-quote.is-lyric{max-width:1000px;padding-left:clamp(14px,4vw,90px);padding-right:clamp(14px,4vw,90px)}
 .ed-quote p.lyric{font-size:clamp(13px,1.9vw,26px);line-height:1.4;letter-spacing:.005em}
+/* source credit under the lyric */
+.ed-quote .lyric-credit{margin:24px 0 0}
 .ed-veil{position:absolute;inset:0;z-index:2;background:linear-gradient(90deg,rgba(5,3,13,.92) 0%,rgba(5,3,13,.55) 55%,rgba(5,3,13,.2) 100%)}
 
 /* ============ UNIVERSE LINKS (Future Hooman + Lore Con) ============ */
@@ -450,7 +450,7 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
 /* A written couplet now, not a three-word heading: sized so each written
    line holds as one visual line instead of wrapping into four. */
 .universe-head h2{font-family:var(--display);font-weight:800;font-size:clamp(22px,3.3vw,42px);text-transform:uppercase;line-height:1.12;text-wrap:balance}
-.universe-head p{color:var(--muted);max-width:620px;margin:18px auto 0}
+.universe-head p{color:var(--muted);max-width:620px;margin:18px auto 0;text-wrap:balance}
 .portals{display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,3vw,40px)}
 .portal{
   position:relative;display:block;text-decoration:none;color:var(--text);border-radius:14px;overflow:hidden;
@@ -622,13 +622,6 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
 .contact-note{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;text-align:center;max-width:520px}
 
 /* ============ GRIME PASS â€” logo marks ============ */
-/* inline logo mark used as a bullet; colored via background, shape via SVG mask */
-.mark{
-  display:inline-block;vertical-align:-2px;width:14px;height:14px;margin-right:10px;
-  background:currentColor;
-  -webkit-mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
-          mask:url('../assets/branding/logo-icon.svg') center/contain no-repeat;
-}
 /* viewport-locked logo watermark â€” anchors bottom-right of the window, scrolls with the user,
    sizes off vmin so it never dominates either viewport dimension */
 .logo-stamp{
