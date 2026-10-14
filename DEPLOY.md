@@ -149,7 +149,7 @@ A revert via `git revert <bad-sha>` + push also works — the next Netlify build
 |--------|---------------|
 | Deploy didn't trigger | Netlify dashboard → Deploys → did the webhook fire? GitHub → Settings → Webhooks → check delivery log. |
 | Deploy failed | Netlify build log. Static sites usually only fail on git pull issues or invalid `netlify.toml`. |
-| Site is up but old content | Hard refresh (Ctrl+Shift+R). Netlify aggressively cache-busts on deploy, so this is usually a browser cache. |
+| Site is up but old content | Hard refresh (Ctrl+Shift+R). If styling changes still do not show, especially on phones, bump the `?v=` date on the `styles.css` and `main.js` links in `index.html` so browsers fetch fresh copies. |
 | HTTPS warning | Netlify → Domain settings → HTTPS → **Renew certificate**. |
 | Custom domain not resolving | `nslookup astromahri.com` from PowerShell. The apex resolves to **Cloudflare** addresses, not Netlify's — that is expected. Check the record in the Cloudflare dashboard. DNS can take up to 48h on first setup. |
 | Asset 404 in prod but works locally | Likely a relative-path issue or case mismatch (Linux is case-sensitive, Windows isn't). Check the actual path on disk vs the markup. |
