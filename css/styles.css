@@ -667,6 +667,11 @@ footer .big{font-family:var(--display);font-weight:900;font-size:clamp(34px,8vw,
        a phone it fills the column, so this does nothing there. */
     margin-inline:auto;
   }
+  /* The cue is pinned 28px above the bottom of the first screen. Stacked,
+     the portrait fills that screen and the title and track info land on
+     top of the cue, so hide it; the portrait cut off at the fold already
+     shows there is more below. */
+  .scroll-cue{display:none}
 }
 
 @media(max-width:900px){
