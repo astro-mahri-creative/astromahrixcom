@@ -82,7 +82,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offse
 .label{
   font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.24em;
   text-transform:uppercase;color:var(--gold);
-  display:flex;align-items:center;gap:12px;margin-bottom:20px;
+  display:flex;align-items:center;gap:12px;margin-bottom:20px;line-height:inherit;
 }
 .label::after{content:"";flex:1;height:1px;background:var(--line)}
 h2{font-family:var(--display);font-weight:800;font-size:clamp(22px,3.4vw,32px);
@@ -266,7 +266,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-co
 
   <!-- ============ AT A GLANCE ============ -->
   <section aria-labelledby="glance-h">
-    <div class="label" id="glance-h">At a glance</div>
+    <h2 class="label" id="glance-h">At a glance</h2>
     <dl class="facts">
       <div class="fact"><dt>Based</dt><dd>Durham, NC &middot; from New Orleans</dd></div>
       <div class="fact"><dt>Genre</dt><dd>Alternative hip hop</dd></div>
@@ -282,7 +282,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-co
 
   <!-- ============ BIO ============ -->
   <section class="bio" aria-labelledby="bio-h">
-    <div class="label" id="bio-h">Bio</div>
+    <h2 class="label" id="bio-h">Bio</h2>
 
     <div class="bio-block">
       <div class="bio-head">
@@ -309,7 +309,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-co
 
   <!-- ============ MUSIC ============ -->
   <section aria-labelledby="music-h">
-    <div class="label" id="music-h">Latest release</div>
+    <h2 class="label" id="music-h">Latest release</h2>
     <div class="releases">
       <article class="release">
         <img src="/assets/images/cover-art.jpg" alt="Madness single cover art: magenta cloud burst on a starfield" width="1500" height="1500" loading="lazy" />
@@ -342,7 +342,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-co
 
   <!-- ============ PRESS PHOTOS ============ -->
   <section aria-labelledby="photos-h">
-    <div class="label" id="photos-h">Press photos</div>
+    <h2 class="label" id="photos-h">Press photos</h2>
     <div class="photos">
       <figure class="photo">
         <div class="frame"><img src="/assets/images/hero-portrait.jpg" alt="Astro Mahri in a shark print shirt and gold chains, looking down" width="1365" height="2048" loading="lazy" style="object-position:center 12%" /></div>
@@ -367,7 +367,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-co
 
   <!-- ============ PROJECTS ============ -->
   <section aria-labelledby="proj-h">
-    <div class="label" id="proj-h">Beyond the music</div>
+    <h2 class="label" id="proj-h">Beyond the music</h2>
     <div class="projects">
       <article class="project">
         <img src="/assets/images/future-hooman.jpg" alt="Astro Mahri at a microphone in front of a wall of CRT monitors" width="1920" height="1080" loading="lazy" />
@@ -392,7 +392,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-co
 
   <!-- ============ PRESS QUOTES (optional) ============
   <section aria-labelledby="quotes-h">
-    <div class="label" id="quotes-h">Press</div>
+    <h2 class="label" id="quotes-h">Press</h2>
     <div class="quotes">
       <blockquote class="quote">
         <p>&ldquo;QUOTE.&rdquo;</p>
@@ -404,7 +404,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-co
 
   <!-- ============ SELECTED APPEARANCES (optional) ============
   <section aria-labelledby="shows-h">
-    <div class="label" id="shows-h">Selected appearances</div>
+    <h2 class="label" id="shows-h">Selected appearances</h2>
     <ul class="list">
       <li><b>EVENT</b><span>VENUE, CITY &middot; YEAR</span></li>
     </ul>
@@ -413,7 +413,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-co
 
   <!-- ============ STAGE & TECH (optional — useful for a show) ============
   <section aria-labelledby="tech-h">
-    <div class="label" id="tech-h">Stage &amp; tech</div>
+    <h2 class="label" id="tech-h">Stage &amp; tech</h2>
     <ul class="list">
       <li><b>Set length</b><span>MINUTES</span></li>
       <li><b>DJ setup</b><span>e.g. 2x CDJ + mixer</span></li>
@@ -424,7 +424,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-co
 
   <!-- ============ LOGOS ============ -->
   <section aria-labelledby="logos-h">
-    <div class="label" id="logos-h">Logos</div>
+    <h2 class="label" id="logos-h">Logos</h2>
     <div class="logos">
       <figure class="logo">
         <div class="swatch on-dark"><img src="/assets/press/astro-mahri-wordmark-light.png" alt="Wordmark, light version" width="3489" height="1616" loading="lazy" /></div>
@@ -448,7 +448,7 @@ footer{border-top:1px solid var(--line);padding-top:18px;display:flex;justify-co
 
   <!-- ============ CONTACT ============ -->
   <section class="contact" aria-labelledby="contact-h">
-    <div class="label" id="contact-h" style="margin-bottom:0">Booking &amp; press</div>
+    <h2 class="label" id="contact-h" style="margin-bottom:0">Booking &amp; press</h2>
     <a class="email" href="mailto:astromahri@gmail.com">astromahri@gmail.com</a>
     <div class="chips">
       <a class="chip solid" href="mailto:astromahri@gmail.com?subject=Press%20inquiry%20%E2%80%94%20Astro%20Mahri">Press inquiry</a>
