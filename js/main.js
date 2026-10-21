@@ -3,6 +3,7 @@
    - canvas starfield with parallax depth layers
    - scroll progress beam + element parallax
    - scroll-triggered reveals
+   - merch slideshow
    ================================================================ */
 
 /* ---------- CANVAS STARFIELD w/ parallax depth ---------- */
@@ -98,4 +99,56 @@
   }
   /* small initial delay so the first shot doesn't fire instantly on page load */
   setTimeout(fire, 1500 + Math.random() * 2000);
+})();
+
+/* ---------- SLIDESHOW (.slideshow) — one control per .slide, auto-cycles while on screen ---------- */
+(function(){
+  document.querySelectorAll('.slideshow').forEach(show=>{
+    const slides = [...show.querySelectorAll('.slide')];
+    if(slides.length < 2) return;
+    const interval = parseInt(show.dataset.interval, 10) || 4500;
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const nav = document.createElement('div');
+    nav.className = 'slide-nav';
+    nav.setAttribute('aria-label', 'Product photos');
+    const buttons = slides.map((s,i)=>{
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = s.dataset.label || String(i+1);
+      b.addEventListener('click', ()=>{ go(i); restart(); });
+      nav.appendChild(b);
+      return b;
+    });
+    show.appendChild(nav);
+
+    let current = Math.max(0, slides.findIndex(s=>s.classList.contains('is-active')));
+    function go(i){
+      current = (i + slides.length) % slides.length;
+      slides.forEach((s,j)=>{
+        s.classList.toggle('is-active', j===current);
+        s.setAttribute('aria-hidden', j===current ? 'false' : 'true');
+      });
+      buttons.forEach((b,j)=>b.setAttribute('aria-current', j===current ? 'true' : 'false'));
+    }
+    go(current);
+    /* reduced motion: the controls still work, nothing moves on its own */
+    if(still) return;
+
+    let timer = null, visible = false, held = false;
+    function stop(){ clearInterval(timer); timer = null; }
+    function restart(){
+      stop();
+      if(visible && !held && !document.hidden) timer = setInterval(()=>go(current+1), interval);
+    }
+    /* hold still while someone is looking closely or using the controls */
+    show.addEventListener('mouseenter', ()=>{ held = true; restart(); });
+    show.addEventListener('mouseleave', ()=>{ held = false; restart(); });
+    show.addEventListener('focusin', ()=>{ held = true; restart(); });
+    show.addEventListener('focusout', ()=>{ held = false; restart(); });
+    document.addEventListener('visibilitychange', restart);
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(entries=>{ visible = entries[0].isIntersecting; restart(); }, {threshold:0.3}).observe(show);
+    } else { visible = true; restart(); }
+  });
 })();

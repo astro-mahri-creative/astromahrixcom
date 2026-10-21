@@ -38,7 +38,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600&display=swap" rel="stylesheet" />
 
 <!-- ?v= forces browsers to fetch a fresh copy; change it whenever styles.css or main.js changes -->
-<link rel="stylesheet" href="css/styles.css?v=2026-10-14" />
+<link rel="stylesheet" href="css/styles.css?v=2026-10-21" />
 </head>
 <body>
 
@@ -61,18 +61,24 @@
 <!-- ============ HERO ============ -->
 <header class="hero" id="top">
   <div class="hero-copy reveal in">
+    <div class="label hero-kicker">The debut single</div>
     <!-- [SWAP-TEXT] track title goes here -->
     <h1>MADNESS</h1>
+    <!-- The date is its own stamp, not a line in .track-meta, so it reads as
+         the news rather than one more spec. -->
+    <div class="drop-stamp">
+      <span class="drop-stamp-label">Drops</span>
+      <span class="drop-stamp-date">11 &middot; 13 &middot; 2026</span> <!-- [SWAP-TEXT] release date -->
+    </div>
+    <p class="hero-statement">The first single from Astro Mahri. Streaming and downloads only on Bandcamp, Qobuz and SoundCloud.</p>
     <div class="track-meta">
       <span>ARTIST&nbsp; <b>Astro Mahri</b></span>
       <span>GENRE&nbsp; <b>Alt Hip Hop</b></span>
-      <span>FORMAT&nbsp; <b>Debut Single</b></span>
       <span>BASE&nbsp; <b>Durham, NC</b></span>
-      <span>DROP&nbsp; <b>11 &middot; 13 &middot; 2026</b></span> <!-- [SWAP-TEXT] release date -->
     </div>
     <div class="cta-row">
       <a class="btn btn-solid" href="#release">&#9654; STREAM // DOWNLOAD</a>
-      <a class="btn btn-ghost" href="#universe">JUMP INTO AN EXPERIENCE &rarr;</a>
+      <a class="btn btn-ghost" href="#universe">ART &amp; EXPERIENCES &rarr;</a>
     </div>
   </div>
 
@@ -118,7 +124,6 @@
       <div class="sc-placard" role="status" aria-label="SoundCloud player will appear when the track drops">
         <div class="sc-placard-label"><span class="dot"></span>Wavelength Alignment</div>
         <div class="sc-placard-text">Incoming transmission &middot; 11.13.2026</div>
-        <div class="sc-placard-sub">Player goes live with the drop.</div>
       </div>
       <!--
       <iframe
@@ -147,15 +152,25 @@
      Prices are a size ladder: 49 for S-XL, then 51 / 53 / 55 / 57 for 2XL-5XL,
      which is why it reads "from". Print-on-demand, so there is no stock count to
      show and nothing to sell out. -->
+<div class="section-break style-5" aria-hidden="true"></div>
+
 <section class="merch" id="merch">
-  <div class="merch-art reveal">
-    <img src="assets/images/merch-sweatshirt.webp" width="900" height="1200" loading="lazy"
-         alt="The Sweatshirt of Madness: a hot pink crewneck printed with the Madness skull artwork and the title in graffiti lettering" />
+  <!-- Slideshow. Each .slide is one product shot; js/main.js builds a control
+       per slide from its data-label and cycles them. To add a shot, add another
+       <img class="slide">. Keep every shot the same size (900x790, the garment
+       cropped to the same box) so nothing jumps as they swap. -->
+  <div class="merch-art slideshow reveal" data-interval="4500">
+    <div class="slides">
+      <img class="slide is-active" data-label="Front" src="assets/images/merch-sweatshirt-front.webp" width="900" height="790" loading="lazy"
+           alt="The Sweatshirt of Madness, front: a hot pink crewneck printed with the Madness skull artwork and the title in graffiti lettering" />
+      <img class="slide" data-label="Back" src="assets/images/merch-sweatshirt-back.webp" width="900" height="790" loading="lazy"
+           alt="The Sweatshirt of Madness, back: the Astro Mahri wordmark printed down the left side in a purple-to-pink fade" />
+    </div>
   </div>
   <div class="merch-copy reveal d1">
-    <div class="eyebrow">&#9678; Drop day merch</div>
+    <div class="eyebrow">&#9678; New music merch</div>
     <h2>Sweatshirt of Madness</h2>
-    <p>The cover art, worn. One colorway, S through 5XL, unisex fit. Midweight 8 oz, 50/50 cotton and polyester.</p>
+    <p>One colorway, unisex fit. Midweight 8 oz, 50/50 cotton and polyester.</p>
     <div class="merch-meta">
       <span>From <b>$49</b></span>
       <span>Heliconia</span>
@@ -389,6 +404,6 @@
   });
 })();
 </script>
-<script src="js/main.js?v=2026-10-14"></script>
+<script src="js/main.js?v=2026-10-21"></script>
 </body>
 </html>
