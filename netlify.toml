@@ -36,6 +36,14 @@
     Content-Disposition = "inline; filename=\"astro-mahri.vcf\""
     Cache-Control = "public, max-age=3600"
 
+# Same nosniff problem for the web app manifest: Netlify serves .webmanifest
+# as application/octet-stream, which a browser may refuse to read as a
+# manifest, and then "Install app" has no name or icon.
+[[headers]]
+  for = "/site.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json; charset=utf-8"
+
 # Never let a CDN or browser cache a lead submission response.
 [[headers]]
   for = "/api/*"
