@@ -48,10 +48,12 @@ astromahrixcom/
 ├── connect/
 │   ├── index.html          # NFC tag destination — self-contained, do not move
 │   └── astro-mahri.vcf     # contact card
-├── netlify/functions/
-│   ├── _lead.mjs           # shared lead handler; sets Source server-side
-│   ├── lead-website.mjs    # POST /api/lead/website
-│   └── lead-connect.mjs    # POST /api/lead/connect
+├── netlify/
+│   ├── lib/
+│   │   └── lead.mjs        # shared lead handler; sets Source server-side
+│   └── functions/          # every file here deploys as its own endpoint
+│       ├── lead-website.mjs  # POST /api/lead/website
+│       └── lead-connect.mjs  # POST /api/lead/connect
 ├── tests/
 │   └── lead.test.mjs       # node tests/lead.test.mjs — no runner needed
 ├── netlify.toml            # deploy config, headers, functions directory

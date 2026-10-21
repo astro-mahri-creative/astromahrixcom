@@ -9,7 +9,7 @@
  * than merely stated.
  */
 
-import { makeLeadHandler } from '../netlify/functions/_lead.mjs';
+import { makeLeadHandler } from '../netlify/lib/lead.mjs';
 
 process.env.NOTION_TOKEN = 'ntn_test';
 process.env.FAN_LEADS_DB_ID = 'fac628415e344c30b5a95e8ea034caf9';
