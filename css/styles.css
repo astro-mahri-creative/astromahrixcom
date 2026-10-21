@@ -175,7 +175,33 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
     drop-shadow(-1.5px 0 0 rgba(91,233,255,.5))
     drop-shadow(1.5px 0 0 rgba(255,61,154,.55));
 }
-.track-meta{display:flex;flex-wrap:wrap;gap:14px 26px;margin:30px 0 36px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--muted)}
+.hero-kicker{margin-bottom:18px}
+/* Release date as a pasted-up stamp: gold frame, knocked a few degrees off
+   square, with the same fractal grain the photos carry so it reads printed. */
+.drop-stamp{
+  position:relative;display:inline-flex;align-items:center;gap:16px;
+  margin:36px 0 0;padding:12px 22px 12px 18px;
+  border:2px solid var(--gold);border-radius:4px;
+  background:rgba(255,200,87,.07);
+  box-shadow:0 0 0 5px rgba(5,3,13,.55), 0 0 0 6px rgba(255,200,87,.35), 0 0 46px rgba(255,200,87,.2);
+  transform:rotate(-2.5deg);transform-origin:left center;
+}
+.drop-stamp::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.3' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;opacity:.45;
+}
+.drop-stamp-label{
+  font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;
+  color:#1a1304;background:var(--gold);padding:6px 10px 6px 12px;border-radius:2px;
+}
+.drop-stamp-date{
+  font-family:var(--display);font-weight:900;font-size:clamp(24px,3.4vw,44px);line-height:1;
+  color:var(--gold);letter-spacing:.02em;white-space:nowrap;
+  text-shadow:-1.5px 0 0 rgba(91,233,255,.45), 1.5px 0 0 rgba(255,61,154,.5), 0 0 26px rgba(255,200,87,.35);
+}
+.hero-statement{margin:26px 0 0;max-width:44ch;font-size:clamp(16px,1.4vw,19px);line-height:1.5;color:var(--text)}
+.track-meta{display:flex;flex-wrap:wrap;gap:14px 26px;margin:22px 0 36px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:var(--muted)}
 .track-meta b{color:var(--text);font-weight:700}
 .cta-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
 .btn{
@@ -239,11 +265,12 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
 /* ============ SECTION BREAK â€” transmission rhythm between sections =============
-   Four distinct cosmic micro-animations, one per break, cycling through:
+   Five distinct cosmic micro-animations, one per break:
    1) Shooting star (gold streak across the band)
    2) Rotating planet (conic-gradient sphere spinning)
    3) Radar ping (cyan expanding rings + center dot)
    4) Orbiting satellite (violet anchor + gold dot in orbit)
+   5) Eclipse (a dark moon slides across a gold sun, corona flares at totality)
    ============================================================================ */
 .section-break{
   position:relative;
@@ -369,6 +396,35 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
   50%   {box-shadow:0 0 18px var(--violet), 0 0 36px rgba(138,107,255,.55)}
 }
 
+/* === Variant 5: Eclipse - dark moon crosses a gold sun, corona flares at totality === */
+.section-break.style-5::before{
+  content:'';position:absolute;top:50%;left:50%;
+  width:20px;height:20px;border-radius:50%;
+  background:radial-gradient(circle at 40% 38%, #fff2cf 0%, var(--gold) 55%, var(--gold-deep) 100%);
+  transform:translate(-50%, -50%);
+  animation:corona 6s ease-in-out infinite;
+}
+.section-break.style-5::after{
+  /* the moon: page-dark disc with a violet rim so it still reads off the sun */
+  content:'';position:absolute;top:50%;left:50%;
+  width:21px;height:21px;border-radius:50%;
+  background:var(--void);
+  box-shadow:inset 0 0 0 1px rgba(138,107,255,.45);
+  transform:translate(-50%, -50%);
+  animation:eclipse 6s ease-in-out infinite;
+}
+@keyframes eclipse{
+  0%   {transform:translate(-50%, -50%) translateX(-34px);opacity:0}
+  15%  {opacity:1}
+  45%,55%{transform:translate(-50%, -50%) translateX(0)}
+  85%  {opacity:1}
+  100% {transform:translate(-50%, -50%) translateX(34px);opacity:0}
+}
+@keyframes corona{
+  0%,30%,70%,100%{box-shadow:0 0 10px rgba(255,200,87,.5), 0 0 22px rgba(255,61,154,.2)}
+  50%   {box-shadow:0 0 6px 3px #fff2cf, 0 0 22px 6px rgba(255,200,87,.75), 0 0 46px 10px rgba(255,61,154,.35)}
+}
+
 /* ============ MARQUEE TRANSMISSION ============ */
 .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px 0;overflow:hidden;white-space:nowrap;background:rgba(10,8,32,.4)}
 .marquee-track{display:inline-block;animation:scrollx 26s linear infinite;font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(20px,3vw,34px);letter-spacing:.02em}
@@ -416,10 +472,6 @@ section{position:relative;padding:clamp(56px,8.4vh,112px) clamp(20px,6vw,90px)}
   font-family:var(--display);font-weight:800;font-size:clamp(20px,2.6vw,30px);
   text-transform:uppercase;letter-spacing:.01em;color:var(--text);line-height:1.05;
   text-shadow:-1px 0 0 rgba(91,233,255,.4), 1px 0 0 rgba(255,61,154,.4);
-}
-.sc-placard-sub{
-  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--muted);
 }
 .console-foot{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
 .chip{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--text);border:1px solid var(--line);border-radius:40px;padding:9px 16px;transition:.3s}
@@ -648,9 +700,28 @@ footer .big{font-family:var(--display);font-weight:900;font-size:clamp(34px,8vw,
 .merch-art{position:relative}
 .merch-art img{
   width:100%;height:auto;display:block;
-  max-width:420px;margin-inline:auto;
+  max-width:460px;margin-inline:auto;
   filter:drop-shadow(0 30px 60px rgba(0,0,0,.55)) drop-shadow(0 0 40px rgba(255,61,154,.22));
 }
+/* Slides share one grid cell so the stack takes the size of a single shot.
+   Without JS only the .is-active one shows. */
+.slides{display:grid}
+.slides .slide{
+  grid-area:1/1;
+  opacity:0;transform:scale(.97);
+  transition:opacity .9s ease, transform 1.2s cubic-bezier(.2,.7,.2,1);
+}
+.slides .slide.is-active{opacity:1;transform:none}
+.slide-nav{display:flex;justify-content:center;gap:10px;margin-top:18px}
+.slide-nav button{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);background:none;border:1px solid var(--line);border-radius:40px;
+  padding:7px 14px;cursor:pointer;transition:.3s;
+}
+.slide-nav button:hover{border-color:var(--gold);color:var(--gold)}
+.slide-nav button[aria-current="true"]{border-color:var(--gold);color:#1a1304;background:var(--gold)}
+.slide-nav button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
 .merch-copy h2{
   font-family:var(--display);font-weight:800;font-size:clamp(26px,3.6vw,46px);
   text-transform:uppercase;line-height:1.02;margin:10px 0 0;
@@ -714,6 +785,9 @@ footer .big{font-family:var(--display);font-weight:900;font-size:clamp(34px,8vw,
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;scroll-behavior:auto}
   .reveal{opacity:1;transform:none}
+  /* frozen, the moon would sit square on the sun and hide it */
+  .section-break.style-5::after{display:none}
+  .slides .slide{transition:none}
 }
 
 /* ==== Contact form (lead capture -> /api/lead/website) ==== */
