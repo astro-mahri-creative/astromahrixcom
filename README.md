@@ -41,6 +41,7 @@ astromahrixcom/
 │   └── main.js             # starfield, parallax, scroll reveals
 ├── assets/
 │   ├── branding/           # logo mark + wordmark (SVG)
+│   ├── icons/              # favicon + app icons (see Icons below)
 │   ├── press/              # logo PNGs for press, light + dark variants
 │   └── images/             # the 5 photos + cover art (see below)
 ├── press/
@@ -82,6 +83,23 @@ Search the codebase for `[SWAP]` to jump to each thing you need to change.
 
 The contact form has no `[SWAP]` marker: it posts to `/api/lead/website`, a serverless
 function in this repo. Nothing to paste — see **[Lead capture](#lead-capture)** below.
+
+### Icons
+
+The browser-tab icon and the installed-app icon are separate files, so they can be different designs.
+
+| File | Shows up as | Spec |
+|------|-------------|------|
+| `assets/icons/favicon.svg` + `/favicon.ico` | browser tab, bookmarks | small, high contrast; may have rounded corners |
+| `assets/icons/apple-touch-icon.png` | iPhone/iPad home screen | 180×180, **no transparency** (iOS fills it with black) |
+| `assets/icons/icon-192.png`, `icon-512.png` | Android / desktop installed app | 192×192 and 512×512, solid background |
+| `assets/icons/icon-maskable-512.png` | Android adaptive icon | 512×512, mark inside the centre ~60% (the OS crops to circles/squircles) |
+
+`site.webmanifest` names the app and lists the Android icons. After replacing any icon, bump the
+`?v=` date in the page `<head>` tags and in `site.webmanifest`, or browsers keep showing the old one.
+
+`assets/branding/logo-icon.svg` is not an icon file: the CSS uses it as a mask for the nav and moon
+marks, and the press kit offers it as a download. Leave it transparent.
 
 ### Adding photos
 
