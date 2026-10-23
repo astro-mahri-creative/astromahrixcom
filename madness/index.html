@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<!-- ============ RELEASE SWITCH ============
+     data-release="pre"  until 11.13: date and Bandcamp pre-order.
+     data-release="out"  from 11.13: every store button.
+     Flipping this one attribute is the whole release-day change, plus
+     pasting the store URLs into the PLATFORMS block below. -->
+<html lang="en" data-release="pre">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MADNESS — Astro Mahri</title>
+<meta name="description" content="Madness, the debut single from Astro Mahri. Out 11.13.2026 to stream and download." />
+<link rel="canonical" href="https://astromahri.com/madness/" />
+
+<!-- Tab icon and app icon are separate files. Bump ?v= (here and in
+     site.webmanifest) whenever an icon changes; browsers cache these hard. -->
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" type="image/svg+xml" href="/assets/icons/favicon.svg?v=2026-10-21" />
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png?v=2026-10-21" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content="#0a0820" />
+<meta name="apple-mobile-web-app-title" content="Astro Mahri" />
+
+<!-- This URL is mostly seen as a link preview in DMs and posts, so the card
+     is the cover art and the title. Absolute URLs: scrapers do not resolve
+     relative ones. -->
+<meta property="og:site_name" content="Astro Mahri" />
+<meta property="og:title" content="MADNESS — Astro Mahri" />
+<meta property="og:description" content="The debut single. Out 11.13.2026 // Stream + Download" />
+<meta property="og:type" content="music.song" />
+<meta property="og:url" content="https://astromahri.com/madness/" />
+<meta property="og:image" content="https://astromahri.com/assets/images/cover-art.jpg" />
+<meta property="og:image:width" content="1080" />
+<meta property="og:image:height" content="1080" />
+<meta property="og:image:alt" content="Madness cover art: a purple and magenta spray-painted skull on bare concrete" />
+<meta name="twitter:card" content="summary" />
+
+<!--
+================================================================
+  ASTRO MAHRI - /madness  (release links page)
+  The one link for this release. QR codes, bio links and gate
+  redirects all point here. THIS URL MUST NEVER MOVE: like
+  /connect, it gets printed. Do not rename the folder, do not add
+  a redirect. Every release follows the same pattern: /<slug>/.
+
+  TWO MODES, one switch: data-release on <html>, at the very top.
+    pre - date and Bandcamp pre-order   (.when-pre)
+    out - every store button             (.when-out)
+  Release day: set data-release="out" and paste the store URLs
+  into PLATFORMS. A store whose href is still empty is not shown,
+  so a link that is not ready yet simply does not appear.
+  Search [SWAP-LINK-RELEASE].
+
+  List the stores the record is on. Nothing else: no "not on"
+  notes, no greyed-out stores it is absent from.
+
+  No form here on purpose: the Contact chip goes to the one on the
+  homepage. Keep release pages to links.
+
+  NEXT RELEASE: copy this folder to /<slug>/; swap the title, date,
+  cover, meta tags and store links; set the switch back to "pre";
+  and add the URL to sitemap.xml. Self-contained on purpose (like
+  /connect): its own <style>, no shared CSS, no build step.
+================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --void:#05030d; --deep:#0a0820; --ink:#13102e;
+  --panel:rgba(22,17,52,.55);
+  --gold:#ffc857; --magenta:#ff3d9a; --cyan:#5be9ff; --violet:#8a6bff;
+  --text:#efeaff; --muted:#9a93c8; --line:rgba(138,107,255,.22);
+  --display:'Unbounded', sans-serif;
+  --mono:'Space Mono', monospace;
+  --body:'Sora', sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--void); color:var(--text); font-family:var(--body);
+  font-weight:300; line-height:1.6; -webkit-font-smoothing:antialiased;
+  min-height:100vh; display:flex; flex-direction:column; align-items:center;
+  padding:clamp(28px,7vw,64px) clamp(16px,5vw,32px);
+}
+::selection{background:var(--magenta);color:#fff}
+
+#space{
+  position:fixed;inset:0;z-index:-3;
+  background:
+    radial-gradient(120% 80% at 80% -10%, rgba(138,107,255,.22), transparent 55%),
+    radial-gradient(90% 60% at 5% 15%, rgba(255,61,154,.14), transparent 50%),
+    radial-gradient(120% 90% at 50% 110%, rgba(91,233,255,.12), transparent 55%),
+    linear-gradient(180deg,#05030d 0%, #0a0820 45%, #07050f 100%);
+}
+#grain{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.11;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+#scanlines{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:repeating-linear-gradient(0deg, rgba(255,255,255,.022) 0 1px, transparent 1px 3px);
+  mix-blend-mode:overlay;
+}
+
+.wrap{width:100%;max-width:520px;display:flex;flex-direction:column;gap:30px}
+
+.brand{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--display);font-weight:800;letter-spacing:.18em;
+  font-size:clamp(16px,4.6vw,22px);text-transform:uppercase;color:#fff;
+  text-decoration:none;
+}
+.brand b{color:var(--gold)}
+.brand-icon{
+  width:15px;height:15px;border-radius:50%;flex:none;
+  background:radial-gradient(circle at 32% 30%, var(--gold), var(--magenta) 70%);
+  box-shadow:0 0 22px rgba(255,200,87,.6);
+}
+
+.label{
+  font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--gold);display:inline-flex;align-items:center;gap:12px;
+}
+.label::before{content:'';width:28px;height:1px;background:var(--gold)}
+
+/* ---------- cover ---------- */
+.cover{
+  position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;
+  border:1px solid var(--line);
+  box-shadow:0 30px 90px rgba(0,0,0,.6), 0 0 60px rgba(255,61,154,.14);
+}
+.cover img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.08) saturate(.92)}
+.cover::after{ /* same scanline + halftone grit as the photos on the main site */
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.07) 0 1px, transparent 1px 2px),
+    radial-gradient(rgba(255,61,154,.10) 1px, transparent 1.4px) 0 0/3px 3px,
+    radial-gradient(120% 120% at 50% 100%, transparent 40%, rgba(5,3,13,.45) 100%);
+  mix-blend-mode:overlay;opacity:.85;
+}
+.corner{position:absolute;width:16px;height:16px;z-index:2;border-color:var(--gold);opacity:.85}
+.corner.tl{top:10px;left:10px;border-top:2px solid;border-left:2px solid}
+.corner.br{bottom:10px;right:10px;border-bottom:2px solid;border-right:2px solid}
+
+/* ---------- title ---------- */
+header{display:flex;flex-direction:column;gap:14px}
+h1{
+  font-family:var(--display);font-weight:900;letter-spacing:-.01em;
+  /* MADNESS runs about 6.7x its font size in Unbounded 900; 12.4vw keeps it
+     inside a 16px gutter on a 320px phone */
+  font-size:clamp(36px,12.4vw,76px);line-height:.95;text-transform:uppercase;
+  background:linear-gradient(180deg,#fff 0%, #efeaff 40%, var(--gold) 130%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:-1.5px 0 0 rgba(91,233,255,.4), 1.5px 0 0 rgba(255,61,154,.4);
+}
+.byline{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.byline b{color:var(--text)}
+.byline .date{color:var(--gold);font-weight:700;white-space:nowrap}
+
+/* ---------- platforms ---------- */
+.platforms{display:flex;flex-direction:column;gap:10px}
+.platform{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:16px 20px;border-radius:12px;text-decoration:none;color:var(--text);
+  background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(6px);
+  transition:border-color .3s, box-shadow .3s, transform .3s;
+}
+.platform .name{font-family:var(--display);font-weight:600;font-size:clamp(15px,4.2vw,18px);letter-spacing:.02em}
+.platform .what{
+  display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);margin-top:2px;
+}
+.platform .go{
+  flex:none;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--gold);
+}
+.platform .go[aria-hidden]{font-size:18px;letter-spacing:0}
+a.platform[href]:hover,a.platform[href]:focus-visible{
+  border-color:var(--gold);box-shadow:0 0 30px rgba(255,200,87,.18);transform:translateY(-2px);
+}
+/* Bandcamp leads: it is the direct sale, so it gets the solid treatment */
+.platform.primary{background:var(--gold);border-color:var(--gold);color:#1a1304}
+.platform.primary .what,.platform.primary .go{color:#1a1304}
+a.platform.primary[href]:hover,a.platform.primary[href]:focus-visible{box-shadow:0 14px 44px rgba(255,200,87,.45)}
+/* a store with no URL yet is left out entirely, never shown greyed */
+.platform:not([href]),.platform[href=""]{display:none}
+
+/* ---------- the release switch ---------- */
+html[data-release="pre"] .when-out,
+html[data-release="out"] .when-pre{display:none!important}
+
+/* pre-release: the date carries the page */
+.countdown{display:flex;flex-direction:column;gap:14px}
+.drop-stamp{
+  position:relative;align-self:flex-start;display:inline-flex;align-items:center;gap:14px;
+  padding:12px 20px 12px 14px;border:2px solid var(--gold);border-radius:4px;
+  background:rgba(255,200,87,.07);
+  box-shadow:0 0 0 5px rgba(5,3,13,.55), 0 0 0 6px rgba(255,200,87,.35), 0 0 46px rgba(255,200,87,.2);
+  transform:rotate(-2deg);transform-origin:left center;margin:6px 0 10px;
+}
+.drop-stamp-label{
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;
+  color:#1a1304;background:var(--gold);padding:5px 9px 5px 11px;border-radius:2px;
+}
+.drop-stamp-date{
+  font-family:var(--display);font-weight:900;font-size:clamp(22px,7.4vw,34px);line-height:1;
+  color:var(--gold);white-space:nowrap;
+  text-shadow:-1.5px 0 0 rgba(91,233,255,.45), 1.5px 0 0 rgba(255,61,154,.5), 0 0 26px rgba(255,200,87,.35);
+}
+.countdown .soon{font-size:14px;color:var(--muted)}
+
+/* ---------- merch ---------- */
+.merch{
+  display:flex;align-items:center;gap:16px;text-decoration:none;color:var(--text);
+  padding:14px 18px 14px 12px;border-radius:12px;border:1px solid rgba(255,61,154,.35);
+  background:linear-gradient(100deg, rgba(255,61,154,.16), rgba(22,17,52,.55) 70%);
+  transition:border-color .3s, box-shadow .3s, transform .3s;
+}
+.merch img{width:84px;height:auto;flex:none;filter:drop-shadow(0 8px 18px rgba(0,0,0,.5))}
+.merch .name{font-family:var(--display);font-weight:600;font-size:16px;line-height:1.2}
+.merch .what{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.merch .what b{color:var(--gold)}
+.merch .go{margin-left:auto;font-size:18px;color:var(--magenta)}
+.merch:hover,.merch:focus-visible{border-color:var(--magenta);box-shadow:0 0 30px rgba(255,61,154,.25);transform:translateY(-2px)}
+
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  padding:clamp(20px,5vw,28px);backdrop-filter:blur(6px);
+  display:flex;flex-direction:column;gap:16px;
+}
+.card h2{font-family:var(--display);font-weight:600;font-size:clamp(17px,4.6vw,20px);letter-spacing:.02em}
+.card p{color:var(--muted);font-size:14.5px}
+
+.links{display:flex;flex-wrap:wrap;gap:10px}
+.chip{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  text-decoration:none;color:var(--text);border:1px solid var(--line);
+  padding:10px 16px;border-radius:40px;transition:.3s;
+}
+.chip:hover{border-color:var(--cyan);color:var(--cyan)}
+
+footer{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;
+  color:var(--muted);text-transform:uppercase;text-align:center;
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div id="space"></div>
+<div id="grain"></div>
+<div id="scanlines"></div>
+
+<div class="wrap">
+
+  <a class="brand" href="/">
+    <span class="brand-icon" aria-hidden="true"></span>
+    <span>ASTRO <b>MAHRI</b></span>
+  </a>
+
+  <div class="cover">
+    <img src="/assets/images/cover-art.jpg" width="1080" height="1080"
+         alt="Madness single cover art: a spray-painted skull in purple and magenta on bare concrete, the Astro Mahri star logo set into its eye sockets, the title below in graffiti lettering" />
+    <span class="corner tl"></span><span class="corner br"></span>
+  </div>
+
+  <header>
+    <div class="label">The debut single</div>
+    <h1>Madness</h1>
+    <!-- pre-release, the stamp below carries the date -->
+    <div class="byline"><b>Astro Mahri</b><span class="when-out"> &middot; <span class="date">Out now</span></span></div>
+  </header>
+
+  <!-- ============ PRE-RELEASE ============ shown while data-release="pre" -->
+  <section class="countdown when-pre">
+    <div class="drop-stamp">
+      <span class="drop-stamp-label">Drops</span>
+      <span class="drop-stamp-date">11 &middot; 13 &middot; 2026</span>
+    </div>
+    <!-- [SWAP-LINK-RELEASE] Bandcamp pre-order: swap in the track page once the
+         pre-order is set up. It becomes the release page on the day, so the
+         same URL goes in the Bandcamp button under PLATFORMS. -->
+    <a class="platform primary" href="https://astromahri.bandcamp.com/" target="_blank" rel="noopener">
+      <span><span class="name">Pre-order on Bandcamp</span><span class="what">Download on release day</span></span>
+      <span class="go" aria-hidden="true">&rarr;</span>
+    </a>
+    <p class="soon">Streaming links land here on release day.</p>
+  </section>
+
+  <!-- ============ PLATFORMS ============ shown while data-release="out"
+       [SWAP-LINK-RELEASE] Paste each store's release URL into its href. An
+       empty href hides the button, so fill them in any order. Bandcamp first:
+       it is where the money is. -->
+  <nav class="platforms when-out" aria-label="Listen to Madness">
+    <a class="platform primary" href="https://astromahri.bandcamp.com/" target="_blank" rel="noopener">
+      <span><span class="name">Bandcamp</span><span class="what">Buy &middot; Download</span></span>
+      <span class="go" aria-hidden="true">&rarr;</span>
+    </a>
+    <a class="platform" href="https://soundcloud.com/astromahri" target="_blank" rel="noopener">
+      <span><span class="name">SoundCloud</span><span class="what">Stream</span></span>
+      <span class="go" aria-hidden="true">&rarr;</span>
+    </a>
+    <a class="platform" href="" target="_blank" rel="noopener">
+      <span><span class="name">Qobuz</span><span class="what">Hi-res stream &middot; Download</span></span>
+      <span class="go" aria-hidden="true">&rarr;</span>
+    </a>
+    <a class="platform" href="" target="_blank" rel="noopener">
+      <span><span class="name">Apple Music</span><span class="what">Stream</span></span>
+      <span class="go" aria-hidden="true">&rarr;</span>
+    </a>
+    <a class="platform" href="" target="_blank" rel="noopener">
+      <span><span class="name">Tidal</span><span class="what">Stream</span></span>
+      <span class="go" aria-hidden="true">&rarr;</span>
+    </a>
+    <!-- Droploud: the drop's own page, not the profile (droploud.com/u/astromahri) -->
+    <a class="platform" href="" target="_blank" rel="noopener">
+      <span><span class="name">Droploud</span><span class="what">Free Download</span></span>
+      <span class="go" aria-hidden="true">&rarr;</span>
+    </a>
+    <!-- Subvert: uncomment and add the URL if the co-op accepts.
+    <a class="platform" href="" target="_blank" rel="noopener">
+      <span><span class="name">Subvert</span><span class="what">Buy &middot; Download</span></span>
+      <span class="go" aria-hidden="true">&rarr;</span>
+    </a>
+    -->
+  </nav>
+
+  <!-- ============ MERCH ============ rides along in both modes -->
+  <a class="merch" href="https://astro-mahri-shop.fourthwall.com/products/sweatshirt-of-madness" target="_blank" rel="noopener">
+    <img src="/assets/images/merch-sweatshirt-front.webp" width="900" height="790" loading="lazy" alt="" />
+    <span><span class="name">Sweatshirt of Madness</span><span class="what">From <b>$49</b> &middot; S&ndash;5XL</span></span>
+    <span class="go" aria-hidden="true">&rarr;</span>
+  </a>
+
+  <section class="card">
+    <h2>Also</h2>
+    <div class="links">
+      <a class="chip" href="https://www.instagram.com/astromahri/" target="_blank" rel="noopener">Instagram</a>
+      <a class="chip" href="https://bsky.app/profile/astromahri.space" target="_blank" rel="noopener">Bluesky</a>
+      <a class="chip" href="/#contact">Contact</a>
+      <a class="chip" href="/">astromahri.com</a>
+    </div>
+  </section>
+
+  <footer>// Signal from Durham, NC &middot; &copy; 2026 Astro Mahri</footer>
+
+</div>
+
+</body>
+</html>

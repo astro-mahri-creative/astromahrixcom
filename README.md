@@ -33,7 +33,7 @@ npx serve .
 astromahrixcom/
 ├── index.html              # markup + all [SWAP] edit points
 ├── 404.html                # branded not-found page
-├── sitemap.xml             # one entry: the apex (/connect is noindex)
+├── sitemap.xml             # the apex + each release page (/connect, /press are noindex)
 ├── robots.txt
 ├── css/
 │   └── styles.css          # full stylesheet (CSS variables at top)
@@ -46,6 +46,8 @@ astromahrixcom/
 │   └── images/             # the 5 photos + cover art (see below)
 ├── press/
 │   └── index.html          # digital press kit — unlinked, noindex, share by hand
+├── madness/
+│   └── index.html          # release links page — the one link for the single
 ├── connect/
 │   ├── index.html          # NFC tag destination — self-contained, do not move
 │   └── astro-mahri.vcf     # contact card
@@ -128,6 +130,39 @@ it always looks intentional.
 
 All colors live as CSS variables at the top of `css/styles.css` (`:root`). Change
 `--gold`, `--magenta`, `--cyan`, etc. once and the whole site follows.
+
+---
+
+## Release links page
+
+`/madness/` is the single link for the release: cover art, store buttons,
+the merch card, and a Contact link to the homepage form. No form of its own;
+release pages stay links only. QR codes, bio links and gate redirects all
+point here instead of at any one store. **Like
+`/connect`, the URL never moves**: it gets printed. Every release follows the
+same pattern, `/<slug>/`. It is indexable and in `sitemap.xml`, because it
+gets shared; the OG tags make the link preview the cover art and
+"MADNESS — Astro Mahri".
+
+**Two modes, one switch.** `data-release` on the `<html>` tag:
+
+| Value | Shows |
+|-------|-------|
+| `pre` (until 11.13) | the date and a Bandcamp pre-order button |
+| `out` (release day) | Bandcamp, SoundCloud, Qobuz, Apple Music, Tidal, Droploud (free download) |
+
+Release day is a config change, not a rewrite: set `data-release="out"` and
+paste each store's URL into its `href` (search `[SWAP-LINK-RELEASE]`). A store
+whose `href` is still empty is not shown, so a link that is not ready just
+does not appear. A Subvert button is staged in a comment for if the co-op
+accepts.
+
+List only the stores the record is on. No "not on Spotify" note and no
+greyed-out buttons for stores it skips.
+
+**Next release:** copy `madness/` to `<slug>/`; swap the title, date, cover,
+meta tags and store links; set the switch back to `pre`; and add the URL
+to `sitemap.xml`.
 
 ---
 

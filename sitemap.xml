@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  One entry on purpose. /connect is the NFC tag destination and carries
-  <meta name="robots" content="noindex"> — it is meant to be reached by
-  tapping a physical tag, not by search. Do not add it here.
+  The apex plus one entry per release links page. /connect is the NFC tag
+  destination and carries <meta name="robots" content="noindex"> — it is
+  meant to be reached by tapping a physical tag, not by search. Do not add
+  it here. /press is unlinked and noindex for the same reason.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://astromahri.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://astromahri.com/madness/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>

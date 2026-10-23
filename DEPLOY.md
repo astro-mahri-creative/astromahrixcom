@@ -120,6 +120,7 @@ Before pushing changes that touch user-facing content:
   - [ ] `[SWAP-PHOTO-1..5]` — real images, not placeholders
   - [ ] `[SWAP-LINK-FH]` / `[SWAP-LINK-LC]` — real destination URLs
   - [ ] `[SWAP-TEXT]` — track title, release date, streaming + social URLs, OG image URL
+  - [ ] `[SWAP-LINK-RELEASE]` — on release day, `/madness/` is switched to `data-release="out"` and every store has its release URL
 - [ ] Lead capture still writes: submit once on the live form, confirm a **Fan Leads** row with `Source = website` / `Status = New`, then delete the test row
 - [ ] `node tests/lead.test.mjs` passes
 - [ ] No lore reveals snuck back in (no "brighter timeline", "origin sector", etc.)
