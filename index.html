@@ -17,7 +17,7 @@
 
 <!-- Open Graph / social preview -->
 <meta property="og:title" content="ASTRO MAHRI x CREATIVE // MUSIC + ART + EXPERIENCES" />
-<meta property="og:description" content="ALT HIP HOP TRANSMISSION INCOMING // 11.13.2026 Debut Single Release ‘MADNESS’ // Only Available on Qobuz, SoundCloud, and Bandcamp" />
+<meta property="og:description" content="ALT HIP HOP TRANSMISSION INCOMING // 11.13.2026 Debut Single Release ‘MADNESS’ // Stream + Download" />
 <meta property="og:type" content="music.song" />
 <meta property="og:url" content="https://astromahri.com/" />
 <meta property="og:image" content="https://astromahri.com/assets/images/cover-art.jpg" />
@@ -38,7 +38,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800;900&family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600&display=swap" rel="stylesheet" />
 
 <!-- ?v= forces browsers to fetch a fresh copy; change it whenever styles.css or main.js changes -->
-<link rel="stylesheet" href="css/styles.css?v=2026-10-21" />
+<link rel="stylesheet" href="css/styles.css?v=2026-10-23" />
 </head>
 <body>
 
@@ -70,14 +70,14 @@
       <span class="drop-stamp-label">Drops</span>
       <span class="drop-stamp-date">11 &middot; 13 &middot; 2026</span> <!-- [SWAP-TEXT] release date -->
     </div>
-    <p class="hero-statement">The first single from Astro Mahri. Streaming and downloads only on Bandcamp, Qobuz and SoundCloud.</p>
+    <p class="hero-statement">The first single from Astro Mahri. Stream it. Download it. Go Mad.</p>
     <div class="track-meta">
       <span>ARTIST&nbsp; <b>Astro Mahri</b></span>
       <span>GENRE&nbsp; <b>Alt Hip Hop</b></span>
       <span>BASE&nbsp; <b>Durham, NC</b></span>
     </div>
     <div class="cta-row">
-      <a class="btn btn-solid" href="#release">&#9654; STREAM // DOWNLOAD</a>
+      <a class="btn btn-solid" href="/madness/">&#9654; STREAM // DOWNLOAD</a>
       <a class="btn btn-ghost" href="#universe">ART &amp; EXPERIENCES &rarr;</a>
     </div>
   </div>
@@ -91,7 +91,7 @@
     </div>
   </div>
 
-  <div class="scroll-cue">SCROLL TO INITIATE SEQUENCE<span class="line"></span></div>
+  <div class="scroll-cue" aria-hidden="true"><span class="line"></span><span class="arrow"></span></div>
 </header>
 
 <!-- ============ MARQUEE ============ -->
@@ -136,9 +136,8 @@
     <div class="console-foot">
       <a class="chip" href="https://soundcloud.com/astromahri" target="_blank" rel="noopener">&#9678; Listen &middot; SoundCloud</a>
       <a class="chip" href="https://astromahri.bandcamp.com/" target="_blank" rel="noopener">&#9678; Buy &middot; Bandcamp</a>
-      <!-- Qobuz chip pending — swap QOBUZ_URL for the release page once it is live on 11.13:
-      <a class="chip" href="QOBUZ_URL" target="_blank" rel="noopener">&#9678; Hi-Res Audio &middot; Qobuz</a>
-      -->
+      <!-- Every other platform lives on /madness/, so its links are kept in one place -->
+      <a class="chip" href="/madness/">&#9678; More ways to listen</a>
       <!-- Free-DL chip pending — swap DROP_URL for the Premierely gate URL on drop day. The gate
            runs on your own domain, so the label names no service on purpose:
       <a class="chip" href="DROP_URL" target="_blank" rel="noopener">&#9678; Free Download</a>
