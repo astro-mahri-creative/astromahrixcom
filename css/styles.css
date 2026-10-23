@@ -756,12 +756,14 @@ footer .big{font-family:var(--display);font-weight:900;font-size:clamp(34px,8vw,
   .hero{grid-template-columns:1fr;gap:24px;text-align:left}
   .hero-portrait{
     order:-1;margin-top:30px;
-    /* Sized from its height so the figure keeps a portrait proportion. The
-       old rule was height:60vh at the full column width, which at 880px made
-       a 790x480 letterbox and cropped his head out of the frame. */
-    height:min(60vh, 560px);
-    aspect-ratio:5 / 8;
-    width:auto;
+    /* Square when stacked, sized from its width: the column, capped at 560px,
+       and at 60vh so a short landscape screen still shows the title below
+       it. Width-led on purpose: a fixed height plus max-width breaks the
+       ratio on a narrow phone. The crop keeps the top of the photo (his
+       head), see the img rule below. */
+    width:min(100%, 560px, 60vh);
+    height:auto;
+    aspect-ratio:1 / 1;
     /* the 320px floor is a two-column concern; here it overflowed the page
        on phones narrower than about 420px */
     min-width:0;
@@ -771,6 +773,8 @@ footer .big{font-family:var(--display);font-weight:900;font-size:clamp(34px,8vw,
        a phone it fills the column, so this does nothing there. */
     margin-inline:auto;
   }
+  /* the photo is a tall portrait, so a square frame crops it: keep the top */
+  .hero-portrait .photo img{object-position:center top}
   /* The cue is pinned 28px above the bottom of the first screen. Stacked,
      the portrait fills that screen and the title and track info land on
      top of the cue, so hide it; the portrait cut off at the fold already
