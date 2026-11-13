@@ -148,7 +148,7 @@ gets shared; the OG tags make the link preview the cover art and
 
 | Value | Shows |
 |-------|-------|
-| `pre` (until 11.13) | the date and a Bandcamp pre-order button |
+| `pre` (until 11.18) | the date and a Bandcamp pre-order button |
 | `out` (release day) | Bandcamp, SoundCloud, Qobuz, Apple Music, Tidal, Droploud (free download) |
 
 Release day is a config change, not a rewrite: set `data-release="out"` and
