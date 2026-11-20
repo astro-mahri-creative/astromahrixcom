@@ -85,6 +85,7 @@ await check('the question from the push is the heading and is saved in the row b
   const html = await g.text();
   assert.match(html, /<h1>Stuck on anything\? Even a word helps\.<\/h1>/);
   assert.match(html, /name="q" value="Stuck on anything\? Even a word helps\."/);
+  assert.ok(!/<p>/.test(html.split('<form')[0].split('<main>')[1]), 'no subheading between the heading and the form');
   await post({ t: 'reply-secret-123', k: 'session', q: 'Stuck on anything? Even a word helps.', text: 'The hook transition' });
   assert.deepEqual(captured.body.children, [{ object: 'block', type: 'quote', quote: { rich_text: [{ type: 'text', text: { content: 'Stuck on anything? Even a word helps.' } }] } }]);
   assert.equal(captured.body.properties.Idea.title[0].text.content, 'The hook transition');

@@ -53,7 +53,7 @@ function page(body, status = 200) {
   @media (prefers-color-scheme: dark) { :root { --bg:#111; --fg:#f2f2f2; --muted:#9a9a9a; --line:#333; --accent:#f2f2f2; } }
   body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.4 system-ui, -apple-system, sans-serif; }
   main { max-width:32rem; margin:0 auto; padding:2.5rem 1rem; }
-  h1 { font-size:1.4rem; margin:0 0 .4rem; }
+  h1 { font-size:1.4rem; margin:0 0 1rem; }
   p { color:var(--muted); margin:0 0 1.2rem; }
   textarea { box-sizing:border-box; width:100%; min-height:6rem; padding:.75rem; font:inherit; color:var(--fg); background:transparent; border:1px solid var(--line); border-radius:10px; }
   button { margin-top:.8rem; width:100%; padding:.8rem; font:inherit; font-weight:600; color:var(--bg); background:var(--accent); border:0; border-radius:10px; }
@@ -65,25 +65,14 @@ const notFound = () => new Response('Not found', { status: 404, headers: { ...HE
 
 // The push link carries the question (q) it asked, so it stays on screen
 // while I type and is saved with the reply. Without one, a heading by kind.
-const HEADINGS = {
-  session: ['Jot it down', 'A few words is plenty. It lands in your journal with this session.'],
-  default: ['What are you up to?', 'One line is plenty. "Still cooking" counts.'],
-};
-const SUBS = {
-  session: 'A few words is plenty. It lands in your journal with this session.',
-  default: 'A few words is plenty.',
-};
+const HEADINGS = { session: 'Jot it down', default: 'What are you up to?' };
 
 const cleanQuestion = (q) => String(q || '').replace(/\s+/g, ' ').trim().slice(0, MAX_QUESTION);
 
 function form({ t, k, q = '', error = '', text = '' }) {
-  const kind = String(k).toLowerCase();
-  const [fallback, fallbackSub] = HEADINGS[kind] || HEADINGS.default;
-  const h1 = q || fallback;
-  const sub = q ? (SUBS[kind] || SUBS.default) : fallbackSub;
+  const h1 = q || HEADINGS[String(k).toLowerCase()] || HEADINGS.default;
   return page(`
   <h1>${esc(h1)}</h1>
-  <p>${esc(sub)}</p>
   <form method="post" action="/checkin/reply">
     <input type="hidden" name="t" value="${esc(t)}">
     <input type="hidden" name="k" value="${esc(k)}">
