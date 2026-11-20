@@ -20,7 +20,7 @@ const MAX_TEXT = 500;
 // Must match the Journal's "Check-in Kind" select options exactly: Notion
 // silently creates a new option for an unknown value. The push sends the
 // lowercase key; anything else is stored with no kind rather than invented.
-const KINDS = { open: 'Open', unfinished: 'Unfinished', seed: 'Seed', task: 'Task', curious: 'Curious' };
+const KINDS = { open: 'Open', unfinished: 'Unfinished', seed: 'Seed', task: 'Task', curious: 'Curious', session: 'Session' };
 const ENTRY = 'Check-in Reply';
 
 const HEADERS = {
@@ -62,10 +62,17 @@ function page(body, status = 200) {
 
 const notFound = () => new Response('Not found', { status: 404, headers: { ...HEADERS, 'Content-Type': 'text/plain; charset=utf-8' } });
 
+// A note ping from an open session gets a session heading; check-ins get the general one.
+const HEADINGS = {
+  session: ['Jot it down', 'A few words is plenty. It lands in your journal with this session.'],
+  default: ['What are you up to?', 'One line is plenty. "Still cooking" counts.'],
+};
+
 function form({ t, k, error = '', text = '' }) {
+  const [h1, sub] = HEADINGS[String(k).toLowerCase()] || HEADINGS.default;
   return page(`
-  <h1>What are you up to?</h1>
-  <p>One line is plenty. "Still cooking" counts.</p>
+  <h1>${esc(h1)}</h1>
+  <p>${esc(sub)}</p>
   <form method="post" action="/checkin/reply">
     <input type="hidden" name="t" value="${esc(t)}">
     <input type="hidden" name="k" value="${esc(k)}">
