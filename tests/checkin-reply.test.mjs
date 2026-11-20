@@ -72,6 +72,14 @@ await check('POST with the token writes one Check-in Reply row to the Journal', 
   assert.ok(Date.parse(p.Captured.date.start));
 });
 
+await check('a session note ping gets the session heading and saves with Check-in Kind Session', async () => {
+  const g = await get('?t=reply-secret-123&k=session');
+  assert.match(await g.text(), /Jot it down/);
+  await post({ t: 'reply-secret-123', k: 'session', text: 'Bridge chords finally sit right' });
+  assert.equal(captured.body.properties['Check-in Kind'].select.name, 'Session');
+  assert.equal(captured.body.properties.Entry.select.name, 'Check-in Reply');
+});
+
 await check('POST with a wrong token writes nothing', async () => {
   const r = await post({ t: 'guess', k: 'open', text: 'hello' });
   assert.equal(r.status, 404);
