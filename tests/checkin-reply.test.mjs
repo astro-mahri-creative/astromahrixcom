@@ -80,6 +80,31 @@ await check('a session note ping gets the session heading and saves with Check-i
   assert.equal(captured.body.properties.Entry.select.name, 'Check-in Reply');
 });
 
+await check('the question from the push is the heading and is saved in the row body', async () => {
+  const g = await get('?t=reply-secret-123&k=session&q=' + encodeURIComponent('Stuck on anything? Even a word helps.'));
+  const html = await g.text();
+  assert.match(html, /<h1>Stuck on anything\? Even a word helps\.<\/h1>/);
+  assert.match(html, /name="q" value="Stuck on anything\? Even a word helps\."/);
+  await post({ t: 'reply-secret-123', k: 'session', q: 'Stuck on anything? Even a word helps.', text: 'The hook transition' });
+  assert.deepEqual(captured.body.children, [{ object: 'block', type: 'quote', quote: { rich_text: [{ type: 'text', text: { content: 'Stuck on anything? Even a word helps.' } }] } }]);
+  assert.equal(captured.body.properties.Idea.title[0].text.content, 'The hook transition');
+});
+
+await check('a question is escaped on the page and capped at 200 characters', async () => {
+  const g = await get('?t=reply-secret-123&k=open&q=' + encodeURIComponent('<script>x</script>'));
+  const html = await g.text();
+  assert.ok(!html.includes('<script>x'));
+  await post({ t: 'reply-secret-123', k: 'open', q: 'y'.repeat(400), text: 'hi' });
+  assert.equal(captured.body.children[0].quote.rich_text[0].text.content.length, 200);
+});
+
+await check('no question: no body, and the kind heading is shown', async () => {
+  const g = await get('?t=reply-secret-123&k=open');
+  assert.match(await g.text(), /What are you up to\?/);
+  await post({ t: 'reply-secret-123', k: 'open', text: 'hi' });
+  assert.equal(captured.body.children, undefined);
+});
+
 await check('POST with a wrong token writes nothing', async () => {
   const r = await post({ t: 'guess', k: 'open', text: 'hello' });
   assert.equal(r.status, 404);

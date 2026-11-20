@@ -16,6 +16,7 @@ import { createHash, timingSafeEqual } from 'node:crypto';
 const NOTION_API = 'https://api.notion.com/v1/pages';
 const NOTION_VERSION = '2022-06-28';
 const MAX_TEXT = 500;
+const MAX_QUESTION = 200;
 
 // Must match the Journal's "Check-in Kind" select options exactly: Notion
 // silently creates a new option for an unknown value. The push sends the
@@ -62,21 +63,32 @@ function page(body, status = 200) {
 
 const notFound = () => new Response('Not found', { status: 404, headers: { ...HEADERS, 'Content-Type': 'text/plain; charset=utf-8' } });
 
-// A note ping from an open session gets a session heading; check-ins get the general one.
+// The push link carries the question (q) it asked, so it stays on screen
+// while I type and is saved with the reply. Without one, a heading by kind.
 const HEADINGS = {
   session: ['Jot it down', 'A few words is plenty. It lands in your journal with this session.'],
   default: ['What are you up to?', 'One line is plenty. "Still cooking" counts.'],
 };
+const SUBS = {
+  session: 'A few words is plenty. It lands in your journal with this session.',
+  default: 'A few words is plenty.',
+};
 
-function form({ t, k, error = '', text = '' }) {
-  const [h1, sub] = HEADINGS[String(k).toLowerCase()] || HEADINGS.default;
+const cleanQuestion = (q) => String(q || '').replace(/\s+/g, ' ').trim().slice(0, MAX_QUESTION);
+
+function form({ t, k, q = '', error = '', text = '' }) {
+  const kind = String(k).toLowerCase();
+  const [fallback, fallbackSub] = HEADINGS[kind] || HEADINGS.default;
+  const h1 = q || fallback;
+  const sub = q ? (SUBS[kind] || SUBS.default) : fallbackSub;
   return page(`
   <h1>${esc(h1)}</h1>
   <p>${esc(sub)}</p>
   <form method="post" action="/checkin/reply">
     <input type="hidden" name="t" value="${esc(t)}">
     <input type="hidden" name="k" value="${esc(k)}">
-    <textarea name="text" maxlength="${MAX_TEXT}" required autofocus placeholder="Working on the Javelin verse...">${esc(text)}</textarea>
+    <input type="hidden" name="q" value="${esc(q)}">
+    <textarea name="text" maxlength="${MAX_TEXT}" required autofocus placeholder="A few words is plenty.">${esc(text)}</textarea>
     ${error ? `<p role="alert">${esc(error)}</p>` : ''}
     <button type="submit">Send</button>
   </form>`, error ? 400 : 200);
@@ -95,7 +107,7 @@ export async function handler(req) {
     const u = new URL(req.url);
     const t = u.searchParams.get('t') || '';
     if (!tokenOk(t, expected)) return notFound();
-    return form({ t, k: u.searchParams.get('k') || '' });
+    return form({ t, k: u.searchParams.get('k') || '', q: cleanQuestion(u.searchParams.get('q')) });
   }
   if (req.method !== 'POST') return notFound();
 
@@ -109,8 +121,9 @@ export async function handler(req) {
   if (!tokenOk(t, expected)) return notFound();
 
   const k = (fields.get('k') || '').toLowerCase();
+  const q = cleanQuestion(fields.get('q'));
   const text = String(fields.get('text') || '').replace(/\s+/g, ' ').trim().slice(0, MAX_TEXT);
-  if (!text) return form({ t, k, error: 'Type a line first.' });
+  if (!text) return form({ t, k, q, error: 'Type a line first.' });
 
   const properties = {
     Idea: { title: [{ text: { content: text } }] },
@@ -118,23 +131,27 @@ export async function handler(req) {
     Captured: { date: { start: new Date().toISOString() } },
   };
   if (KINDS[k]) properties['Check-in Kind'] = { select: { name: KINDS[k] } };
+  // The question goes in the page body, so the row reads as a question and its answer.
+  const children = q
+    ? [{ object: 'block', type: 'quote', quote: { rich_text: [{ type: 'text', text: { content: q } }] } }]
+    : undefined;
 
   let res;
   try {
     res = await fetch(NOTION_API, {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}`, 'Notion-Version': NOTION_VERSION, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ parent: { database_id: database }, properties }),
+      body: JSON.stringify({ parent: { database_id: database }, properties, ...(children ? { children } : {}) }),
       signal: AbortSignal.timeout(10_000),
     });
   } catch (e) {
     console.error(`[checkin-reply] notion request failed: ${e.message}`);
-    return form({ t, k, text, error: 'Could not save that. Try again in a moment.' });
+    return form({ t, k, q, text, error: 'Could not save that. Try again in a moment.' });
   }
   if (!res.ok) {
     console.error(`[checkin-reply] notion write FAILED status=${res.status} body=${await res.text()}`);
     if (res.status === 404) console.error('[checkin-reply] 404 usually means the Notion integration lacks access to Artist Journal Intake.');
-    return form({ t, k, text, error: 'Could not save that. Try again in a moment.' });
+    return form({ t, k, q, text, error: 'Could not save that. Try again in a moment.' });
   }
   return page(`<h1>Got it.</h1><p>Logged to your journal. Back to it.</p>`);
 }
