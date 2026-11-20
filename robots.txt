@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /checkin/
 
 Sitemap: https://astromahri.com/sitemap.xml
