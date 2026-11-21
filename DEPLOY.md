@@ -58,12 +58,9 @@ The two functions in `netlify/functions/` need credentials, set in **Netlify →
 
 The Notion integration must also be **shared with the Fan Leads database** — that share is separate from the token and is the most common cause of a working deploy that silently fails to save. See **[Lead capture](README.md#lead-capture)** in the README.
 
-**Check-in reply page** (`/checkin/reply`, `netlify/functions/checkin-reply.mjs`) needs two more:
-
-- `CHECKIN_REPLY_TOKEN` — the same long random string stored as the `CHECKIN_REPLY_TOKEN` GitHub Actions secret in `astro-ops`. Every check-in push links here with it; without it the page is a 404.
-- `JOURNAL_DB_ID` — `3ee42266c22c434283b74f6daceff664` (Artist Journal Intake). The integration behind `NOTION_TOKEN` must have access to it.
-
-It reuses `NOTION_TOKEN`. Replies land in Artist Journal Intake as `Entry = Check-in Reply` rows.
+The check-in reply page that used to live here (`/checkin/reply`) moved to
+ops.astromahri.com, a separate private site in the `astro-ops` repo. This site
+no longer needs `CHECKIN_REPLY_TOKEN` or `JOURNAL_DB_ID`.
 
 ### 4. Render (backend — when needed)
 
